@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dependencies>
+   <includePath signature="/IE:\Documents\Milan\ST\STC\DS1820 /IE:\Documents\Milan\ST\STC\stm_id /IE:\Documents\Milan\ST\STC\nRF24 /IE:\Documents\Milan\ST\STC\stm_lib\inc /IE:\Documents\Milan\ST\STC\cmsis_boot /IE:\Documents\Milan\ST\STC\cmsis /IE:\Documents\Milan\ST\STC\DebugMsg /IE:\Documents\Milan\ST /IE:\Documents\Milan /IE:\Documents\Milan\ST\STC /IE:\Documents\Milan\ST\STC\task /IE:\Documents\Milan\ST\STC\OneWire /IE:\Documents\Milan\ST\STC\stm_lib /IE:\Documents\Milan\ST\STC\Usart">
+      <source file="..\..\..\cmsis\core_cm3.h" lastModified="1655bf76a91">
+         <include file="..\..\..\cmsis\core_cmInstr.h"/>
+         <include file="..\..\..\cmsis\core_cmFunc.h"/>
+      </source>
+      <source file="..\..\..\stm_id\stm32f103_id.h" lastModified="1624e714be0">
+      </source>
+      <source file="..\..\..\stm_lib\src\stm32f10x_spi.c" lastModified="1655bf7a9eb">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_spi.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\inc\stm32f10x_rtc.h" lastModified="1655bf956b3">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\DS1820\ds1820.h" lastModified="165f71b2110">
+      </source>
+      <source file="..\..\..\stm_lib\inc\stm32f10x_rcc.h" lastModified="1655bf7aa1d">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\src\stm32f10x_exti.c" lastModified="1655bf8e740">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_exti.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\inc\stm32f10x_pwr.h" lastModified="1655bf8b984">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\src\stm32f10x_gpio.c" lastModified="1655bf7aa37">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+      </source>
+      <source file="..\..\..\Usart\debugUsart.h" lastModified="165b48d6e42">
+      </source>
+      <source file="..\..\..\DS1820\ds1820.c" lastModified="165f71b20f9">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+         <include file="..\..\..\DS1820\ds1820.h"/>
+         <include file="..\..\..\OneWire\oneWire.h"/>
+         <include file="..\..\..\systemTicks.h"/>
+         <include file="..\..\..\Usart\debugUsart.h"/>
+         <include file="..\..\..\defines.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\inc\stm32f10x_adc.h" lastModified="1655bf89936">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\Usart\debugUsart.c" lastModified="165f6b75ebf">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_usart.h"/>
+         <include file="..\..\..\defines.h"/>
+         <include file="..\..\..\Usart\usart.h"/>
+         <include file="..\..\..\Usart\debugUsart.h"/>
+      </source>
+      <source file="..\..\..\cmsis_boot\system_stm32f10x.h" lastModified="1655bf776bd">
+      </source>
+      <source file="..\..\..\systemTicks.h" lastModified="1655c6fee17">
+         <include file="..\..\..\stm_lib\inc\misc.h"/>
+      </source>
+      <source file="..\..\..\cmsis_boot\system_stm32f10x.c" lastModified="1655bf776b1">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\systemTicks.c" lastModified="1655c1605cd">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+         <include file="..\..\..\systemTicks.h"/>
+         <include file="..\..\..\defines.h"/>
+      </source>
+      <source file="..\..\..\task\task.h" lastModified="165621e1e45">
+         <include file="..\..\..\stm_lib\inc\misc.h"/>
+         <include file="..\..\..\defines.h"/>
+         <include file="..\..\..\systemTicks.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\inc\stm32f10x_bkp.h" lastModified="1655bf8b96b">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\inc\stm32f10x_dma.h" lastModified="1655bf7dc1c">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\cmsis_boot\stm32f10x_conf.h" lastModified="1655bf776a6">
+      </source>
+      <source file="..\..\..\Usart\usart.h" lastModified="165ddb7957b">
+      </source>
+      <source file="..\..\..\task\task.c" lastModified="165621e21f3">
+         <include file="..\..\..\task\task.h"/>
+         <include file="..\..\..\defines.h"/>
+         <include file="..\..\..\systemTicks.h"/>
+         <include file="..\..\..\Usart\debugUsart.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\src\misc.c" lastModified="1655bf85925">
+         <include file="..\..\..\stm_lib\inc\misc.h"/>
+      </source>
+      <source file="..\..\..\cmsis\core_cmFunc.h" lastModified="1655bf76e99">
+      </source>
+      <source file="..\..\..\Usart\usart.c" lastModified="165ddd99477">
+         <include file="..\..\..\stm_lib\inc\misc.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_usart.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+         <include file="..\..\..\defines.h"/>
+         <include file="..\..\..\Usart\debugUsart.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\inc\stm32f10x_usart.h" lastModified="1655bf9491f">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\cmsis_boot\startup\startup_stm32f10x_md.c" lastModified="1656224edb5">
+      </source>
+      <source file="..\..\..\OneWire\oneWire.h" lastModified="165613e6ea6">
+      </source>
+      <source file="..\..\..\stm_lib\src\stm32f10x_tim.c" lastModified="1655bf7e960">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_tim.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\src\stm32f10x_usart.c" lastModified="1655bf94920">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_usart.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+      </source>
+      <source file="..\..\..\nRF24\nrf24_hal.h" lastModified="1654f9ae560">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_spi.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\inc\stm32f10x_spi.h" lastModified="1655bf7a9e9">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\nRF24\nrf24_low_level.h" lastModified="165f691e18e">
+      </source>
+      <source file="..\..\..\OneWire\oneWire.c" lastModified="165613258e4">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
+         <include file="..\..\..\OneWire\oneWire.h"/>
+         <include file="..\..\..\systemTicks.h"/>
+      </source>
+      <source file="..\..\..\stdio\printf.c" lastModified="1621f291752">
+      </source>
+      <source file="..\..\..\nRF24\nrf24_hal.c" lastModified="1654f9ae560">
+         <include file="..\..\..\nRF24\nrf24_hal.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\inc\misc.h" lastModified="1655bf85924">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\nRF24\nrf24_low_level.c" lastModified="165f6920fbf">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_spi.h"/>
+         <include file="..\..\..\nRF24\nrf24_hal.h"/>
+         <include file="..\..\..\Usart\debugUsart.h"/>
+         <include file="..\..\..\systemTicks.h"/>
+      </source>
+      <source file="..\..\..\syscalls\syscalls.c" lastModified="1621f291fa6">
+      </source>
+      <source file="..\..\..\nRF24\nrf24_mid_level.h" lastModified="165f6ac9bf8">
+      </source>
+      <source file="..\..\..\cmsis\core_cmInstr.h" lastModified="1655bf76e9f">
+      </source>
+      <source file="..\..\..\main.c" lastModified="165f6bdc95b">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+         <include file="..\..\..\systemTicks.h"/>
+         <include file="..\..\..\Usart\debugUsart.h"/>
+         <include file="..\..\..\DS1820\ds1820.h"/>
+         <include file="..\..\..\task\task.h"/>
+         <include file="..\..\..\DebugMsg\debugMsg.h"/>
+         <include file="..\..\..\nRF24\nrf24_mid_level.h"/>
+      </source>
+      <source file="..\..\..\nRF24\nrf24_mid_level.c" lastModified="165f71d2112">
+         <include file="..\..\..\nRF24\nrf24.h"/>
+         <include file="..\..\..\nRF24\nrf24_low_level.h"/>
+         <include file="..\..\..\DS1820\ds1820.h"/>
+         <include file="..\..\..\Usart\debugUsart.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\src\stm32f10x_rtc.c" lastModified="1655bf956b3">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rtc.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\src\stm32f10x_rcc.c" lastModified="1655bf7aa27">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+      </source>
+      <source file="..\..\..\cmsis_boot\stm32f10x.h" lastModified="1655bf77a8d">
+         <include file="..\..\..\cmsis\core_cm3.h"/>
+         <include file="..\..\..\cmsis_boot\system_stm32f10x.h"/>
+         <include file="..\..\..\cmsis_boot\stm32f10x_conf.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\src\stm32f10x_pwr.c" lastModified="1655bf8b98e">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_pwr.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\src\stm32f10x_adc.c" lastModified="1655bf89948">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_adc.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\src\stm32f10x_bkp.c" lastModified="1655bf8b978">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_bkp.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+      </source>
+      <source file="..\..\..\defines.h" lastModified="16565dd1480">
+         <include file="..\..\..\stm_lib\inc\misc.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\src\stm32f10x_dma.c" lastModified="1655bf7dc2c">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_dma.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\inc\stm32f10x_exti.h" lastModified="1655bf8e740">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\inc\stm32f10x_tim.h" lastModified="1655bf7e94d">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\stm_lib\inc\stm32f10x_gpio.h" lastModified="1655bf7aa33">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\nRF24\nrf24.h" lastModified="1654f9ae560">
+         <include file="..\..\..\nRF24\nrf24_hal.h"/>
+      </source>
+      <source file="..\..\..\DebugMsg\debugMsg.h" lastModified="1655c781082">
+      </source>
+      <source file="..\..\..\nRF24\nrf24.c" lastModified="1654f9ae560">
+         <include file="..\..\..\nRF24\nrf24.h"/>
+      </source>
+      <source file="..\..\..\DebugMsg\debugMsg.c" lastModified="1656218dfc5">
+         <include file="..\..\..\DebugMsg\debugMsg.h"/>
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+         <include file="..\..\..\stm_id\stm32f103_id.h"/>
+         <include file="..\..\..\cmsis_boot\system_stm32f10x.h"/>
+         <include file="..\..\..\Usart\debugUsart.h"/>
+         <include file="..\..\..\defines.h"/>
+      </source>
+   </includePath>
+</dependencies>
