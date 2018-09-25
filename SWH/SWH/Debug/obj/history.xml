@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<history>
+   <processor signature="arm-none-eabi-gcc 5.3.0 mingw32 -mcpu=cortex-m3 -mthumb -Wall -ffunction-sections -g -O3 -c -DSTM32F103C8 -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -D__ASSEMBLY__ -IE:\Documents\Milan\ST\SWH\Lcd -IE:\Documents\Milan\ST\SWH\OneWire -IE:\Documents\Milan\ST\SWH\RTC -IE:\Documents\Milan\ST\SWH\stm_lib\inc -IE:\Documents\Milan\ST\SWH\Usart -IE:\Documents\Milan\ST\SWH\task -IE:\Documents\Milan\ST\SWH\cmsis_boot -IE:\Documents\Milan\ST\SWH\DebugMsg -IE:\Documents\Milan\ST\SWH\DS1820 -IE:\Documents\Milan\ST\SWH -IE:\Documents\Milan\ST\SWH\nRF24 -IE:\Documents\Milan\ST\SWH\stm_id -IE:\Documents\Milan\ST\SWH\stm_lib -IE:\Documents\Milan\ST -IE:\Documents\Milan\ST\SWH\DS2432 -IE:\Documents\Milan -IE:\Documents\Milan\ST\SWH\cmsis -IE:\Documents\Milan\ST\SWH\i2c">
+      <target file="stm32f10x_exti.o" lastModified="166108253e6">
+         <source file="..\..\..\stm_lib\src\stm32f10x_exti.c" lastModified="1655bf8e740"/>
+      </target>
+      <target file="syscalls.o" lastModified="16610825637">
+         <source file="..\..\..\syscalls\syscalls.c" lastModified="1621f291006"/>
+      </target>
+      <target file="stm32f10x_gpio.o" lastModified="16610824c7a">
+         <source file="..\..\..\stm_lib\src\stm32f10x_gpio.c" lastModified="1655bf7aa37"/>
+      </target>
+      <target file="nrf24_mid_level.o" lastModified="166108245da">
+         <source file="..\..\..\nRF24\nrf24_mid_level.c" lastModified="165f6d324c4"/>
+      </target>
+      <target file="ds1307_i2c.o" lastModified="16610824df8">
+         <source file="..\..\..\RTC\ds1307_i2c.c" lastModified="165fbcd7462"/>
+      </target>
+      <target file="misc.o" lastModified="16610825a04">
+         <source file="..\..\..\stm_lib\src\misc.c" lastModified="1655bf85925"/>
+      </target>
+      <target file="i2c.o" lastModified="16610824636">
+         <source file="..\..\..\i2c\i2c.c" lastModified="165fbcea218"/>
+      </target>
+      <target file="system_stm32f10x.o" lastModified="166108247c7">
+         <source file="..\..\..\cmsis_boot\system_stm32f10x.c" lastModified="1655bf776b1"/>
+      </target>
+      <target file="ssd1306_i2c.o" lastModified="166108256eb">
+         <source file="..\..\..\Lcd\ssd1306_i2c.c" lastModified="166107158e6"/>
+      </target>
+      <target file="stm32f10x_usart.o" lastModified="166108255b7">
+         <source file="..\..\..\stm_lib\src\stm32f10x_usart.c" lastModified="1655bf94920"/>
+      </target>
+      <target file="oneWire.o" lastModified="166108257d4">
+         <source file="..\..\..\OneWire\oneWire.c" lastModified="165613258e4"/>
+      </target>
+      <target file="usart.o" lastModified="16610825d42">
+         <source file="..\..\..\Usart\usart.c" lastModified="165ddd99477"/>
+      </target>
+      <target file="stm32f10x_tim.o" lastModified="16610824557">
+         <source file="..\..\..\stm_lib\src\stm32f10x_tim.c" lastModified="1655bf7e960"/>
+      </target>
+      <target file="systemTicks.o" lastModified="16610824e54">
+         <source file="..\..\..\systemTicks.c" lastModified="1655c1605cd"/>
+      </target>
+      <target file="ssd1306_tests.o" lastModified="16610861d89">
+         <source file="..\..\..\Lcd\ssd1306_tests.c" lastModified="16610857274"/>
+      </target>
+      <target file="debugUsart.o" lastModified="16610825924">
+         <source file="..\..\..\Usart\debugUsart.c" lastModified="165f6b756ef"/>
+      </target>
+      <target file="nrf24.o" lastModified="16610824764">
+         <source file="..\..\..\nRF24\nrf24.c" lastModified="1654f9ae560"/>
+      </target>
+      <target file="stm32f10x_rtc.o" lastModified="16610824365">
+         <source file="..\..\..\stm_lib\src\stm32f10x_rtc.c" lastModified="1655bf956b3"/>
+      </target>
+      <target file="ds1307.o" lastModified="166108252da">
+         <source file="..\..\..\RTC\ds1307.c" lastModified="165fbce28ee"/>
+      </target>
+      <target file="stm32f10x_rcc.o" lastModified="16610825385">
+         <source file="..\..\..\stm_lib\src\stm32f10x_rcc.c" lastModified="1655bf7aa27"/>
+      </target>
+      <target file="stm32f10x_pwr.o" lastModified="1661082495b">
+         <source file="..\..\..\stm_lib\src\stm32f10x_pwr.c" lastModified="1655bf8b98e"/>
+      </target>
+      <target file="ds2432.o" lastModified="16610824895">
+         <source file="..\..\..\DS2432\ds2432.c" lastModified="16561440619"/>
+      </target>
+      <target file="stm32f10x_adc.o" lastModified="166108254b0">
+         <source file="..\..\..\stm_lib\src\stm32f10x_adc.c" lastModified="1655bf89948"/>
+      </target>
+      <target file="printf.o" lastModified="166108251e7">
+         <source file="..\..\..\stdio\printf.c" lastModified="1621f290f82"/>
+      </target>
+      <target file="stm32f10x_bkp.o" lastModified="16610825cc5">
+         <source file="..\..\..\stm_lib\src\stm32f10x_bkp.c" lastModified="1655bf8b978"/>
+      </target>
+      <target file="stm32f10x_dma.o" lastModified="16610825765">
+         <source file="..\..\..\stm_lib\src\stm32f10x_dma.c" lastModified="1655bf7dc2c"/>
+      </target>
+      <target file="ssd1306.o" lastModified="16610825b02">
+         <source file="..\..\..\Lcd\ssd1306.c" lastModified="166107c087c"/>
+      </target>
+      <target file="ds1820.o" lastModified="16610825dcf">
+         <source file="..\..\..\DS1820\ds1820.c" lastModified="165fb914269"/>
+      </target>
+      <target file="main.o" lastModified="16610861ec9">
+         <source file="..\..\..\main.c" lastModified="16610861974"/>
+      </target>
+      <target file="nrf24_hal.o" lastModified="16610825503">
+         <source file="..\..\..\nRF24\nrf24_hal.c" lastModified="1654f9ae560"/>
+      </target>
+      <target file="debugMsg.o" lastModified="16610824baf">
+         <source file="..\..\..\DebugMsg\debugMsg.c" lastModified="1656218dfc5"/>
+      </target>
+      <target file="task.o" lastModified="16610824b15">
+         <source file="..\..\..\task\task.c" lastModified="165621e1e0b"/>
+      </target>
+      <target file="startup_stm32f10x_md.o" lastModified="166108248fd">
+         <source file="..\..\..\cmsis_boot\startup\startup_stm32f10x_md.c" lastModified="1656224edb5"/>
+      </target>
+      <target file="ssd1306_fonts.o" lastModified="16610825682">
+         <source file="..\..\..\Lcd\ssd1306_fonts.c" lastModified="165f67e3940"/>
+      </target>
+      <target file="stm32f10x_i2c.o" lastModified="16610825c63">
+         <source file="..\..\..\stm_lib\src\stm32f10x_i2c.c" lastModified="165fb827da8"/>
+      </target>
+      <target file="stm32f10x_spi.o" lastModified="16610825ba0">
+         <source file="..\..\..\stm_lib\src\stm32f10x_spi.c" lastModified="1655bf7a9eb"/>
+      </target>
+      <target file="nrf24_low_level.o" lastModified="166108259ac">
+         <source file="..\..\..\nRF24\nrf24_low_level.c" lastModified="165f6920fbf"/>
+      </target>
+   </processor>
+</history>
