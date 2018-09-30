@@ -50,6 +50,16 @@
       <source file="..\..\..\stm_lib\inc\stm32f10x_bkp.h" lastModified="16625cfd1d0">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
       </source>
+      <source file="..\..\..\DS1820\ds1820.c" lastModified="1662a3d0e09">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+         <include file="..\..\..\DS1820\ds1820.h"/>
+         <include file="..\..\..\OneWire\oneWire.h"/>
+         <include file="..\..\..\systemTicks.h"/>
+         <include file="..\..\..\Usart\debugUsart.h"/>
+         <include file="..\..\..\Lcd\ssd1306.h"/>
+      </source>
       <source file="..\..\..\cmsis_boot\startup\startup_stm32f10x_md.c" lastModified="16625cfd1c0">
       </source>
       <source file="..\..\..\defines.h" lastModified="16625cfd1c0">
