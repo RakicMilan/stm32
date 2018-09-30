@@ -55,12 +55,10 @@ void Init(void) {
 
 //	CreateCustomChar(customChar);
 
-	nRF24_Initialize();
+//	nRF24_Initialize();
 
-	ssd1306_Init();
+	ssd1306_TestAll();
 //	ds1307_init();
-
-	ssd1306_TestFonts();
 }
 
 int main(void) {

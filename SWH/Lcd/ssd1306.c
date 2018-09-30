@@ -15,38 +15,16 @@
 #include "ssd1306_i2c.h"
 #include "systemTicks.h"
 
-/** Private functions -------------------------------------------------------- */
-void ssd1306_Reset(void) {
-	/* for I2C - do nothing */
-}
-
-// Send a byte to the command register
-void ssd1306_WriteCommand(uint8_t byte) {
-	uint8_t txbuf[] = { 0x00, byte };
-
-	i2c_write_data(SSD1306_I2Cx, SSD1306_I2C_ADDR, txbuf, sizeof(txbuf));
-}
-
-// Send data
-void ssd1306_WriteData(uint8_t* buffer, uint16_t buff_size) {
-	i2c_write_data(SSD1306_I2Cx, SSD1306_I2C_ADDR, buffer, buff_size);
-}
-
-//// Send a byte to the command register
-//void ssd1306_WriteCommand(uint8_t byte) {
-//	HAL_I2C_Mem_Write(SSD1306_I2Cx, SSD1306_I2C_ADDR, 0x00, 1, &byte, 1, HAL_MAX_DELAY);
-//}
-//
-//// Send data
-//void ssd1306_WriteData(uint8_t* buffer, size_t buff_size) {
-//	HAL_I2C_Mem_Write(SSD1306_I2Cx, SSD1306_I2C_ADDR, 0x40, 1, buffer, buff_size, HAL_MAX_DELAY);
-//}
-
 // Screenbuffer
 static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8];
 
 // Screen object
 static SSD1306_t SSD1306;
+
+/** Private functions -------------------------------------------------------- */
+void ssd1306_Reset(void) {
+	/* for I2C - do nothing */
+}
 
 /** Public functions -------------------------------------------------------- */
 /**

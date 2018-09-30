@@ -30,10 +30,8 @@ extern "C" {
 
 /** Public function prototypes ---------------------------------------------- */
 void ssd1306_i2c_init(void);
-void i2c_write_byte(I2C_TypeDef* I2Cx, uint8_t address, uint8_t data);
-void i2c_read_byte(I2C_TypeDef* I2Cx, uint8_t address, uint8_t* data);
-void i2c_write_data(I2C_TypeDef* I2Cx, uint8_t address, uint8_t* data, uint8_t len);
-void i2c_read_data(I2C_TypeDef* I2Cx, uint8_t address, uint8_t len, uint8_t* data);
+void ssd1306_WriteCommand(uint8_t byte);
+void ssd1306_WriteData(uint8_t* buffer, uint16_t buff_size);
 
 #ifdef __cplusplus
 }

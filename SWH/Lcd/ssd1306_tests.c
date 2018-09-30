@@ -3,10 +3,14 @@
 #include "ssd1306.h"
 #include "systemTicks.h"
 
+uint32_t GetTick() {
+	return (uint32_t)(micros / 1000);
+}
+
 void ssd1306_TestBorder() {
 	ssd1306_Fill(Black);
 
-	uint32_t start = HAL_GetTick();
+	uint32_t start = GetTick();
 	uint32_t end = start;
 	uint8_t x = 0;
 	uint8_t y = 0;
@@ -26,7 +30,7 @@ void ssd1306_TestBorder() {
 		ssd1306_UpdateScreen();
 
 		_DelayMS(5);
-		end = HAL_GetTick();
+		end = GetTick();
 	} while ((end - start) < 8000);
 
 	_DelayMS(1000);
@@ -46,7 +50,7 @@ void ssd1306_TestFonts() {
 void ssd1306_TestFPS() {
 	ssd1306_Fill(White);
 
-	uint32_t start = HAL_GetTick();
+	uint32_t start = GetTick();
 	uint32_t end = start;
 	int fps = 0;
 	char message[] = "ABCDEFGHIJK";
@@ -64,7 +68,7 @@ void ssd1306_TestFPS() {
 		message[sizeof(message) - 2] = ch;
 
 		fps++;
-		end = HAL_GetTick();
+		end = GetTick();
 	} while ((end - start) < 5000);
 
 	_DelayMS(1000);
@@ -82,7 +86,7 @@ void ssd1306_TestFPS() {
 void ssd1306_TestAll() {
 	ssd1306_Init();
 	ssd1306_TestFPS();
-	_DelayMS(3000);
+	_DelayMS(1000);
 	ssd1306_TestBorder();
 	ssd1306_TestFonts();
 }
