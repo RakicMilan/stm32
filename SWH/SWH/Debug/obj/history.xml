@@ -82,8 +82,8 @@
       <target file="ssd1306.o" lastModified="16629a28443">
          <source file="..\..\..\Lcd\ssd1306.c" lastModified="166271b6cc1"/>
       </target>
-      <target file="ds1820.o" lastModified="1662a343780">
-         <source file="..\..\..\DS1820\ds1820.c" lastModified="1662a343454"/>
+      <target file="ds1820.o" lastModified="1662a3d1155">
+         <source file="..\..\..\DS1820\ds1820.c" lastModified="1662a3d0e09"/>
       </target>
       <target file="main.o" lastModified="1662a295641">
          <source file="..\..\..\main.c" lastModified="1662a295256"/>
@@ -106,11 +106,11 @@
       <target file="stm32f10x_i2c.o" lastModified="16629a285c9">
          <source file="..\..\..\stm_lib\src\stm32f10x_i2c.c" lastModified="16625cfd1df"/>
       </target>
-      <target file="stm32f10x_spi.o" lastModified="16629a284fe">
-         <source file="..\..\..\stm_lib\src\stm32f10x_spi.c" lastModified="16625cfd1df"/>
-      </target>
       <target file="nrf24_low_level.o" lastModified="16629a2830a">
          <source file="..\..\..\nRF24\nrf24_low_level.c" lastModified="16625cfd1d0"/>
+      </target>
+      <target file="stm32f10x_spi.o" lastModified="16629a284fe">
+         <source file="..\..\..\stm_lib\src\stm32f10x_spi.c" lastModified="16625cfd1df"/>
       </target>
    </processor>
 </history>
