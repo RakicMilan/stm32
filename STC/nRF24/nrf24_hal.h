@@ -21,7 +21,7 @@
 
 // CE (chip enable) pin (PB11)
 #define nRF24_CE_PORT              GPIOB
-#define nRF24_CE_PIN               GPIO_Pin_11
+#define nRF24_CE_PIN               GPIO_Pin_9
 #define nRF24_CE_L()               GPIO_ResetBits(nRF24_CE_PORT, nRF24_CE_PIN)
 #define nRF24_CE_H()               GPIO_SetBits(nRF24_CE_PORT, nRF24_CE_PIN)
 
@@ -33,7 +33,7 @@
 
 // IRQ pin (PB10)
 #define nRF24_IRQ_PORT             GPIOB
-#define nRF24_IRQ_PIN              GPIO_Pin_10
+#define nRF24_IRQ_PIN              GPIO_Pin_8
 
 
 // Function prototypes

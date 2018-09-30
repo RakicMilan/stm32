@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <history>
    <processor signature="arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -g -Map=SWH.map -O0 --gc-sections -lm -lgcc -lc -LD:/git/SWH -TD:/git/SWH/link.ld -g">
-      <target file="SWH.elf" lastModified="1662a54d2cd">
+      <target file="SWH.elf" lastModified="1662a5e57b4">
          <source file="..\obj\stm32f10x_rtc.o" lastModified="16629a26915"/>
          <source file="..\obj\stm32f10x_tim.o" lastModified="16629a26a6d"/>
          <source file="..\obj\nrf24_mid_level.o" lastModified="16629a26c51"/>
@@ -9,8 +9,8 @@
          <source file="..\obj\nrf24.o" lastModified="16629a26db9"/>
          <source file="..\obj\system_stm32f10x.o" lastModified="16629a26e65"/>
          <source file="..\obj\ds2432.o" lastModified="16629a26f3f"/>
-         <source file="..\obj\startup_stm32f10x_md.o" lastModified="16629a27068"/>
          <source file="..\obj\stm32f10x_pwr.o" lastModified="16629a26feb"/>
+         <source file="..\obj\startup_stm32f10x_md.o" lastModified="16629a27068"/>
          <source file="..\obj\task.o" lastModified="16629a2726c"/>
          <source file="..\obj\debugMsg.o" lastModified="16629a27347"/>
          <source file="..\obj\stm32f10x_gpio.o" lastModified="16629a27402"/>

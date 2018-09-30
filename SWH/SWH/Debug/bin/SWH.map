@@ -540,9 +540,6 @@ Discarded input sections
                 0x00000000      0x104 ..\obj\ds2432.o
  .text.DS2432_WriteData
                 0x00000000      0x10c ..\obj\ds2432.o
- .text          0x00000000        0x0 ..\obj\startup_stm32f10x_md.o
- .data          0x00000000        0x0 ..\obj\startup_stm32f10x_md.o
- .bss           0x00000000        0x0 ..\obj\startup_stm32f10x_md.o
  .text          0x00000000        0x0 ..\obj\stm32f10x_pwr.o
  .data          0x00000000        0x0 ..\obj\stm32f10x_pwr.o
  .bss           0x00000000        0x0 ..\obj\stm32f10x_pwr.o
@@ -575,6 +572,9 @@ Discarded input sections
  .debug_frame   0x00000000      0x164 ..\obj\stm32f10x_pwr.o
  .ARM.attributes
                 0x00000000       0x33 ..\obj\stm32f10x_pwr.o
+ .text          0x00000000        0x0 ..\obj\startup_stm32f10x_md.o
+ .data          0x00000000        0x0 ..\obj\startup_stm32f10x_md.o
+ .bss           0x00000000        0x0 ..\obj\startup_stm32f10x_md.o
  .text          0x00000000        0x0 ..\obj\task.o
  .data          0x00000000        0x0 ..\obj\task.o
  .bss           0x00000000        0x0 ..\obj\task.o
@@ -2086,8 +2086,8 @@ LOAD ..\obj\i2c.o
 LOAD ..\obj\nrf24.o
 LOAD ..\obj\system_stm32f10x.o
 LOAD ..\obj\ds2432.o
-LOAD ..\obj\startup_stm32f10x_md.o
 LOAD ..\obj\stm32f10x_pwr.o
+LOAD ..\obj\startup_stm32f10x_md.o
 LOAD ..\obj\task.o
 LOAD ..\obj\debugMsg.o
 LOAD ..\obj\stm32f10x_gpio.o
