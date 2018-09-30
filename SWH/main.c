@@ -25,7 +25,8 @@
 #include "ssd1306_tests.h"
 #include "ds1307.h"
 
-char customChar[8] = { 0b01000, 0b10100, 0b01000, 0b00011, 0b00100, 0b00100, 0b00100, 0b00011 };
+char customChar[8] = { 0b01000, 0b10100, 0b01000, 0b00011, 0b00100, 0b00100,
+		0b00100, 0b00011 };
 
 void DefineTasks(void) {
 	InitTasks();
@@ -39,7 +40,7 @@ void DefineTasks(void) {
 	AddTaskTime(&PrintTasks, TIME(1), false);
 	AddTaskTime(&TaskManager, TIME(1), false);
 
-	AddTaskTime(&nRF24_Receive, TIME(0.001), true);
+//	AddTaskTime(&nRF24_Receive, TIME(0.001), true);
 }
 
 void Init(void) {
@@ -57,8 +58,9 @@ void Init(void) {
 
 //	nRF24_Initialize();
 
-	ssd1306_TestAll();
 //	ds1307_init();
+	ssd1306_Init();
+	_DelayMS(1000);
 }
 
 int main(void) {

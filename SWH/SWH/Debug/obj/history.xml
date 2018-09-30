@@ -43,11 +43,11 @@
       <target file="systemTicks.o" lastModified="16629a27654">
          <source file="..\..\..\systemTicks.c" lastModified="16625cfd1ef"/>
       </target>
-      <target file="ssd1306_tests.o" lastModified="16629c22d14">
-         <source file="..\..\..\Lcd\ssd1306_tests.c" lastModified="16629c229f7"/>
-      </target>
       <target file="debugUsart.o" lastModified="16629a2823f">
          <source file="..\..\..\Usart\debugUsart.c" lastModified="16625cfd1b0"/>
+      </target>
+      <target file="ssd1306_tests.o" lastModified="1662a3010e8">
+         <source file="..\..\..\Lcd\ssd1306_tests.c" lastModified="1662a2f957c"/>
       </target>
       <target file="nrf24.o" lastModified="16629a26db9">
          <source file="..\..\..\nRF24\nrf24.c" lastModified="16625cfd1d0"/>
@@ -82,11 +82,11 @@
       <target file="ssd1306.o" lastModified="16629a28443">
          <source file="..\..\..\Lcd\ssd1306.c" lastModified="166271b6cc1"/>
       </target>
-      <target file="ds1820.o" lastModified="16629a2884a">
-         <source file="..\..\..\DS1820\ds1820.c" lastModified="16625cfd172"/>
+      <target file="ds1820.o" lastModified="1662a343780">
+         <source file="..\..\..\DS1820\ds1820.c" lastModified="1662a343454"/>
       </target>
-      <target file="main.o" lastModified="16629a2778d">
-         <source file="..\..\..\main.c" lastModified="16626e7f608"/>
+      <target file="main.o" lastModified="1662a295641">
+         <source file="..\..\..\main.c" lastModified="1662a295256"/>
       </target>
       <target file="nrf24_hal.o" lastModified="16629a27c40">
          <source file="..\..\..\nRF24\nrf24_hal.c" lastModified="16625cfd1d0"/>

@@ -50,15 +50,6 @@
       <source file="..\..\..\stm_lib\inc\stm32f10x_bkp.h" lastModified="16625cfd1d0">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
       </source>
-      <source file="..\..\..\DS1820\ds1820.c" lastModified="16625cfd172">
-         <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
-         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
-         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-         <include file="..\..\..\DS1820\ds1820.h"/>
-         <include file="..\..\..\OneWire\oneWire.h"/>
-         <include file="..\..\..\systemTicks.h"/>
-         <include file="..\..\..\Usart\debugUsart.h"/>
-      </source>
       <source file="..\..\..\cmsis_boot\startup\startup_stm32f10x_md.c" lastModified="16625cfd1c0">
       </source>
       <source file="..\..\..\defines.h" lastModified="16625cfd1c0">
@@ -181,6 +172,10 @@
       <source file="..\..\..\nRF24\nrf24.c" lastModified="16625cfd1d0">
          <include file="..\..\..\nRF24\nrf24.h"/>
       </source>
+      <source file="..\..\..\Lcd\ssd1306_tests.c" lastModified="1662a2f9d4c">
+         <include file="..\..\..\Lcd\ssd1306.h"/>
+         <include file="..\..\..\systemTicks.h"/>
+      </source>
       <source file="..\..\..\DebugMsg\debugMsg.c" lastModified="16625cfd172">
          <include file="..\..\..\DebugMsg\debugMsg.h"/>
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
@@ -246,7 +241,7 @@
       <source file="..\..\..\stm_lib\inc\stm32f10x_tim.h" lastModified="16625cfd1df">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
       </source>
-      <source file="..\..\..\main.c" lastModified="16626e7f608">
+      <source file="..\..\..\main.c" lastModified="1662a295256">
          <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
          <include file="..\..\..\systemTicks.h"/>

@@ -18,6 +18,7 @@
 #include "oneWire.h"
 #include "systemTicks.h"
 #include "debugUsart.h"
+#include "ssd1306.h"
 
 int16_t m_temperature[2];
 
@@ -166,17 +167,24 @@ void GetTemperatureString(int16_t temperature, char *tempString) {
 void PrintTemperatures(void) {
 	char tempString[] = "000";
 
-	GetTemperatureString(m_temperature[T_WATER_HEATER], tempString);
-//	uint8_t x = 1;
-//	lcdPrint(1, x + 1, (char *) "BOJ");
-//	lcdPrint(2, x, tempString);
-//	lcdChar(2, (uint8_t)(x + 3), 0x00); // Print degree Celsius on LCD
-
+	ssd1306_Fill(Black);
 	GetTemperatureString(m_temperature[T_BOILER], tempString);
-//	x = 6;
-//	lcdPrint(1, x + 1, (char *) "KOT");
-//	lcdPrint(2, x, tempString);
-//	lcdChar(2, (uint8_t)(x + 3), 0x00); // Print degree Celsius on LCD
+	ssd1306_SetCursor(2, 0);
+	ssd1306_WriteString("Boil", Font_7x10, White);
+	ssd1306_SetCursor(2, 16);
+	ssd1306_WriteString(tempString, Font_11x18, White);
+
+	ssd1306_SetCursor(92, 0);
+	ssd1306_WriteString("Coll", Font_7x10, White);
+	ssd1306_SetCursor(92, 16);
+	ssd1306_WriteString(tempString, Font_11x18, White);
+
+	GetTemperatureString(m_temperature[T_WATER_HEATER], tempString);
+	ssd1306_SetCursor(42, 0);
+	ssd1306_WriteString("W Heat", Font_7x10, White);
+	ssd1306_SetCursor(36, 24);
+	ssd1306_WriteString(tempString, Font_16x26, White);
+	ssd1306_UpdateScreen();
 }
 
 void Debug_PrintTemperatures(void) {
