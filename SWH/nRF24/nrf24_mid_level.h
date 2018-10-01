@@ -14,6 +14,10 @@
 #ifndef __NRF24_MID_LEVEL_H
 #define __NRF24_MID_LEVEL_H
 
+#include "defines.h"
+
+extern u_twoBytes m_tCollector;
+
 void nRF24_Initialize(void);
 void nRF24_Receive(void);
 

@@ -11,9 +11,12 @@
  ******************************************************************************
  */
 
-#include "nrf24.h"
+#include "nrf24_mid_level.h"
 #include "nrf24_low_level.h"
+#include "nrf24.h"
 #include "debugUsart.h"
+
+u_twoBytes m_tCollector;
 
 // Pipe number
 nRF24_RXResult pipe;
@@ -76,7 +79,8 @@ void nRF24_Initialize(void) {
 	debug.printf("nRF24L01+ check: ");
 	if (!nRF24_Check()) {
 		debug.printf("FAIL\r\n");
-		while (1);
+		while (1)
+			;
 	}
 	debug.printf("OK\r\n");
 
@@ -100,13 +104,16 @@ void nRF24_Receive(void) {
 		// Get a payload from the transceiver
 		pipe = nRF24_ReadPayload(nRF24_payload, &payload_length);
 
+		m_tCollector.b[0] = nRF24_payload[0];
+		m_tCollector.b[1] = nRF24_payload[1];
+
 		// Clear all pending IRQ flags
 		nRF24_ClearIRQFlags();
 
 		// Print a payload contents to UART
 		debug.printf("RCV PIPE#%d", pipe);
 		debug.printf(" PAYLOAD:>");
-		UART_SendBufHex((char *)nRF24_payload, payload_length);
+		UART_SendBufHex((char *) nRF24_payload, payload_length);
 		debug.printf("<\r\n");
 	}
 }

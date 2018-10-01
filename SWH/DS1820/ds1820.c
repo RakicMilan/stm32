@@ -18,6 +18,7 @@
 #include "oneWire.h"
 #include "systemTicks.h"
 #include "debugUsart.h"
+#include "nrf24_mid_level.h"
 #include "ssd1306.h"
 
 int16_t m_temperature[2];
@@ -169,16 +170,17 @@ void DisplayTemperatures(void) {
 	char tCollector[] = "000";
 	GetTemperatureString(m_temperature[T_BOILER], tBoiler);
 	GetTemperatureString(m_temperature[T_WATER_HEATER], tWaterHeater);
-	GetTemperatureString(0, tCollector);
+	GetTemperatureString(m_tCollector.i, tCollector);
 
 	ssd1306_PrintTemperatures(tBoiler, tWaterHeater, tCollector);
 }
 
 void Debug_PrintTemperatures(void) {
 	DebugChangeColorToWHITE();
-	debug.printf("Bojler: %d\r\n", m_temperature[T_WATER_HEATER]);
-	debug.printf("Kotao : %d\r\n", m_temperature[T_BOILER]);
+	debug.printf("Kotao   : %d\r\n", m_temperature[T_BOILER]);
+	debug.printf("Bojler  : %d\r\n", m_temperature[T_WATER_HEATER]);
+	debug.printf("Kolektor: %d\r\n", m_tCollector.i);
 	DebugChangeColorToGREEN();
-	DebugMoveCursorUp(2);
+	DebugMoveCursorUp(3);
 }
 

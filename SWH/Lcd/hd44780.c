@@ -35,6 +35,9 @@
 #define CURSOR _OFF // Valid options are ON or OFF
 #define BLINK _OFF // Valid option are ON or OFF
 #define NUMLINES _TWO_LINES // Valid options are ONE_LINE or TWO_LINES
+
+char customChar[8] = { 0b01000, 0b10100, 0b01000, 0b00011, 0b00100, 0b00100, 0b00100, 0b00011 };
+
 /**
  * Strobe EN pin
  */

@@ -40,6 +40,8 @@ typedef enum LcdRegisterType {
 	COMMAND, DATA,
 } LCD_REGISTER_TYPE;
 
+extern char customChar[8];
+
 void initLCD(void);
 void clearLCD(void);
 void lcdChar(uint8_t y, uint8_t x, char Chr);
