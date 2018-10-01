@@ -30,6 +30,7 @@ extern "C" {
 
 /** Public function prototypes ---------------------------------------------- */
 void ssd1306_i2c_init(void);
+void ssd1306_Reset(void);
 void ssd1306_WriteCommand(uint8_t byte);
 void ssd1306_WriteData(uint8_t* buffer, uint16_t buff_size);
 

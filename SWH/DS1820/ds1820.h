@@ -25,15 +25,15 @@
 //#define TEMP_RES              0x02 //Calculation for DS18S20 with 0.5 deg C resolution
 
 typedef enum {
-    T_WATER_HEATER = 0,
-    T_BOILER
+	T_WATER_HEATER = 0,
+	T_BOILER
 } TempSensor_t;
 
 void DS1820_Init(void);
 int16_t OW_ReadTemperature(TempSensor_t tempSensor);
 uint8_t OW_ReadPower(TempSensor_t tempSensor);
 void MeasureTemperatures(void);
-void PrintTemperatures(void);
+void DisplayTemperatures(void);
 void Debug_PrintTemperatures(void);
 
 #endif	/* __DS1820_H */

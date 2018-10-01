@@ -46,6 +46,7 @@ void lcdChar(uint8_t y, uint8_t x, char Chr);
 void lcdPrint(uint8_t y, uint8_t x, char *buffer);
 //void lcdPrint2(uint8_t y, uint8_t x, const rom char *buffer);
 void CreateCustomChar(char *customChar);
+void hd44780_PrintTemperatures(char *tBoiler, char *tWaterHeater, char *tCollector);
 
 #endif  /* __HD44780_H */
 

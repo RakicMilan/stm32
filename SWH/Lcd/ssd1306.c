@@ -21,11 +21,6 @@ static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8];
 // Screen object
 static SSD1306_t SSD1306;
 
-/** Private functions -------------------------------------------------------- */
-void ssd1306_Reset(void) {
-	/* for I2C - do nothing */
-}
-
 /** Public functions -------------------------------------------------------- */
 /**
  ******************************************************************************
@@ -216,5 +211,27 @@ char ssd1306_WriteString(char* str, FontDef Font, SSD1306_COLOR color) {
 void ssd1306_SetCursor(uint8_t x, uint8_t y) {
 	SSD1306.CurrentX = x;
 	SSD1306.CurrentY = y;
+}
+
+// Print temperature on LCD
+void ssd1306_PrintTemperatures(char *tBoiler, char *tWaterHeater, char *tCollector) {
+	ssd1306_Fill(Black);
+
+	ssd1306_SetCursor(2, 0);
+	ssd1306_WriteString("KOTAO", Font_7x10, White);
+	ssd1306_SetCursor(2, 16);
+	ssd1306_WriteString(tBoiler, Font_11x18, White);
+
+	ssd1306_SetCursor(44, 0);
+	ssd1306_WriteString("BOJLER", Font_7x10, White);
+	ssd1306_SetCursor(40, 24);
+	ssd1306_WriteString(tWaterHeater, Font_16x26, White);
+
+	ssd1306_SetCursor(92, 0);
+	ssd1306_WriteString("KOLEK", Font_7x10, White);
+	ssd1306_SetCursor(92, 16);
+	ssd1306_WriteString(tCollector, Font_11x18, White);
+
+	ssd1306_UpdateScreen();
 }
 

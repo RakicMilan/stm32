@@ -35,7 +35,6 @@
 #define CURSOR _OFF // Valid options are ON or OFF
 #define BLINK _OFF // Valid option are ON or OFF
 #define NUMLINES _TWO_LINES // Valid options are ONE_LINE or TWO_LINES
-
 /**
  * Strobe EN pin
  */
@@ -198,9 +197,27 @@ void lcdPrint(uint8_t y, uint8_t x, char *buffer) {
 //}
 
 void CreateCustomChar(char *customChar) {
-    lcdWrite(0x40, COMMAND);
-    while (*customChar) { // Write data to LCD up to null
-        lcdWrite(*customChar++, DATA);
-    }
+	lcdWrite(0x40, COMMAND);
+	while (*customChar) { // Write data to LCD up to null
+		lcdWrite(*customChar++, DATA);
+	}
+}
+
+// Print temperature on LCD
+void hd44780_PrintTemperatures(char *tBoiler, char *tWaterHeater, char *tCollector) {
+	uint8_t x = 1;
+	lcdPrint(1, x + 1, (char *) "BOJ");
+	lcdPrint(2, x, tWaterHeater);
+	lcdChar(2, (uint8_t)(x + 3), 0x00); // Print degree Celsius on LCD
+
+	x = 6;
+	lcdPrint(1, x + 1, (char *) "KOT");
+	lcdPrint(2, x, tBoiler);
+	lcdChar(2, (uint8_t)(x + 3), 0x00); // Print degree Celsius on LCD
+
+	x = 11;
+	lcdPrint(1, x + 1, (char *) "KOL");
+	lcdPrint(2, x, tCollector);
+	lcdChar(2, (uint8_t)(x + 3), 0x00); // Print degree Celsius on LCD
 }
 

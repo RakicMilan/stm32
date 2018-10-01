@@ -163,28 +163,15 @@ void GetTemperatureString(int16_t temperature, char *tempString) {
 	tempString[2] = (uint16_t) temperature % 10 + 48; // Extract ones digit
 }
 
-// Print temperature on LCD
-void PrintTemperatures(void) {
-	char tempString[] = "000";
+void DisplayTemperatures(void) {
+	char tBoiler[] = "000";
+	char tWaterHeater[] = "000";
+	char tCollector[] = "000";
+	GetTemperatureString(m_temperature[T_BOILER], tBoiler);
+	GetTemperatureString(m_temperature[T_WATER_HEATER], tWaterHeater);
+	GetTemperatureString(0, tCollector);
 
-	ssd1306_Fill(Black);
-	GetTemperatureString(m_temperature[T_BOILER], tempString);
-	ssd1306_SetCursor(2, 0);
-	ssd1306_WriteString("KOTAO", Font_7x10, White);
-	ssd1306_SetCursor(2, 16);
-	ssd1306_WriteString(tempString, Font_11x18, White);
-
-	ssd1306_SetCursor(92, 0);
-	ssd1306_WriteString("KOLEK", Font_7x10, White);
-	ssd1306_SetCursor(92, 16);
-	ssd1306_WriteString(tempString, Font_11x18, White);
-
-	GetTemperatureString(m_temperature[T_WATER_HEATER], tempString);
-	ssd1306_SetCursor(44, 0);
-	ssd1306_WriteString("BOJLER", Font_7x10, White);
-	ssd1306_SetCursor(40, 24);
-	ssd1306_WriteString(tempString, Font_16x26, White);
-	ssd1306_UpdateScreen();
+	ssd1306_PrintTemperatures(tBoiler, tWaterHeater, tCollector);
 }
 
 void Debug_PrintTemperatures(void) {
