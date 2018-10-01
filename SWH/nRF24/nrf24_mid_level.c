@@ -18,12 +18,6 @@
 
 u_twoBytes m_tCollector;
 
-// Pipe number
-nRF24_RXResult pipe;
-
-// Length of received payload
-uint8_t payload_length;
-
 void nRF24_InitializeRX(void) {
 	// This is simple receiver with one RX pipe:
 	//   - pipe#1 address: '0xE7 0x1C 0xE3'
@@ -101,6 +95,11 @@ void nRF24_Receive(void) {
 	uint8_t nRF24_payload[32];
 
 	if (nRF24_GetStatus_RXFIFO() != nRF24_STATUS_RXFIFO_EMPTY) {
+		// Length of received payload
+		uint8_t payload_length;
+		// Pipe number
+		nRF24_RXResult pipe;
+
 		// Get a payload from the transceiver
 		pipe = nRF24_ReadPayload(nRF24_payload, &payload_length);
 
