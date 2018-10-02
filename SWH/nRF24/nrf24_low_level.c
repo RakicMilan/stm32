@@ -15,7 +15,7 @@
 #include <stm32f10x_rcc.h>
 #include <stm32f10x_spi.h>
 
-#include "nrf24_hal.h"
+#include "nrf24_low_level.h"
 #include "debugUsart.h"
 #include "systemTicks.h"
 
@@ -86,7 +86,7 @@ void Init_SPI2_Master(void) {
 //	GPIO_StructInit(&PORT);
 //	SPI_StructInit(&SPI);
 
-	// Enable SPI2 peripheral
+// Enable SPI2 peripheral
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);
 
 	// Enable SPI2 GPIO peripheral (PORTB)
@@ -94,7 +94,7 @@ void Init_SPI2_Master(void) {
 //	// initialize clocks
 //	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO | RCC_APB2Periph_GPIOB, ENABLE);
 
-	// Configure nRF24 IRQ pin
+// Configure nRF24 IRQ pin
 	PORT.GPIO_Mode = GPIO_Mode_Out_PP;
 	PORT.GPIO_Speed = GPIO_Speed_2MHz;
 	PORT.GPIO_Pin = nRF24_IRQ_PIN;
@@ -124,7 +124,7 @@ void Init_SPI2_Master(void) {
 //	GPIO_InitDef.GPIO_Speed = GPIO_Speed_10MHz;
 //	GPIO_Init(GPIOB, &GPIO_InitDef);
 
-	// Initialize SPI2
+// Initialize SPI2
 	SPI.SPI_Mode = SPI_Mode_Master;
 	SPI.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2;
 	SPI.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
@@ -146,21 +146,42 @@ void Init_SPI2_Master(void) {
 //	// SPI_InitDef.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8; // APB1 36/8 = 4.5 MHz
 }
 
-/**
- * Setup slave select, output, A3 on port A.
- */
-void Init_SS() {
-	GPIO_InitTypeDef GPIO_InitDef; // GPIO init
-	GPIO_StructInit(&GPIO_InitDef); // initialize init struct
+///**
+// * Setup slave select, output, A3 on port A.
+// */
+//void Init_SS() {
+//	GPIO_InitTypeDef GPIO_InitDef; // GPIO init
+//	GPIO_StructInit(&GPIO_InitDef); // initialize init struct
+//
+//	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE); // initialize clock
+//
+//	GPIO_InitDef.GPIO_Pin = GPIO_Pin_3; // GPIO pin 3
+//	GPIO_InitDef.GPIO_Mode = GPIO_Mode_Out_PP; // GPIO mode output push-pull
+//	GPIO_InitDef.GPIO_Speed = GPIO_Speed_2MHz; // GPIO port output speed, 2 MHz
+//	GPIO_Init(GPIOA, &GPIO_InitDef); // initialize pin on GPIOA port
+//
+//	GPIO_SetBits(GPIOA, GPIO_Pin_3); // set bit/pin, slave not selected
+//}
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE); // initialize clock
+// Configure the GPIO lines of the nRF24L01 transceiver
+// note: IRQ pin must be configured separately
+void nRF24_GPIO_Init(void) {
+	GPIO_InitTypeDef PORT;
 
-	GPIO_InitDef.GPIO_Pin = GPIO_Pin_3; // GPIO pin 3
-	GPIO_InitDef.GPIO_Mode = GPIO_Mode_Out_PP; // GPIO mode output push-pull
-	GPIO_InitDef.GPIO_Speed = GPIO_Speed_2MHz; // GPIO port output speed, 2 MHz
-	GPIO_Init(GPIOA, &GPIO_InitDef); // initialize pin on GPIOA port
+	// Enable the nRF24L01 GPIO peripherals
+	RCC->APB2ENR |= nRF24_GPIO_PERIPHERALS;
 
-	GPIO_SetBits(GPIOA, GPIO_Pin_3); // set bit/pin, slave not selected
+	// Configure CSN pin
+	PORT.GPIO_Mode = GPIO_Mode_Out_PP;
+	PORT.GPIO_Speed = GPIO_Speed_2MHz;
+	PORT.GPIO_Pin = nRF24_CSN_PIN;
+	GPIO_Init(nRF24_CSN_PORT, &PORT);
+	nRF24_CSN_H();
+
+	// Configure CE pin
+	PORT.GPIO_Pin = nRF24_CE_PIN;
+	GPIO_Init(nRF24_CE_PORT, &PORT);
+	nRF24_CE_L();
 }
 
 /**
@@ -183,30 +204,31 @@ uint8_t SendReceiveByte_SPI1_Master(uint8_t outByte) {
 	return SPI_I2S_ReceiveData(SPI1); // read received
 }
 
-///**
-// * Transfer a byte over SPI2 B12/SS, B13/SCK, B14/MISO, B15/MOSI.
-// */
-//uint8_t SendReceiveByte_SPI2_Master(uint8_t outByte) {
-//
-//	// Approach 1, from Brown's book
-//	// SPI_I2S_SendData(SPI2, outByte); // send
-//	// while(SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_RXNE) == RESET);
-//	// return SPI_I2S_ReceiveData(SPI2); // read received
-//
-//	// Approach 2,
-//	// from http://www.lxtronic.com/index.php/basic-spi-simple-read-write
-//	while (!SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_TXE))
-//		;
-//	SPI_I2S_SendData(SPI2, outByte); // send
-//	while (!SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_RXNE))
-//		;
-//	return SPI_I2S_ReceiveData(SPI2); // read recieived
-//}
-//
+/**
+ * Low level SPI transmit/receive function (hardware depended)
+ * Transfer a byte over SPI2 B12/SS, B13/SCK, B14/MISO, B15/MOSI.
+ * input:
+ *   data - value to transmit via SPI
+ * return: value received from SPI
+ */
+uint8_t nRF24_LL_RW(uint8_t data) {
+	// Wait until TX buffer is empty
+	while (SPI_I2S_GetFlagStatus(nRF24_SPI_PORT, SPI_I2S_FLAG_TXE) == RESET)
+		;
+	// Send byte to SPI (TXE cleared)
+	SPI_I2S_SendData(nRF24_SPI_PORT, data);
+	// Wait while receive buffer is empty
+	while (SPI_I2S_GetFlagStatus(nRF24_SPI_PORT, SPI_I2S_FLAG_RXNE) == RESET)
+		;
+
+	// Return received byte
+	return (uint8_t) SPI_I2S_ReceiveData(nRF24_SPI_PORT);
+}
+
 //#define CMD_SET_READ_BIT 0x80
 //#define REG_WHO_AM_I 0x0F
 //#define VAL_WHO_AM_I 0xD7
-//
+
 //void SPI1_Test() {
 //	uint8_t numRead = 0;
 //

@@ -102,8 +102,8 @@
     <File name="cmsis/core_cmFunc.h" path="cmsis/core_cmFunc.h" type="1"/>
     <File name="stm_lib/src/misc.c" path="stm_lib/src/misc.c" type="1"/>
     <File name="nRF24/nrf24.c" path="nRF24/nrf24.c" type="1"/>
-    <File name="Lcd/ssd1306_tests.h" path="Lcd/ssd1306_tests.h" type="1"/>
     <File name="nRF24/nrf24_low_level.c" path="nRF24/nrf24_low_level.c" type="1"/>
+    <File name="Lcd/ssd1306_tests.h" path="Lcd/ssd1306_tests.h" type="1"/>
     <File name="stm_lib/src/stm32f10x_spi.c" path="stm_lib/src/stm32f10x_spi.c" type="1"/>
     <File name="cmsis_boot/stm32f10x.h" path="cmsis_boot/stm32f10x.h" type="1"/>
     <File name="nRF24" path="" type="2"/>
@@ -141,17 +141,16 @@
     <File name="Lcd/ssd1306_i2c.c" path="Lcd/ssd1306_i2c.c" type="1"/>
     <File name="cmsis/core_cmInstr.h" path="cmsis/core_cmInstr.h" type="1"/>
     <File name="task/task.c" path="task/task.c" type="1"/>
-    <File name="nRF24/nrf24_hal.c" path="nRF24/nrf24_hal.c" type="1"/>
-    <File name="cmsis/core_cm3.h" path="cmsis/core_cm3.h" type="1"/>
     <File name="nRF24/nrf24_mid_level.c" path="nRF24/nrf24_mid_level.c" type="1"/>
+    <File name="cmsis/core_cm3.h" path="cmsis/core_cm3.h" type="1"/>
     <File name="RTC" path="" type="2"/>
     <File name="stm_lib/src/stm32f10x_exti.c" path="stm_lib/src/stm32f10x_exti.c" type="1"/>
     <File name="DebugMsg/debugMsg.h" path="DebugMsg/debugMsg.h" type="1"/>
     <File name="stm_lib/src/stm32f10x_rcc.c" path="stm_lib/src/stm32f10x_rcc.c" type="1"/>
-    <File name="OneWire" path="" type="2"/>
     <File name="DebugMsg" path="" type="2"/>
-    <File name="RTC/ds1307.c" path="RTC/ds1307.c" type="1"/>
+    <File name="OneWire" path="" type="2"/>
     <File name="systemTicks.c" path="systemTicks.c" type="1"/>
+    <File name="RTC/ds1307.c" path="RTC/ds1307.c" type="1"/>
     <File name="OneWire/oneWire.h" path="OneWire/oneWire.h" type="1"/>
     <File name="task" path="" type="2"/>
     <File name="Lcd/ssd1306_fonts.c" path="Lcd/ssd1306_fonts.c" type="1"/>
@@ -161,7 +160,6 @@
     <File name="stm_lib/src/stm32f10x_dma.c" path="stm_lib/src/stm32f10x_dma.c" type="1"/>
     <File name="stm_lib/src" path="" type="2"/>
     <File name="cmsis" path="" type="2"/>
-    <File name="nRF24/nrf24_hal.h" path="nRF24/nrf24_hal.h" type="1"/>
     <File name="stm_lib" path="" type="2"/>
     <File name="stm_lib/inc/stm32f10x_exti.h" path="stm_lib/inc/stm32f10x_exti.h" type="1"/>
     <File name="DebugMsg/debugMsg.c" path="DebugMsg/debugMsg.c" type="1"/>

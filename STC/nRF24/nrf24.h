@@ -3,7 +3,7 @@
 
 
 // Low level functions (hardware depended)
-#include "nrf24_hal.h"
+#include "nrf24_low_level.h"
 
 
 // nRF24L0 instruction definitions
