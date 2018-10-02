@@ -1,4 +1,6 @@
 SWH/SWH/
+SWH/logs/
 STC/STC/
+STC/logs/
 *.cogui
 *.comarker
