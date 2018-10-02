@@ -16,9 +16,20 @@
 #include "nrf24.h"
 #include "debugUsart.h"
 
+// Define what part of demo will be compiled:
+//   0 : disable
+//   1 : enable
+#define DEMO_RX_SINGLE      0 // Single address receiver (1 pipe)
+#define DEMO_RX_SINGLE_ESB  1 // Single address receiver with Enhanced ShockBurst (1 pipe)
+// Kinda foolproof :)
+#if ((DEMO_RX_SINGLE + DEMO_RX_SINGLE_ESB) != 1)
+#error "Define only one DEMO_xx, use the '1' value"
+#endif
+
 u_twoBytes m_tCollector;
 
 void nRF24_InitializeRX(void) {
+#if (DEMO_RX_SINGLE)
 	// This is simple receiver with one RX pipe:
 	//   - pipe#1 address: '0xE7 0x1C 0xE3'
 	//   - payload: 5 bytes
@@ -44,9 +55,9 @@ void nRF24_InitializeRX(void) {
 	nRF24_SetAddrWidth(3);
 
 	// Configure RX PIPE#1
-	static const uint8_t nRF24_ADDR[] = { 0xE7, 0x1C, 0xE3 };
+	static const uint8_t nRF24_ADDR[] = {0xE7, 0x1C, 0xE3};
 	nRF24_SetAddr(nRF24_PIPE1, nRF24_ADDR); // program address for RX pipe #1
-	nRF24_SetRXPipe(nRF24_PIPE1, nRF24_AA_OFF, 5); // Auto-ACK: disabled, payload length: 5 bytes
+	nRF24_SetRXPipe(nRF24_PIPE1, nRF24_AA_OFF, 5);// Auto-ACK: disabled, payload length: 5 bytes
 
 	// Set operational mode (PRX == receiver)
 	nRF24_SetOperationalMode(nRF24_MODE_RX);
@@ -56,6 +67,49 @@ void nRF24_InitializeRX(void) {
 
 	// Put the transceiver to the RX mode
 	nRF24_CE_H();
+#endif // DEMO_RX_SINGLE
+#if (DEMO_RX_SINGLE_ESB)
+	// This is simple receiver with Enhanced ShockBurst:
+	//   - RX address: 'ESB'
+	//   - payload: 10 bytes
+	//   - RF channel: 40 (2440MHz)
+	//   - data rate: 2Mbps
+	//   - CRC scheme: 2 byte
+
+	// The transmitter sends a 10-byte packets to the address 'ESB' with Auto-ACK (ShockBurst enabled)
+
+	// Set RF channel
+	nRF24_SetRFChannel(40);
+
+	// Set data rate
+	nRF24_SetDataRate(nRF24_DR_2Mbps);
+
+	// Set CRC scheme
+	nRF24_SetCRCScheme(nRF24_CRC_2byte);
+
+	// Set address width, its common for all pipes (RX and TX)
+	nRF24_SetAddrWidth(3);
+
+	// Configure RX PIPE
+	static const uint8_t nRF24_ADDR[] = { 'E', 'S', 'B' };
+	nRF24_SetAddr(nRF24_PIPE1, nRF24_ADDR); // program address for pipe
+	nRF24_SetRXPipe(nRF24_PIPE1, nRF24_AA_ON, 10); // Auto-ACK: enabled, payload length: 10 bytes
+
+	// Set TX power for Auto-ACK (maximum, to ensure that transmitter will hear ACK reply)
+	nRF24_SetTXPower(nRF24_TXPWR_0dBm);
+
+	// Set operational mode (PRX == receiver)
+	nRF24_SetOperationalMode(nRF24_MODE_RX);
+
+	// Clear any pending IRQ flags
+	nRF24_ClearIRQFlags();
+
+	// Wake the transceiver
+	nRF24_SetPowerMode(nRF24_PWR_UP);
+
+	// Put the transceiver to the RX mode
+	nRF24_CE_H();
+#endif // DEMO_RX_SINGLE_ESB
 }
 
 void nRF24_Initialize(void) {
@@ -110,8 +164,7 @@ void nRF24_Receive(void) {
 		nRF24_ClearIRQFlags();
 
 		// Print a payload contents to UART
-		debug.printf("RCV PIPE#%d", pipe);
-		debug.printf(" PAYLOAD:>");
+		debug.printf("RCV PIPE#%d PAYLOAD:>", pipe);
 		UART_SendBufHex((char *) nRF24_payload, payload_length);
 		debug.printf("<\r\n");
 	}
