@@ -16,18 +16,32 @@
 #include "ds1820.h"
 #include "debugUsart.h"
 
-#define nRF24_PAYLOAD_LEN		5
+// Define what part of demo will be compiled:
+//   0 : disable
+//   1 : enable
+#define DEMO_TX_SINGLE      0 // Single address transmitter (1 pipe)
+#define DEMO_TX_SINGLE_ESB  1 // Single address transmitter with Enhanced ShockBurst (1 pipe)
+// Kinda foolproof :)
+#if ((DEMO_TX_SINGLE + DEMO_TX_SINGLE_ESB) != 1)
+#error "Define only one DEMO_xx, use the '1' value"
+#endif
 
+#if (DEMO_TX_SINGLE)
+#define nRF24_PAYLOAD_LEN		5
+#endif // DEMO_TX_SINGLE
+#if (DEMO_TX_SINGLE_ESB)
+#define nRF24_PAYLOAD_LEN		10
+#endif // DEMO_TX_SINGLE_ESB
 // Timeout counter (depends on the CPU speed)
 // Used for not stuck waiting for IRQ
 #define nRF24_WAIT_TIMEOUT		(uint32_t)0x000FFFFF
 
 // Result of packet transmission
 typedef enum {
-	nRF24_TX_ERROR  = (uint8_t)0x00, // Unknown error
-	nRF24_TX_SUCCESS,                // Packet has been transmitted successfully
-	nRF24_TX_TIMEOUT,                // It was timeout during packet transmit
-	nRF24_TX_MAXRT                   // Transmit failed with maximum auto retransmit count
+	nRF24_TX_ERROR = (uint8_t) 0x00, // Unknown error
+	nRF24_TX_SUCCESS, // Packet has been transmitted successfully
+	nRF24_TX_TIMEOUT, // It was timeout during packet transmit
+	nRF24_TX_MAXRT // Transmit failed with maximum auto retransmit count
 } nRF24_TXResult;
 
 /**
@@ -72,7 +86,7 @@ nRF24_TXResult nRF24_TransmitPacket(uint8_t *pBuf, uint8_t length) {
 	debug.printf("[%02X]", status);
 
 	// Clear pending IRQ flags
-    nRF24_ClearIRQFlags();
+	nRF24_ClearIRQFlags();
 
 	if (status & nRF24_FLAG_MAX_RT) {
 		// Auto retransmit counter exceeds the programmed maximum limit (FIFO is not removed)
@@ -91,6 +105,7 @@ nRF24_TXResult nRF24_TransmitPacket(uint8_t *pBuf, uint8_t length) {
 }
 
 void nRF24_InitializeTX(void) {
+#if (DEMO_TX_SINGLE)
 	// This is simple transmitter (to one logic address):
 	//   - TX address: '0xE7 0x1C 0xE3'
 	//   - payload: 5 bytes
@@ -130,6 +145,52 @@ void nRF24_InitializeTX(void) {
 
 	// Wake the transceiver
 	nRF24_SetPowerMode(nRF24_PWR_UP);
+#endif // DEMO_TX_SINGLE
+#if (DEMO_TX_SINGLE_ESB)
+	// This is simple transmitter with Enhanced ShockBurst (to one logic address):
+	//   - TX address: 'ESB'
+	//   - payload: 10 bytes
+	//   - RF channel: 40 (2440MHz)
+	//   - data rate: 2Mbps
+	//   - CRC scheme: 2 byte
+
+	// The transmitter sends a 10-byte packets to the address 'ESB' with Auto-ACK (ShockBurst enabled)
+
+	// Set RF channel
+	nRF24_SetRFChannel(40);
+
+	// Set data rate
+	nRF24_SetDataRate(nRF24_DR_2Mbps);
+
+	// Set CRC scheme
+	nRF24_SetCRCScheme(nRF24_CRC_2byte);
+
+	// Set address width, its common for all pipes (RX and TX)
+	nRF24_SetAddrWidth(3);
+
+	// Configure TX PIPE
+	static const uint8_t nRF24_ADDR[] = {'E', 'S', 'B'};
+	nRF24_SetAddr(nRF24_PIPETX, nRF24_ADDR); // program TX address
+	nRF24_SetAddr(nRF24_PIPE0, nRF24_ADDR);// program address for pipe#0, must be same as TX (for Auto-ACK)
+
+	// Set TX power (maximum)
+	nRF24_SetTXPower(nRF24_TXPWR_0dBm);
+
+	// Configure auto retransmit: 10 retransmissions with pause of 2500s in between
+	nRF24_SetAutoRetr(nRF24_ARD_2500us, 10);
+
+	// Enable Auto-ACK for pipe#0 (for ACK packets)
+	nRF24_EnableAA(nRF24_PIPE0);
+
+	// Set operational mode (PTX == transmitter)
+	nRF24_SetOperationalMode(nRF24_MODE_TX);
+
+	// Clear any pending IRQ flags
+	nRF24_ClearIRQFlags();
+
+	// Wake the transceiver
+	nRF24_SetPowerMode(nRF24_PWR_UP);
+#endif // DEMO_TX_SINGLE_ESB
 }
 
 void nRF24_Initialize(void) {
@@ -147,7 +208,8 @@ void nRF24_Initialize(void) {
 	debug.printf("nRF24L01+ check: ");
 	if (!nRF24_Check()) {
 		debug.printf("FAIL\r\n");
-		while (1);
+		while (1)
+			;
 	}
 	debug.printf("OK\r\n");
 
@@ -159,6 +221,12 @@ void nRF24_Initialize(void) {
 
 uint32_t j = 0;
 
+#if (DEMO_TX_SINGLE_ESB)
+uint32_t packets_lost = 0; // global counter of lost packets
+uint8_t otx;
+uint8_t otx_plos_cnt;// lost packet count
+uint8_t otx_arc_cnt;// retransmit count
+#endif // DEMO_TX_SINGLE_ESB
 void nRF24_Transmit(void) {
 	// Buffer to store a payload of maximum width
 	uint8_t nRF24_payload[32];
@@ -167,12 +235,13 @@ void nRF24_Transmit(void) {
 	// Prepare data packet
 	for (i = 0; i < nRF24_PAYLOAD_LEN; i++) {
 		nRF24_payload[i] = j++;
-		if (j > 0x000000FF) j = 0;
+		if (j > 0x000000FF)
+			j = 0;
 	}
 
 	// Print a payload
 	debug.printf("PAYLOAD:>");
-	UART_SendBufHex((char *)nRF24_payload, nRF24_PAYLOAD_LEN);
+	UART_SendBufHex((char *) nRF24_payload, nRF24_PAYLOAD_LEN);
 //	UART_SendBufHex((char *)GetCurrentTemperature(T_COLLECTOR), nRF24_PAYLOAD_LEN);
 	debug.printf("< ... TX: ");
 
@@ -180,19 +249,27 @@ void nRF24_Transmit(void) {
 	nRF24_TXResult tx_res = nRF24_TransmitPacket(nRF24_payload, nRF24_PAYLOAD_LEN);
 //	nRF24_TXResult tx_res = nRF24_TransmitPacket(GetCurrentTemperature(T_COLLECTOR), nRF24_PAYLOAD_LEN);
 	switch (tx_res) {
-		case nRF24_TX_SUCCESS:
-			debug.printf("OK");
-			break;
-		case nRF24_TX_TIMEOUT:
-			debug.printf("TIMEOUT");
-			break;
-		case nRF24_TX_MAXRT:
-			debug.printf("MAX RETRANSMIT");
-			break;
-		default:
-			debug.printf("ERROR");
-			break;
+	case nRF24_TX_SUCCESS:
+		debug.printf("OK");
+		break;
+	case nRF24_TX_TIMEOUT:
+		debug.printf("TIMEOUT");
+		break;
+	case nRF24_TX_MAXRT:
+		debug.printf("MAX RETRANSMIT");
+#if (DEMO_TX_SINGLE_ESB)
+		packets_lost += otx_plos_cnt;
+		nRF24_ResetPLOS();
+#endif // DEMO_TX_SINGLE_ESB
+		break;
+	default:
+		debug.printf("ERROR");
+		break;
 	}
+#if (DEMO_TX_SINGLE_ESB)
+	debug.printf("   ARC=%d,  LOST=%d\r\n", otx_arc_cnt, packets_lost);
+#else
 	debug.printf("\r\n");
+#endif // DEMO_TX_SINGLE_ESB
 }
 
