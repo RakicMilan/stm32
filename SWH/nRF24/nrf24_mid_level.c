@@ -72,17 +72,17 @@ void nRF24_InitializeRX(void) {
 	// This is simple receiver with Enhanced ShockBurst:
 	//   - RX address: 'ESB'
 	//   - payload: 10 bytes
-	//   - RF channel: 40 (2440MHz)
-	//   - data rate: 2Mbps
+	//   - RF channel: 115 (2515MHz)
+	//   - data rate: 250kbps (minimum possible, to increase reception reliability)
 	//   - CRC scheme: 2 byte
 
 	// The transmitter sends a 10-byte packets to the address 'ESB' with Auto-ACK (ShockBurst enabled)
 
 	// Set RF channel
-	nRF24_SetRFChannel(40);
+	nRF24_SetRFChannel(115);
 
 	// Set data rate
-	nRF24_SetDataRate(nRF24_DR_2Mbps);
+	nRF24_SetDataRate(nRF24_DR_250kbps);
 
 	// Set CRC scheme
 	nRF24_SetCRCScheme(nRF24_CRC_2byte);
