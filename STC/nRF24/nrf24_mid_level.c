@@ -131,7 +131,7 @@ void nRF24_InitializeTX(void) {
 	nRF24_SetAddrWidth(3);
 
 	// Configure TX PIPE
-	static const uint8_t nRF24_ADDR[] = { 0xE7, 0x1C, 0xE3 };
+	static const uint8_t nRF24_ADDR[] = {0xE7, 0x1C, 0xE3};
 	nRF24_SetAddr(nRF24_PIPETX, nRF24_ADDR); // program TX address
 
 	// Set TX power (maximum)
@@ -169,9 +169,9 @@ void nRF24_InitializeTX(void) {
 	nRF24_SetAddrWidth(3);
 
 	// Configure TX PIPE
-	static const uint8_t nRF24_ADDR[] = {'E', 'S', 'B'};
+	static const uint8_t nRF24_ADDR[] = { 'E', 'S', 'B' };
 	nRF24_SetAddr(nRF24_PIPETX, nRF24_ADDR); // program TX address
-	nRF24_SetAddr(nRF24_PIPE0, nRF24_ADDR);// program address for pipe#0, must be same as TX (for Auto-ACK)
+	nRF24_SetAddr(nRF24_PIPE0, nRF24_ADDR); // program address for pipe#0, must be same as TX (for Auto-ACK)
 
 	// Set TX power (maximum)
 	nRF24_SetTXPower(nRF24_TXPWR_0dBm);
@@ -224,8 +224,8 @@ uint32_t j = 0;
 #if (DEMO_TX_SINGLE_ESB)
 uint32_t packets_lost = 0; // global counter of lost packets
 uint8_t otx;
-uint8_t otx_plos_cnt;// lost packet count
-uint8_t otx_arc_cnt;// retransmit count
+uint8_t otx_plos_cnt; // lost packet count
+uint8_t otx_arc_cnt; // retransmit count
 #endif // DEMO_TX_SINGLE_ESB
 void nRF24_Transmit(void) {
 	// Buffer to store a payload of maximum width
@@ -248,6 +248,11 @@ void nRF24_Transmit(void) {
 	// Transmit a packet
 	nRF24_TXResult tx_res = nRF24_TransmitPacket(nRF24_payload, nRF24_PAYLOAD_LEN);
 //	nRF24_TXResult tx_res = nRF24_TransmitPacket(GetCurrentTemperature(T_COLLECTOR), nRF24_PAYLOAD_LEN);
+#if (DEMO_TX_SINGLE_ESB)
+	otx = nRF24_GetRetransmitCounters();
+	otx_plos_cnt = (otx & nRF24_MASK_PLOS_CNT) >> 4; // packets lost counter
+	otx_arc_cnt = (otx & nRF24_MASK_ARC_CNT); // auto retransmissions counter
+#endif // DEMO_TX_SINGLE_ESB
 	switch (tx_res) {
 	case nRF24_TX_SUCCESS:
 		debug.printf("OK");
