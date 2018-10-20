@@ -19,8 +19,8 @@
 // Define what part of demo will be compiled:
 //   0 : disable
 //   1 : enable
-#define DEMO_TX_SINGLE      0 // Single address transmitter (1 pipe)
-#define DEMO_TX_SINGLE_ESB  1 // Single address transmitter with Enhanced ShockBurst (1 pipe)
+#define DEMO_TX_SINGLE      1 // Single address transmitter (1 pipe)
+#define DEMO_TX_SINGLE_ESB  0 // Single address transmitter with Enhanced ShockBurst (1 pipe)
 // Kinda foolproof :)
 #if ((DEMO_TX_SINGLE + DEMO_TX_SINGLE_ESB) != 1)
 #error "Define only one DEMO_xx, use the '1' value"
@@ -59,6 +59,9 @@ nRF24_TXResult nRF24_TransmitPacket(uint8_t *pBuf, uint8_t length) {
 
 	// Transfer a data from the specified buffer to the TX FIFO
 	nRF24_WritePayload(pBuf, length);
+
+	// ---TEST--- //
+	nRF24_DumpConfig();
 
 	// Start a transmission by asserting CE pin (must be held at least 10us)
 	nRF24_CE_H();
@@ -110,7 +113,7 @@ void nRF24_InitializeTX(void) {
 	//   - TX address: '0xE7 0x1C 0xE3'
 	//   - payload: 5 bytes
 	//   - RF channel: 115 (2515MHz)
-	//   - data rate: 250kbps (minimum possible, to increase reception reliability)
+	//   - data rate: 1Mbps
 	//   - CRC scheme: 2 byte
 
 	// The transmitter sends a 5-byte packets to the address '0xE7 0x1C 0xE3' without Auto-ACK (ShockBurst disabled)
@@ -122,7 +125,7 @@ void nRF24_InitializeTX(void) {
 	nRF24_SetRFChannel(115);
 
 	// Set data rate
-	nRF24_SetDataRate(nRF24_DR_250kbps);
+	nRF24_SetDataRate(nRF24_DR_1Mbps);
 
 	// Set CRC scheme
 	nRF24_SetCRCScheme(nRF24_CRC_2byte);
@@ -240,10 +243,10 @@ void nRF24_Transmit(void) {
 	}
 
 	// Print a payload
-	debug.printf("PAYLOAD:>");
-	UART_SendBufHex((char *) nRF24_payload, nRF24_PAYLOAD_LEN);
-//	UART_SendBufHex((char *)GetCurrentTemperature(T_COLLECTOR), nRF24_PAYLOAD_LEN);
-	debug.printf("< ... TX: ");
+//	debug.printf("PAYLOAD:>");
+//	UART_SendBufHex((char *) nRF24_payload, nRF24_PAYLOAD_LEN);
+////	UART_SendBufHex((char *)GetCurrentTemperature(T_COLLECTOR), nRF24_PAYLOAD_LEN);
+//	debug.printf("< ... TX: ");
 
 	// Transmit a packet
 	nRF24_TXResult tx_res = nRF24_TransmitPacket(nRF24_payload, nRF24_PAYLOAD_LEN);
