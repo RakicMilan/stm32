@@ -55,11 +55,11 @@ void nRF24_InitializeRX(void) {
 	nRF24_SetAddrWidth(5);
 
 	// Configure RX PIPE#1
-	static const uint8_t nRF24_ADDR[] = {0xC0, 0xE7, 0xE7, 0xE7, 0xE7};
+	static const uint8_t nRF24_ADDR[] = { 0xC0, 0xE7, 0xE7, 0xE7, 0xE7 };
 	nRF24_SetAddr(nRF24_PIPE0, nRF24_ADDR); // program address for RX pipe #1
-	nRF24_SetRXPipe(nRF24_PIPE0, nRF24_AA_OFF, 5);// Auto-ACK: disabled, payload length: 5 bytes
+	nRF24_SetRXPipe(nRF24_PIPE0, nRF24_AA_OFF, 5); // Auto-ACK: disabled, payload length: 5 bytes
 
-	nRF24_SetRXPipe(nRF24_PIPE2, nRF24_AA_OFF, 5);// Auto-ACK: disabled, payload length: 5 bytes
+	nRF24_SetRXPipe(nRF24_PIPE2, nRF24_AA_OFF, 5); // Auto-ACK: disabled, payload length: 5 bytes
 
 	// Set operational mode (PRX == receiver)
 	nRF24_SetOperationalMode(nRF24_MODE_RX);
@@ -93,9 +93,9 @@ void nRF24_InitializeRX(void) {
 	nRF24_SetAddrWidth(3);
 
 	// Configure RX PIPE
-	static const uint8_t nRF24_ADDR[] = { 'E', 'S', 'B' };
+	static const uint8_t nRF24_ADDR[] = {'E', 'S', 'B'};
 	nRF24_SetAddr(nRF24_PIPE1, nRF24_ADDR); // program address for pipe
-	nRF24_SetRXPipe(nRF24_PIPE1, nRF24_AA_ON, 10); // Auto-ACK: enabled, payload length: 10 bytes
+	nRF24_SetRXPipe(nRF24_PIPE1, nRF24_AA_ON, 10);// Auto-ACK: enabled, payload length: 10 bytes
 
 	// Set TX power for Auto-ACK (maximum, to ensure that transmitter will hear ACK reply)
 	nRF24_SetTXPower(nRF24_TXPWR_0dBm);
@@ -152,6 +152,12 @@ void nRF24_Initialize(void) {
 void nRF24_Receive(void) {
 	// Buffer to store a payload of maximum width
 	uint8_t nRF24_payload[32], i;
+
+	// CONFIG
+	i = nRF24_GetConfig();
+	debug.printf("\r\n[0x%02X] 0x%02X MASK:0x%02X CRC:0x%02X PWR:%s MODE:P%s\r\n",
+			nRF24_REG_CONFIG, i, i >> 4, (i & 0x0c) >> 2,
+			(i & 0x02) ? "ON" : "OFF", (i & 0x01) ? "RX" : "TX");
 
 	// STATUS
 	i = nRF24_GetStatus();
