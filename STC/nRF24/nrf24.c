@@ -331,6 +331,12 @@ void nRF24_DisableAA(uint8_t pipe) {
 	}
 }
 
+// Get value of the CONFIG register
+// return: value of CONFIG register
+uint8_t nRF24_GetConfig(void) {
+	return nRF24_ReadReg(nRF24_REG_CONFIG);
+}
+
 // Get value of the STATUS register
 // return: value of STATUS register
 uint8_t nRF24_GetStatus(void) {

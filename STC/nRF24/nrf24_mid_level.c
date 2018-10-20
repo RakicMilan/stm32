@@ -61,7 +61,11 @@ nRF24_TXResult nRF24_TransmitPacket(uint8_t *pBuf, uint8_t length) {
 	nRF24_WritePayload(pBuf, length);
 
 	// ---TEST--- //
-	nRF24_DumpConfig();
+	// CONFIG
+	status = nRF24_GetConfig();
+	debug.printf("[0x%02X] 0x%02X MASK:0x%02X CRC:0x%02X PWR:%s MODE:P%s\r\n",
+			nRF24_REG_CONFIG, status, status >> 4, (status & 0x0C) >> 2,
+			(status & 0x02) ? "ON" : "OFF", (status & 0x01) ? "RX" : "TX");
 
 	// Start a transmission by asserting CE pin (must be held at least 10us)
 	nRF24_CE_H();
@@ -72,6 +76,9 @@ nRF24_TXResult nRF24_TransmitPacket(uint8_t *pBuf, uint8_t length) {
 	// note: this solution is far from perfect, better to use IRQ instead of polling the status
 	do {
 		status = nRF24_GetStatus();
+		debug.printf("[0x%02X] 0x%02X IRQ:0x%02X RX_PIPE:%d TX_FULL:%s\r\n",
+				nRF24_REG_STATUS, status, (status & 0x70) >> 4,
+				(status & 0x0E) >> 1, (status & 0x01) ? "YES" : "NO");
 		if (status & (nRF24_FLAG_TX_DS | nRF24_FLAG_MAX_RT)) {
 			break;
 		}
@@ -134,7 +141,7 @@ void nRF24_InitializeTX(void) {
 	nRF24_SetAddrWidth(5);
 
 	// Configure TX PIPE
-	static const uint8_t nRF24_ADDR[] = {0xC0, 0xE7, 0xE7, 0xE7, 0xE7};
+	static const uint8_t nRF24_ADDR[] = { 0xC0, 0xE7, 0xE7, 0xE7, 0xE7 };
 	nRF24_SetAddr(nRF24_PIPETX, nRF24_ADDR); // program TX address
 
 	// Set TX power (maximum)
@@ -172,9 +179,9 @@ void nRF24_InitializeTX(void) {
 	nRF24_SetAddrWidth(3);
 
 	// Configure TX PIPE
-	static const uint8_t nRF24_ADDR[] = { 'E', 'S', 'B' };
+	static const uint8_t nRF24_ADDR[] = {'E', 'S', 'B'};
 	nRF24_SetAddr(nRF24_PIPETX, nRF24_ADDR); // program TX address
-	nRF24_SetAddr(nRF24_PIPE0, nRF24_ADDR); // program address for pipe#0, must be same as TX (for Auto-ACK)
+	nRF24_SetAddr(nRF24_PIPE0, nRF24_ADDR);// program address for pipe#0, must be same as TX (for Auto-ACK)
 
 	// Set TX power (maximum)
 	nRF24_SetTXPower(nRF24_TXPWR_0dBm);
@@ -227,8 +234,8 @@ uint32_t j = 0;
 #if (DEMO_TX_SINGLE_ESB)
 uint32_t packets_lost = 0; // global counter of lost packets
 uint8_t otx;
-uint8_t otx_plos_cnt; // lost packet count
-uint8_t otx_arc_cnt; // retransmit count
+uint8_t otx_plos_cnt;// lost packet count
+uint8_t otx_arc_cnt;// retransmit count
 #endif // DEMO_TX_SINGLE_ESB
 void nRF24_Transmit(void) {
 	// Buffer to store a payload of maximum width
@@ -249,12 +256,13 @@ void nRF24_Transmit(void) {
 //	debug.printf("< ... TX: ");
 
 	// Transmit a packet
-	nRF24_TXResult tx_res = nRF24_TransmitPacket(nRF24_payload, nRF24_PAYLOAD_LEN);
+	nRF24_TXResult tx_res = nRF24_TransmitPacket(nRF24_payload,
+			nRF24_PAYLOAD_LEN);
 //	nRF24_TXResult tx_res = nRF24_TransmitPacket(GetCurrentTemperature(T_COLLECTOR), nRF24_PAYLOAD_LEN);
 #if (DEMO_TX_SINGLE_ESB)
 	otx = nRF24_GetRetransmitCounters();
 	otx_plos_cnt = (otx & nRF24_MASK_PLOS_CNT) >> 4; // packets lost counter
-	otx_arc_cnt = (otx & nRF24_MASK_ARC_CNT); // auto retransmissions counter
+	otx_arc_cnt = (otx & nRF24_MASK_ARC_CNT);// auto retransmissions counter
 #endif // DEMO_TX_SINGLE_ESB
 	switch (tx_res) {
 	case nRF24_TX_SUCCESS:
