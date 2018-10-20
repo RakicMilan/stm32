@@ -151,7 +151,13 @@ void nRF24_Initialize(void) {
 //
 void nRF24_Receive(void) {
 	// Buffer to store a payload of maximum width
-	uint8_t nRF24_payload[32];
+	uint8_t nRF24_payload[32], i;
+
+	// STATUS
+	i = nRF24_GetStatus();
+	debug.printf("[0x%02X] 0x%02X IRQ:0x%02X RX_PIPE:%d TX_FULL:%s\r\n",
+			nRF24_REG_STATUS, i, (i & 0x70) >> 4, (i & 0x0E) >> 1,
+			(i & 0x01) ? "YES" : "NO");
 
 	if (nRF24_GetStatus_RXFIFO() != nRF24_STATUS_RXFIFO_EMPTY) {
 		// Length of received payload
