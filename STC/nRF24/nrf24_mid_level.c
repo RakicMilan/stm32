@@ -122,7 +122,7 @@ void nRF24_InitializeTX(void) {
 	nRF24_DisableAA(0xFF);
 
 	// Set RF channel
-	nRF24_SetRFChannel(115);
+	nRF24_SetRFChannel(2);
 
 	// Set data rate
 	nRF24_SetDataRate(nRF24_DR_1Mbps);
@@ -131,10 +131,10 @@ void nRF24_InitializeTX(void) {
 	nRF24_SetCRCScheme(nRF24_CRC_2byte);
 
 	// Set address width, its common for all pipes (RX and TX)
-	nRF24_SetAddrWidth(3);
+	nRF24_SetAddrWidth(5);
 
 	// Configure TX PIPE
-	static const uint8_t nRF24_ADDR[] = {0xE7, 0x1C, 0xE3};
+	static const uint8_t nRF24_ADDR[] = {0xC0, 0xE7, 0xE7, 0xE7, 0xE7};
 	nRF24_SetAddr(nRF24_PIPETX, nRF24_ADDR); // program TX address
 
 	// Set TX power (maximum)

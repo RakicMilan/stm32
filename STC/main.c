@@ -32,7 +32,7 @@ void DefineTasks(void) {
 	AddTaskTime(&PrintTasks, TIME(1), false);
 	AddTaskTime(&TaskManager, TIME(1), false);
 
-	AddTaskTime(&nRF24_Transmit, TIME(0.5), true);
+	AddTaskTime(&nRF24_Transmit, TIME(5), true);
 }
 
 void Init(void) {

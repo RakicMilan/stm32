@@ -1,9 +1,7 @@
 // Functions to manage the nRF24L01+ transceiver
 
-
 #include "nrf24.h"
 #include "debugUsart.h"
-
 
 // Read a register
 // input:
@@ -33,8 +31,8 @@ static void nRF24_WriteReg(uint8_t reg, uint8_t value) {
 	} else {
 		// This is a single byte command or future command/register
 		nRF24_LL_RW(reg);
-		if ((reg != nRF24_CMD_FLUSH_TX) && (reg != nRF24_CMD_FLUSH_RX) && \
-				(reg != nRF24_CMD_REUSE_TX_PL) && (reg != nRF24_CMD_NOP)) {
+		if ((reg != nRF24_CMD_FLUSH_TX) && (reg != nRF24_CMD_FLUSH_RX)
+				&& (reg != nRF24_CMD_REUSE_TX_PL) && (reg != nRF24_CMD_NOP)) {
 			// Send register value
 			nRF24_LL_RW(value);
 		}
@@ -91,7 +89,7 @@ void nRF24_Init(void) {
 	nRF24_WriteReg(nRF24_REG_DYNPD, 0x00);
 	nRF24_WriteReg(nRF24_REG_FEATURE, 0x00);
 
-	// Clear the FIFO's
+// Clear the FIFO's
 	nRF24_FlushRX();
 	nRF24_FlushTX();
 
@@ -109,7 +107,7 @@ void nRF24_Init(void) {
 uint8_t nRF24_Check(void) {
 	uint8_t rxbuf[5];
 	uint8_t i;
-	uint8_t *ptr = (uint8_t *)nRF24_TEST_ADDR;
+	uint8_t *ptr = (uint8_t *) nRF24_TEST_ADDR;
 
 	// Write test TX address and read TX_ADDR register
 	nRF24_WriteMBReg(nRF24_CMD_W_REGISTER | nRF24_REG_TX_ADDR, ptr, 5);
@@ -117,7 +115,8 @@ uint8_t nRF24_Check(void) {
 
 	// Compare buffers, return error on first mismatch
 	for (i = 0; i < 5; i++) {
-		if (rxbuf[i] != *ptr++) return 0;
+		if (rxbuf[i] != *ptr++)
+			return 0;
 	}
 
 	return 1;
@@ -149,7 +148,7 @@ void nRF24_SetOperationalMode(uint8_t mode) {
 	uint8_t reg;
 
 	// Configure PRIM_RX bit of the CONFIG register
-	reg  = nRF24_ReadReg(nRF24_REG_CONFIG);
+	reg = nRF24_ReadReg(nRF24_REG_CONFIG);
 	reg &= ~nRF24_CONFIG_PRIM_RX;
 	reg |= (mode & nRF24_CONFIG_PRIM_RX);
 	nRF24_WriteReg(nRF24_REG_CONFIG, reg);
@@ -164,7 +163,7 @@ void nRF24_SetCRCScheme(uint8_t scheme) {
 	uint8_t reg;
 
 	// Configure EN_CRC[3] and CRCO[2] bits of the CONFIG register
-	reg  = nRF24_ReadReg(nRF24_REG_CONFIG);
+	reg = nRF24_ReadReg(nRF24_REG_CONFIG);
 	reg &= ~nRF24_MASK_CRC;
 	reg |= (scheme & nRF24_MASK_CRC);
 	nRF24_WriteReg(nRF24_REG_CONFIG, reg);
@@ -186,7 +185,8 @@ void nRF24_SetRFChannel(uint8_t channel) {
 // note: zero arc value means that the automatic retransmission disabled
 void nRF24_SetAutoRetr(uint8_t ard, uint8_t arc) {
 	// Set auto retransmit settings (SETUP_RETR register)
-	nRF24_WriteReg(nRF24_REG_SETUP_RETR, (uint8_t)((ard << 4) | (arc & nRF24_MASK_RETR_ARC)));
+	nRF24_WriteReg(nRF24_REG_SETUP_RETR,
+			(uint8_t)((ard << 4) | (arc & nRF24_MASK_RETR_ARC)));
 }
 
 // Set of address widths
@@ -212,30 +212,30 @@ void nRF24_SetAddr(uint8_t pipe, const uint8_t *addr) {
 
 	// RX_ADDR_Px register
 	switch (pipe) {
-		case nRF24_PIPETX:
-		case nRF24_PIPE0:
-		case nRF24_PIPE1:
-			// Get address width
-			addr_width = nRF24_ReadReg(nRF24_REG_SETUP_AW) + 1;
-			// Write address in reverse order (LSByte first)
-			addr += addr_width;
-			nRF24_CSN_L();
-			nRF24_LL_RW(nRF24_CMD_W_REGISTER | nRF24_ADDR_REGS[pipe]);
-			do {
-				nRF24_LL_RW(*addr--);
-			} while (addr_width--);
-			nRF24_CSN_H();
-			break;
-		case nRF24_PIPE2:
-		case nRF24_PIPE3:
-		case nRF24_PIPE4:
-		case nRF24_PIPE5:
-			// Write address LSBbyte (only first byte from the addr buffer)
-			nRF24_WriteReg(nRF24_ADDR_REGS[pipe], *addr);
-			break;
-		default:
-			// Incorrect pipe number -> do nothing
-			break;
+	case nRF24_PIPETX:
+	case nRF24_PIPE0:
+	case nRF24_PIPE1:
+		// Get address width
+		addr_width = nRF24_ReadReg(nRF24_REG_SETUP_AW) + 1;
+		// Write address in reverse order (LSByte first)
+		addr += addr_width;
+		nRF24_CSN_L();
+		nRF24_LL_RW(nRF24_CMD_W_REGISTER | nRF24_ADDR_REGS[pipe]);
+		do {
+			nRF24_LL_RW(*addr--);
+		} while (addr_width--);
+		nRF24_CSN_H();
+		break;
+	case nRF24_PIPE2:
+	case nRF24_PIPE3:
+	case nRF24_PIPE4:
+	case nRF24_PIPE5:
+		// Write address LSBbyte (only first byte from the addr buffer)
+		nRF24_WriteReg(nRF24_ADDR_REGS[pipe], *addr);
+		break;
+	default:
+		// Incorrect pipe number -> do nothing
+		break;
 	}
 }
 
@@ -246,7 +246,7 @@ void nRF24_SetTXPower(uint8_t tx_pwr) {
 	uint8_t reg;
 
 	// Configure RF_PWR[2:1] bits of the RF_SETUP register
-	reg  = nRF24_ReadReg(nRF24_REG_RF_SETUP);
+	reg = nRF24_ReadReg(nRF24_REG_RF_SETUP);
 	reg &= ~nRF24_MASK_RF_PWR;
 	reg |= tx_pwr;
 	nRF24_WriteReg(nRF24_REG_RF_SETUP, reg);
@@ -259,7 +259,7 @@ void nRF24_SetDataRate(uint8_t data_rate) {
 	uint8_t reg;
 
 	// Configure RF_DR_LOW[5] and RF_DR_HIGH[3] bits of the RF_SETUP register
-	reg  = nRF24_ReadReg(nRF24_REG_RF_SETUP);
+	reg = nRF24_ReadReg(nRF24_REG_RF_SETUP);
 	reg &= ~nRF24_MASK_DATARATE;
 	reg |= data_rate;
 	nRF24_WriteReg(nRF24_REG_RF_SETUP, reg);
@@ -283,7 +283,7 @@ void nRF24_SetRXPipe(uint8_t pipe, uint8_t aa_state, uint8_t payload_len) {
 	// Set auto acknowledgment for a specified pipe (EN_AA register)
 	reg = nRF24_ReadReg(nRF24_REG_EN_AA);
 	if (aa_state == nRF24_AA_ON) {
-		reg |=  (1 << pipe);
+		reg |= (1 << pipe);
 	} else {
 		reg &= ~(1 << pipe);
 	}
@@ -296,7 +296,7 @@ void nRF24_SetRXPipe(uint8_t pipe, uint8_t aa_state, uint8_t payload_len) {
 void nRF24_ClosePipe(uint8_t pipe) {
 	uint8_t reg;
 
-	reg  = nRF24_ReadReg(nRF24_REG_EN_RXADDR);
+	reg = nRF24_ReadReg(nRF24_REG_EN_RXADDR);
 	reg &= ~(1 << pipe);
 	reg &= nRF24_MASK_EN_RX;
 	nRF24_WriteReg(nRF24_REG_EN_RXADDR, reg);
@@ -309,7 +309,7 @@ void nRF24_EnableAA(uint8_t pipe) {
 	uint8_t reg;
 
 	// Set bit in EN_AA register
-	reg  = nRF24_ReadReg(nRF24_REG_EN_AA);
+	reg = nRF24_ReadReg(nRF24_REG_EN_AA);
 	reg |= (1 << pipe);
 	nRF24_WriteReg(nRF24_REG_EN_AA, reg);
 }
@@ -325,7 +325,7 @@ void nRF24_DisableAA(uint8_t pipe) {
 		nRF24_WriteReg(nRF24_REG_EN_AA, 0x00);
 	} else {
 		// Clear bit in the EN_AA register
-		reg  = nRF24_ReadReg(nRF24_REG_EN_AA);
+		reg = nRF24_ReadReg(nRF24_REG_EN_AA);
 		reg &= ~(1 << pipe);
 		nRF24_WriteReg(nRF24_REG_EN_AA, reg);
 	}
@@ -394,7 +394,7 @@ void nRF24_ClearIRQFlags(void) {
 	uint8_t reg;
 
 	// Clear RX_DR, TX_DS and MAX_RT bits of the STATUS register
-	reg  = nRF24_ReadReg(nRF24_REG_STATUS);
+	reg = nRF24_ReadReg(nRF24_REG_STATUS);
 	reg |= nRF24_MASK_STATUS_IRQ;
 	nRF24_WriteReg(nRF24_REG_STATUS, reg);
 }
@@ -430,7 +430,7 @@ nRF24_RXResult nRF24_ReadPayload(uint8_t *pBuf, uint8_t *length) {
 			nRF24_ReadMBReg(nRF24_CMD_R_RX_PAYLOAD, pBuf, *length);
 		}
 
-		return ((nRF24_RXResult)pipe);
+		return ((nRF24_RXResult) pipe);
 	}
 
 	// The RX FIFO is empty
@@ -441,7 +441,7 @@ nRF24_RXResult nRF24_ReadPayload(uint8_t *pBuf, uint8_t *length) {
 
 // Print nRF24L01+ current configuration (for debug purposes)
 void nRF24_DumpConfig(void) {
-	uint8_t i,j;
+	uint8_t i, j;
 	uint8_t aw;
 	uint8_t buf[5];
 
@@ -449,156 +449,146 @@ void nRF24_DumpConfig(void) {
 	// CONFIG
 	i = nRF24_ReadReg(nRF24_REG_CONFIG);
 	debug.printf("[0x%02X] 0x%02X MASK:0x%02X CRC:0x%02X PWR:%s MODE:P%s\r\n",
-			nRF24_REG_CONFIG,
-			i,
-			i >> 4,
-			(i & 0x0c) >> 2,
-			(i & 0x02) ? "ON" : "OFF",
-			(i & 0x01) ? "RX" : "TX"
-		);
+			nRF24_REG_CONFIG, i, i >> 4, (i & 0x0c) >> 2,
+			(i & 0x02) ? "ON" : "OFF", (i & 0x01) ? "RX" : "TX");
 	// EN_AA
 	i = nRF24_ReadReg(nRF24_REG_EN_AA);
-	debug.printf("[0x%02X] 0x%02X ENAA: ",nRF24_REG_EN_AA,i);
+	debug.printf("[0x%02X] 0x%02X ENAA: ", nRF24_REG_EN_AA, i);
 	for (j = 0; j < 6; j++) {
-		debug.printf("[P%1u%s]%s",j,
-				(i & (1 << j)) ? "+" : "-",
-				(j == 5) ? "\r\n" : " "
-			);
+		debug.printf("[P%1u%s]%s", j, (i & (1 << j)) ? "+" : "-",
+				(j == 5) ? "\r\n" : " ");
 	}
 	// EN_RXADDR
 	i = nRF24_ReadReg(nRF24_REG_EN_RXADDR);
-	debug.printf("[0x%02X] 0x%02X EN_RXADDR: ",nRF24_REG_EN_RXADDR,i);
+	debug.printf("[0x%02X] 0x%02X EN_RXADDR: ", nRF24_REG_EN_RXADDR, i);
 	for (j = 0; j < 6; j++) {
-		debug.printf("[P%1u%s]%s",j,
-				(i & (1 << j)) ? "+" : "-",
-				(j == 5) ? "\r\n" : " "
-			);
+		debug.printf("[P%1u%s]%s", j, (i & (1 << j)) ? "+" : "-",
+				(j == 5) ? "\r\n" : " ");
 	}
 	// SETUP_AW
 	i = nRF24_ReadReg(nRF24_REG_SETUP_AW);
 	aw = (i & 0x03) + 2;
-	debug.printf("[0x%02X] 0x%02X EN_RXADDR=0x%02X (address width = %d)\r\n",nRF24_REG_SETUP_AW,i,i & 0x03,aw);
+	debug.printf("[0x%02X] 0x%02X EN_RXADDR=0x%02X (address width = %d)\r\n",
+			nRF24_REG_SETUP_AW, i, i & 0x03, aw);
 	// SETUP_RETR
 	i = nRF24_ReadReg(nRF24_REG_SETUP_RETR);
-	debug.printf("[0x%02X] 0x%02X ARD=0x%02X ARC=0x%02X (retr.delay=%d[us], count=%d)\r\n",
-			nRF24_REG_SETUP_RETR,
-			i,
-			i >> 4,
-			i & 0x0F,
-			((i >> 4) * 250) + 250,
-			i & 0x0F
-		);
+	debug.printf(
+			"[0x%02X] 0x%02X ARD=0x%02X ARC=0x%02X (retr.delay=%d[us], count=%d)\r\n",
+			nRF24_REG_SETUP_RETR, i, i >> 4, i & 0x0F, ((i >> 4) * 250) + 250,
+			i & 0x0F);
 	// RF_CH
 	i = nRF24_ReadReg(nRF24_REG_RF_CH);
-	debug.printf("[0x%02X] 0x%02X %d[GHz]\r\n",nRF24_REG_RF_CH,i,2400 + i);
+	debug.printf("[0x%02X] 0x%02X %d[GHz]\r\n", nRF24_REG_RF_CH, i, 2400 + i);
 	// RF_SETUP
 	i = nRF24_ReadReg(nRF24_REG_RF_SETUP);
 	debug.printf("[0x%02X] 0x%02X CONT_WAVE:%s PLL_LOCK:%s DataRate=",
-			nRF24_REG_RF_SETUP,
-			i,
-			(i & 0x80) ? "ON" : "OFF",
-			(i & 0x80) ? "ON" : "OFF"
-		);
+			nRF24_REG_RF_SETUP, i, (i & 0x80) ? "ON" : "OFF",
+			(i & 0x80) ? "ON" : "OFF");
 	switch ((i & 0x28) >> 3) {
-		case 0x00:
-			debug.printf("1M");
-			break;
-		case 0x01:
-			debug.printf("2M");
-			break;
-		case 0x04:
-			debug.printf("250k");
-			break;
-		default:
-			debug.printf("???");
-			break;
+	case 0x00:
+		debug.printf("1M");
+		break;
+	case 0x01:
+		debug.printf("2M");
+		break;
+	case 0x04:
+		debug.printf("250k");
+		break;
+	default:
+		debug.printf("???");
+		break;
 	}
 	debug.printf("pbs RF_PWR=");
 	switch ((i & 0x06) >> 1) {
-		case 0x00:
-			debug.printf("-18");
-			break;
-		case 0x01:
-			debug.printf("-12");
-			break;
-		case 0x02:
-			debug.printf("-6");
-			break;
-		case 0x03:
-			debug.printf("0");
-			break;
-		default:
-			debug.printf("???");
-			break;
+	case 0x00:
+		debug.printf("-18");
+		break;
+	case 0x01:
+		debug.printf("-12");
+		break;
+	case 0x02:
+		debug.printf("-6");
+		break;
+	case 0x03:
+		debug.printf("0");
+		break;
+	default:
+		debug.printf("???");
+		break;
 	}
 	debug.printf("dBm\r\n");
 	// STATUS
 	i = nRF24_ReadReg(nRF24_REG_STATUS);
 	debug.printf("[0x%02X] 0x%02X IRQ:0x%02X RX_PIPE:%d TX_FULL:%s\r\n",
-			nRF24_REG_STATUS,
-			i,
-			(i & 0x70) >> 4,
-			(i & 0x0E) >> 1,
-			(i & 0x01) ? "YES" : "NO"
-		);
+			nRF24_REG_STATUS, i, (i & 0x70) >> 4, (i & 0x0E) >> 1,
+			(i & 0x01) ? "YES" : "NO");
 	// OBSERVE_TX
 	i = nRF24_ReadReg(nRF24_REG_OBSERVE_TX);
-	debug.printf("[0x%02X] 0x%02X PLOS_CNT=%d ARC_CNT=%d\r\n",nRF24_REG_OBSERVE_TX,i,i >> 4,i & 0x0F);
+	debug.printf("[0x%02X] 0x%02X PLOS_CNT=%d ARC_CNT=%d\r\n",
+			nRF24_REG_OBSERVE_TX, i, i >> 4, i & 0x0F);
 	// RPD
 	i = nRF24_ReadReg(nRF24_REG_RPD);
-	debug.printf("[0x%02X] 0x%02X RPD=%s\r\n",nRF24_REG_RPD,i,(i & 0x01) ? "YES" : "NO");
+	debug.printf("[0x%02X] 0x%02X RPD=%s\r\n", nRF24_REG_RPD, i,
+			(i & 0x01) ? "YES" : "NO");
 	// RX_ADDR_P0
-	nRF24_ReadMBReg(nRF24_REG_RX_ADDR_P0,buf,aw);
-	debug.printf("[0x%02X] RX_ADDR_P0 \"",nRF24_REG_RX_ADDR_P0);
-	for (i = 0; i < aw; i++) debug.printf("%c",buf[i]);
+	nRF24_ReadMBReg(nRF24_REG_RX_ADDR_P0, buf, aw);
+	debug.printf("[0x%02X] RX_ADDR_P0 \"", nRF24_REG_RX_ADDR_P0);
+	for (i = 0; i < aw; i++)
+		debug.printf("0x%02X ", buf[i]);
 	debug.printf("\"\r\n");
 	// RX_ADDR_P1
-	nRF24_ReadMBReg(nRF24_REG_RX_ADDR_P1,buf,aw);
-	debug.printf("[0x%02X] RX_ADDR_P1 \"",nRF24_REG_RX_ADDR_P1);
-	for (i = 0; i < aw; i++) debug.printf("%c",buf[i]);
+	nRF24_ReadMBReg(nRF24_REG_RX_ADDR_P1, buf, aw);
+	debug.printf("[0x%02X] RX_ADDR_P1 \"", nRF24_REG_RX_ADDR_P1);
+	for (i = 0; i < aw; i++)
+		debug.printf("0x%02X ", buf[i]);
 	debug.printf("\"\r\n");
 	// RX_ADDR_P2
-	debug.printf("[0x%02X] RX_ADDR_P2 \"",nRF24_REG_RX_ADDR_P2);
-	for (i = 0; i < aw - 1; i++) debug.printf("%c",buf[i]);
+	debug.printf("[0x%02X] RX_ADDR_P2 \"", nRF24_REG_RX_ADDR_P2);
+	for (i = 0; i < aw - 1; i++)
+		debug.printf("0x%02X ", buf[i]);
 	i = nRF24_ReadReg(nRF24_REG_RX_ADDR_P2);
-	debug.printf("%c\"\r\n",i);
+	debug.printf("0x%02X \"\r\n", i);
 	// RX_ADDR_P3
-	debug.printf("[0x%02X] RX_ADDR_P3 \"",nRF24_REG_RX_ADDR_P3);
-	for (i = 0; i < aw - 1; i++) debug.printf("%c",buf[i]);
+	debug.printf("[0x%02X] RX_ADDR_P3 \"", nRF24_REG_RX_ADDR_P3);
+	for (i = 0; i < aw - 1; i++)
+		debug.printf("0x%02X ", buf[i]);
 	i = nRF24_ReadReg(nRF24_REG_RX_ADDR_P3);
-	debug.printf("%c\"\r\n",i);
+	debug.printf("0x%02X \"\r\n", i);
 	// RX_ADDR_P4
-	debug.printf("[0x%02X] RX_ADDR_P4 \"",nRF24_REG_RX_ADDR_P4);
-	for (i = 0; i < aw - 1; i++) debug.printf("%c",buf[i]);
+	debug.printf("[0x%02X] RX_ADDR_P4 \"", nRF24_REG_RX_ADDR_P4);
+	for (i = 0; i < aw - 1; i++)
+		debug.printf("0x%02X ", buf[i]);
 	i = nRF24_ReadReg(nRF24_REG_RX_ADDR_P4);
-	debug.printf("%c\"\r\n",i);
+	debug.printf("0x%02X \"\r\n", i);
 	// RX_ADDR_P5
-	debug.printf("[0x%02X] RX_ADDR_P5 \"",nRF24_REG_RX_ADDR_P5);
-	for (i = 0; i < aw - 1; i++) debug.printf("%c",buf[i]);
+	debug.printf("[0x%02X] RX_ADDR_P5 \"", nRF24_REG_RX_ADDR_P5);
+	for (i = 0; i < aw - 1; i++)
+		debug.printf("0x%02X ", buf[i]);
 	i = nRF24_ReadReg(nRF24_REG_RX_ADDR_P5);
-	debug.printf("%c\"\r\n",i);
+	debug.printf("0x%02X \"\r\n", i);
 	// TX_ADDR
-	nRF24_ReadMBReg(nRF24_REG_TX_ADDR,buf,aw);
-	debug.printf("[0x%02X] TX_ADDR \"",nRF24_REG_TX_ADDR);
-	for (i = 0; i < aw; i++) debug.printf("%c",buf[i]);
+	nRF24_ReadMBReg(nRF24_REG_TX_ADDR, buf, aw);
+	debug.printf("[0x%02X] TX_ADDR    \"", nRF24_REG_TX_ADDR);
+	for (i = 0; i < aw; i++)
+		debug.printf("0x%02X ", buf[i]);
 	debug.printf("\"\r\n");
 	// RX_PW_P0
 	i = nRF24_ReadReg(nRF24_REG_RX_PW_P0);
-	debug.printf("[0x%02X] RX_PW_P0=%d\r\n",nRF24_REG_RX_PW_P0,i);
+	debug.printf("[0x%02X] RX_PW_P0=%d\r\n", nRF24_REG_RX_PW_P0, i);
 	// RX_PW_P1
 	i = nRF24_ReadReg(nRF24_REG_RX_PW_P1);
-	debug.printf("[0x%02X] RX_PW_P1=%d\r\n",nRF24_REG_RX_PW_P1,i);
+	debug.printf("[0x%02X] RX_PW_P1=%d\r\n", nRF24_REG_RX_PW_P1, i);
 	// RX_PW_P2
 	i = nRF24_ReadReg(nRF24_REG_RX_PW_P2);
-	debug.printf("[0x%02X] RX_PW_P2=%d\r\n",nRF24_REG_RX_PW_P2,i);
+	debug.printf("[0x%02X] RX_PW_P2=%d\r\n", nRF24_REG_RX_PW_P2, i);
 	// RX_PW_P3
 	i = nRF24_ReadReg(nRF24_REG_RX_PW_P3);
-	debug.printf("[0x%02X] RX_PW_P3=%d\r\n",nRF24_REG_RX_PW_P3,i);
+	debug.printf("[0x%02X] RX_PW_P3=%d\r\n", nRF24_REG_RX_PW_P3, i);
 	// RX_PW_P4
 	i = nRF24_ReadReg(nRF24_REG_RX_PW_P4);
-	debug.printf("[0x%02X] RX_PW_P4=%d\r\n",nRF24_REG_RX_PW_P4,i);
+	debug.printf("[0x%02X] RX_PW_P4=%d\r\n", nRF24_REG_RX_PW_P4, i);
 	// RX_PW_P5
 	i = nRF24_ReadReg(nRF24_REG_RX_PW_P5);
-	debug.printf("[0x%02X] RX_PW_P5=%d\r\n",nRF24_REG_RX_PW_P5,i);
+	debug.printf("[0x%02X] RX_PW_P5=%d\r\n", nRF24_REG_RX_PW_P5, i);
 }
 
