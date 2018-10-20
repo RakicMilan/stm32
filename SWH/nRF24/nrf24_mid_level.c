@@ -19,8 +19,8 @@
 // Define what part of demo will be compiled:
 //   0 : disable
 //   1 : enable
-#define DEMO_RX_SINGLE      0 // Single address receiver (1 pipe)
-#define DEMO_RX_SINGLE_ESB  1 // Single address receiver with Enhanced ShockBurst (1 pipe)
+#define DEMO_RX_SINGLE      1 // Single address receiver (1 pipe)
+#define DEMO_RX_SINGLE_ESB  0 // Single address receiver with Enhanced ShockBurst (1 pipe)
 // Kinda foolproof :)
 #if ((DEMO_RX_SINGLE + DEMO_RX_SINGLE_ESB) != 1)
 #error "Define only one DEMO_xx, use the '1' value"
@@ -34,7 +34,7 @@ void nRF24_InitializeRX(void) {
 	//   - pipe#1 address: '0xE7 0x1C 0xE3'
 	//   - payload: 5 bytes
 	//   - RF channel: 115 (2515MHz)
-	//   - data rate: 250kbps (minimum possible, to increase reception reliability)
+	//   - data rate: 1Mbps
 	//   - CRC scheme: 2 byte
 
 	// The transmitter sends a 5-byte packets to the address '0xE7 0x1C 0xE3' without Auto-ACK (ShockBurst disabled)
@@ -46,7 +46,7 @@ void nRF24_InitializeRX(void) {
 	nRF24_SetRFChannel(115);
 
 	// Set data rate
-	nRF24_SetDataRate(nRF24_DR_250kbps);
+	nRF24_SetDataRate(nRF24_DR_1Mbps);
 
 	// Set CRC scheme
 	nRF24_SetCRCScheme(nRF24_CRC_2byte);
@@ -136,6 +136,9 @@ void nRF24_Initialize(void) {
 	nRF24_Init();
 
 	nRF24_InitializeRX();
+
+	// ---TEST--- //
+	nRF24_DumpConfig();
 }
 
 //

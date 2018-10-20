@@ -100,37 +100,37 @@
     <File name="stm_lib/inc/stm32f10x_pwr.h" path="stm_lib/inc/stm32f10x_pwr.h" type="1"/>
     <File name="cmsis_boot/startup" path="" type="2"/>
     <File name="cmsis/core_cmFunc.h" path="cmsis/core_cmFunc.h" type="1"/>
+    <File name="nRF24/nrf24_low_level.c" path="nRF24/nrf24_low_level.c" type="1"/>
+    <File name="stm_lib/src/misc.c" path="stm_lib/src/misc.c" type="1"/>
     <File name="Lcd/ssd1306_tests.h" path="Lcd/ssd1306_tests.h" type="1"/>
     <File name="nRF24/nrf24.c" path="nRF24/nrf24.c" type="1"/>
-    <File name="stm_lib/src/misc.c" path="stm_lib/src/misc.c" type="1"/>
-    <File name="nRF24/nrf24_low_level.c" path="nRF24/nrf24_low_level.c" type="1"/>
     <File name="stm_lib/src/stm32f10x_spi.c" path="stm_lib/src/stm32f10x_spi.c" type="1"/>
     <File name="cmsis_boot/stm32f10x.h" path="cmsis_boot/stm32f10x.h" type="1"/>
     <File name="nRF24" path="" type="2"/>
-    <File name="Usart/debugUsart.h" path="Usart/debugUsart.h" type="1"/>
     <File name="cmsis_boot/stm32f10x_conf.h" path="cmsis_boot/stm32f10x_conf.h" type="1"/>
+    <File name="Usart/debugUsart.h" path="Usart/debugUsart.h" type="1"/>
     <File name="RTC/ds1307_i2c.c" path="RTC/ds1307_i2c.c" type="1"/>
     <File name="Lcd/ssd1306.h" path="Lcd/ssd1306.h" type="1"/>
     <File name="syscalls/syscalls.c" path="syscalls/syscalls.c" type="1"/>
     <File name="i2c/i2c.c" path="i2c/i2c.c" type="1"/>
     <File name="nRF24/nrf24_mid_level.h" path="nRF24/nrf24_mid_level.h" type="1"/>
     <File name="stm_lib/inc/stm32f10x_spi.h" path="stm_lib/inc/stm32f10x_spi.h" type="1"/>
-    <File name="Usart/debugUsart.c" path="Usart/debugUsart.c" type="1"/>
     <File name="stm_lib/src/stm32f10x_adc.c" path="stm_lib/src/stm32f10x_adc.c" type="1"/>
+    <File name="Usart/debugUsart.c" path="Usart/debugUsart.c" type="1"/>
     <File name="stm_lib/inc/stm32f10x_dma.h" path="stm_lib/inc/stm32f10x_dma.h" type="1"/>
     <File name="Lcd/ssd1306_i2c.h" path="Lcd/ssd1306_i2c.h" type="1"/>
     <File name="DS1820/ds1820.c" path="DS1820/ds1820.c" type="1"/>
     <File name="stm_lib/src/stm32f10x_usart.c" path="stm_lib/src/stm32f10x_usart.c" type="1"/>
-    <File name="stm_lib/inc/stm32f10x_rtc.h" path="stm_lib/inc/stm32f10x_rtc.h" type="1"/>
     <File name="task/task.h" path="task/task.h" type="1"/>
+    <File name="stm_lib/inc/stm32f10x_rtc.h" path="stm_lib/inc/stm32f10x_rtc.h" type="1"/>
     <File name="nRF24/nrf24_low_level.h" path="nRF24/nrf24_low_level.h" type="1"/>
     <File name="stdio/printf.c" path="stdio/printf.c" type="1"/>
     <File name="stm_lib/src/stm32f10x_bkp.c" path="stm_lib/src/stm32f10x_bkp.c" type="1"/>
-    <File name="stm_lib/src/stm32f10x_pwr.c" path="stm_lib/src/stm32f10x_pwr.c" type="1"/>
     <File name="cmsis_boot/startup/startup_stm32f10x_md.c" path="cmsis_boot/startup/startup_stm32f10x_md.c" type="1"/>
+    <File name="stm_lib/src/stm32f10x_pwr.c" path="stm_lib/src/stm32f10x_pwr.c" type="1"/>
     <File name="stm_lib/src/stm32f10x_gpio.c" path="stm_lib/src/stm32f10x_gpio.c" type="1"/>
-    <File name="DS2432/ds2432.c" path="DS2432/ds2432.c" type="1"/>
     <File name="stm_id" path="" type="2"/>
+    <File name="DS2432/ds2432.c" path="DS2432/ds2432.c" type="1"/>
     <File name="stm_lib/inc/stm32f10x_gpio.h" path="stm_lib/inc/stm32f10x_gpio.h" type="1"/>
     <File name="stm_lib/inc/stm32f10x_usart.h" path="stm_lib/inc/stm32f10x_usart.h" type="1"/>
     <File name="Usart/usart.c" path="Usart/usart.c" type="1"/>
@@ -141,8 +141,8 @@
     <File name="Lcd/ssd1306_i2c.c" path="Lcd/ssd1306_i2c.c" type="1"/>
     <File name="cmsis/core_cmInstr.h" path="cmsis/core_cmInstr.h" type="1"/>
     <File name="task/task.c" path="task/task.c" type="1"/>
-    <File name="cmsis/core_cm3.h" path="cmsis/core_cm3.h" type="1"/>
     <File name="nRF24/nrf24_mid_level.c" path="nRF24/nrf24_mid_level.c" type="1"/>
+    <File name="cmsis/core_cm3.h" path="cmsis/core_cm3.h" type="1"/>
     <File name="RTC" path="" type="2"/>
     <File name="stm_lib/src/stm32f10x_exti.c" path="stm_lib/src/stm32f10x_exti.c" type="1"/>
     <File name="DebugMsg/debugMsg.h" path="DebugMsg/debugMsg.h" type="1"/>
@@ -170,8 +170,8 @@
     <File name="RTC/ds1307.h" path="RTC/ds1307.h" type="1"/>
     <File name="stm_lib/inc/stm32f10x_i2c.h" path="stm_lib/inc/stm32f10x_i2c.h" type="1"/>
     <File name="syscalls" path="" type="2"/>
-    <File name="Usart/usart.h" path="Usart/usart.h" type="1"/>
     <File name="Lcd/ssd1306_tests.c" path="Lcd/ssd1306_tests.c" type="1"/>
+    <File name="Usart/usart.h" path="Usart/usart.h" type="1"/>
     <File name="RTC/ds1307_i2c.h" path="RTC/ds1307_i2c.h" type="1"/>
     <File name="Lcd/ssd1306.c" path="Lcd/ssd1306.c" type="1"/>
     <File name="DS2432" path="" type="2"/>
