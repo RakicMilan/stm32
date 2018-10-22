@@ -31,13 +31,13 @@ u_twoBytes m_tCollector;
 void nRF24_InitializeRX(void) {
 #if (DEMO_RX_SINGLE)
 	// This is simple receiver with one RX pipe:
-	//   - pipe#1 address: '0xE7 0x1C 0xE3'
+	//   - pipe#1 address: '0xC1, 0xE7, 0xE7, 0xE7, 0xE7'
 	//   - payload: 5 bytes
-	//   - RF channel: 115 (2515MHz)
+	//   - RF channel: 2 (2402MHz)
 	//   - data rate: 1Mbps
 	//   - CRC scheme: 2 byte
 
-	// The transmitter sends a 5-byte packets to the address '0xE7 0x1C 0xE3' without Auto-ACK (ShockBurst disabled)
+	// The transmitter sends a 5-byte packets to the address '0xC1, 0xE7, 0xE7, 0xE7, 0xE7' without Auto-ACK (ShockBurst disabled)
 
 	// Disable ShockBurst for all RX pipes
 	nRF24_DisableAA(0xFF);
@@ -55,11 +55,9 @@ void nRF24_InitializeRX(void) {
 	nRF24_SetAddrWidth(5);
 
 	// Configure RX PIPE#1
-	static const uint8_t nRF24_ADDR[] = { 0xC0, 0xE7, 0xE7, 0xE7, 0xE7 };
-	nRF24_SetAddr(nRF24_PIPE0, nRF24_ADDR); // program address for RX pipe #1
-	nRF24_SetRXPipe(nRF24_PIPE0, nRF24_AA_OFF, 5); // Auto-ACK: disabled, payload length: 5 bytes
-
-	nRF24_SetRXPipe(nRF24_PIPE2, nRF24_AA_OFF, 5); // Auto-ACK: disabled, payload length: 5 bytes
+	static const uint8_t nRF24_ADDR[] = { 0xC1, 0xE7, 0xE7, 0xE7, 0xE7 };
+	nRF24_SetAddr(nRF24_PIPE1, nRF24_ADDR); // program address for RX pipe #1
+	nRF24_SetRXPipe(nRF24_PIPE1, nRF24_AA_OFF, 5); // Auto-ACK: disabled, payload length: 5 bytes
 
 	// Set operational mode (PRX == receiver)
 	nRF24_SetOperationalMode(nRF24_MODE_RX);
@@ -117,10 +115,13 @@ void nRF24_InitializeRX(void) {
 void nRF24_Initialize(void) {
 	debug.printf("\r\nSTM32F103C8T6 is online.\r\n");
 
-	Init_SPI2_Master();
-
 	// Initialize the nRF24L01 GPIO pins
 	nRF24_GPIO_Init();
+#ifdef USE_SPI1
+	Init_SPI1_Master();
+#else
+	Init_SPI2_Master();
+#endif
 
 	// RX/TX disabled
 	nRF24_CE_L();
@@ -155,7 +156,8 @@ void nRF24_Receive(void) {
 
 	// CONFIG
 	i = nRF24_GetConfig();
-	debug.printf("\r\n[0x%02X] 0x%02X MASK:0x%02X CRC:0x%02X PWR:%s MODE:P%s\r\n",
+	debug.printf(
+			"\r\n[0x%02X] 0x%02X MASK:0x%02X CRC:0x%02X PWR:%s MODE:P%s\r\n",
 			nRF24_REG_CONFIG, i, i >> 4, (i & 0x0c) >> 2,
 			(i & 0x02) ? "ON" : "OFF", (i & 0x01) ? "RX" : "TX");
 

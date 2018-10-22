@@ -100,10 +100,10 @@
     <File name="stm_lib/inc/stm32f10x_pwr.h" path="stm_lib/inc/stm32f10x_pwr.h" type="1"/>
     <File name="cmsis_boot/startup" path="" type="2"/>
     <File name="cmsis/core_cmFunc.h" path="cmsis/core_cmFunc.h" type="1"/>
-    <File name="nRF24/nrf24.c" path="nRF24/nrf24.c" type="1"/>
-    <File name="nRF24/nrf24_low_level.c" path="nRF24/nrf24_low_level.c" type="1"/>
     <File name="stm_lib/src/misc.c" path="stm_lib/src/misc.c" type="1"/>
+    <File name="nRF24/nrf24.c" path="nRF24/nrf24.c" type="1"/>
     <File name="Lcd/ssd1306_tests.h" path="Lcd/ssd1306_tests.h" type="1"/>
+    <File name="nRF24/nrf24_low_level.c" path="nRF24/nrf24_low_level.c" type="1"/>
     <File name="stm_lib/src/stm32f10x_spi.c" path="stm_lib/src/stm32f10x_spi.c" type="1"/>
     <File name="cmsis_boot/stm32f10x.h" path="cmsis_boot/stm32f10x.h" type="1"/>
     <File name="nRF24" path="" type="2"/>

@@ -120,13 +120,13 @@ nRF24_TXResult nRF24_TransmitPacket(uint8_t *pBuf, uint8_t length) {
 void nRF24_InitializeTX(void) {
 #if (DEMO_TX_SINGLE)
 	// This is simple transmitter (to one logic address):
-	//   - TX address: '0xE7 0x1C 0xE3'
+	//   - TX address: '0xC1, 0xE7, 0xE7, 0xE7, 0xE7'
 	//   - payload: 5 bytes
-	//   - RF channel: 115 (2515MHz)
+	//   - RF channel: 2 (2402MHz)
 	//   - data rate: 1Mbps
 	//   - CRC scheme: 2 byte
 
-	// The transmitter sends a 5-byte packets to the address '0xE7 0x1C 0xE3' without Auto-ACK (ShockBurst disabled)
+	// The transmitter sends a 5-byte packets to the address '0xC1, 0xE7, 0xE7, 0xE7, 0xE7' without Auto-ACK (ShockBurst disabled)
 
 	// Disable ShockBurst for all RX pipes
 	nRF24_DisableAA(0xFF);
@@ -144,7 +144,7 @@ void nRF24_InitializeTX(void) {
 	nRF24_SetAddrWidth(5);
 
 	// Configure TX PIPE
-	static const uint8_t nRF24_ADDR[] = { 0xC0, 0xE7, 0xE7, 0xE7, 0xE7 };
+	static const uint8_t nRF24_ADDR[] = { 0xC1, 0xE7, 0xE7, 0xE7, 0xE7 };
 	nRF24_SetAddr(nRF24_PIPETX, nRF24_ADDR); // program TX address
 
 	// Set TX power (maximum)
@@ -209,10 +209,13 @@ void nRF24_InitializeTX(void) {
 void nRF24_Initialize(void) {
 	debug.printf("\r\nSTM32F103C8T6 is online.\r\n");
 
-	Init_SPI2_Master();
-
 	// Initialize the nRF24L01 GPIO pins
 	nRF24_GPIO_Init();
+#ifdef USE_SPI1
+	Init_SPI1_Master();
+#else
+	Init_SPI2_Master();
+#endif
 
 	// RX/TX disabled
 	nRF24_CE_L();

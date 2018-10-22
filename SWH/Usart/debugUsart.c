@@ -6,7 +6,7 @@
 #include "usart.h"
 #include "debugUsart.h"
 
-#define DEBUG_USART		USART1
+#define DEBUG_USART		USART2
 
 //variables
 volatile Rbuf_st DebugRxBuff;
@@ -57,7 +57,7 @@ void InitDebugUsart(uint32_t baudrate) {
 
 	m_DebugMsgReceived = false;
 
-	init_USART1(baudrate);
+	init_USART2(baudrate);
 
 	//init debug log functions
 	debug.printf = printf;
