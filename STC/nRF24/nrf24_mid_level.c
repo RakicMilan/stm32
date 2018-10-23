@@ -71,11 +71,6 @@ nRF24_TXResult nRF24_TransmitPacket(uint8_t *pBuf, uint8_t length) {
 	// Start a transmission by asserting CE pin (must be held at least 10us)
 	nRF24_CE_H();
 
-	_DelayMS(50);
-
-	// Deassert the CE pin (Standby-II --> Standby-I)
-	nRF24_CE_L();
-
 	// Poll the transceiver status register until one of the following flags will be set:
 	//   TX_DS  - means the packet has been transmitted
 	//   MAX_RT - means the maximum number of TX retransmits happened
@@ -89,6 +84,9 @@ nRF24_TXResult nRF24_TransmitPacket(uint8_t *pBuf, uint8_t length) {
 			break;
 		}
 	} while (wait--);
+
+	// Deassert the CE pin (Standby-II --> Standby-I)
+	nRF24_CE_L();
 
 	if (!wait) {
 		// Timeout
