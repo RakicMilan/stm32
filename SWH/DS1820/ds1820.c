@@ -181,6 +181,5 @@ void Debug_PrintTemperatures(void) {
 	debug.printf("Bojler  : %d\r\n", m_temperature[T_WATER_HEATER]);
 	debug.printf("Kolektor: %d\r\n", m_tCollector.i);
 	DebugChangeColorToGREEN();
-	DebugMoveCursorUp(3);
 }
 
