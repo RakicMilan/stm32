@@ -44,6 +44,10 @@ void nRF24_GPIO_Init(void) {
 	PORT.GPIO_Pin = nRF24_CE_PIN;
 	GPIO_Init(nRF24_CE_PORT, &PORT);
 	nRF24_CE_L();
+
+	/*Configure GPIO pin : LED */
+	PORT.GPIO_Pin = GPIO_Pin_13;
+	GPIO_Init(GPIOC, &PORT);
 }
 
 /**
@@ -60,8 +64,7 @@ void Init_SPI1_Master(void) {
 	SPI_StructInit(&SPI);
 
 	// initialize clocks
-	RCC_APB2PeriphClockCmd(
-			RCC_APB2Periph_SPI1 | RCC_APB2Periph_AFIO | RCC_APB2Periph_GPIOA,
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1 | RCC_APB2Periph_AFIO | RCC_APB2Periph_GPIOA,
 			ENABLE);
 
 	// Configure SPI pins (SPI1)
@@ -141,43 +144,36 @@ void Init_SPI2_Master(void) {
 }
 
 /**
- * Low level SPI transmit/receive function (hardware depended)
- * Transfer a byte over SPI2 B12/SS, B13/SCK, B14/MISO, B15/MOSI.
- * input:
- *   data - value to transmit via SPI
- * return: value received from SPI
+ * This funcion toggles led indication.
  */
-uint8_t nRF24_LL_RW(uint8_t data) {
-	// Wait until TX buffer is empty
-	while (SPI_I2S_GetFlagStatus(nRF24_SPI_PORT, SPI_I2S_FLAG_TXE) == RESET)
-		;
-	// Send byte to SPI (TXE cleared)
-	SPI_I2S_SendData(nRF24_SPI_PORT, data);
-	// Wait while receive buffer is empty
-	while (SPI_I2S_GetFlagStatus(nRF24_SPI_PORT, SPI_I2S_FLAG_RXNE) == RESET)
-		;
-
-	// Return received byte
-	return (uint8_t) SPI_I2S_ReceiveData(nRF24_SPI_PORT);
+void ToggleLedInd(void) {
+	/* Toggle LED which connected to PC13*/
+	GPIOC->ODR ^= GPIO_Pin_13;
 }
 
-///**
-// * Transfer a byte over SPI1  A4/SS, A5/SCK, A6/MISO, A7/MOSI.
-// */
-//uint8_t SendReceiveByte_SPI1_Master(uint8_t outByte) {
-//
-//	// Approach 1, from Brown's book
-//	// SPI_I2S_SendData(SPI1, outByte); // send
-//	// while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET);
-//	// return SPI_I2S_ReceiveData(SPI1); // read received
-//
-//	// Approach 2,
-//	// from http://www.lxtronic.com/index.php/basic-spi-simple-read-write
-//	while (!SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE))
-//		;
-//	SPI_I2S_SendData(SPI1, outByte); // send
-//	while (!SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE))
-//		;
-//	return SPI_I2S_ReceiveData(SPI1); // read received
-//}
+/**
+ * Low level SPI transmit/receive function (hardware depended)
+ * input:
+ *   tx - value to transmit via SPI
+ * return: value received from SPI
+ */
+uint8_t spi_transfer(uint8_t tx) {
+	uint8_t rx_data = 0;
+
+#ifdef USE_SPI1
+	SPI1->DR = tx;
+	while (!(SPI1->SR & SPI_SR_TXE)) {;}
+	while (!(SPI1->SR & SPI_SR_RXNE)) {;}
+	while ((SPI1->SR & SPI_SR_BSY)) {;}
+	rx_data = SPI1->DR;
+#else
+	SPI2->DR = tx;
+	while(!(SPI2->SR & SPI_SR_TXE)) {;}
+	while(!(SPI2->SR & SPI_SR_RXNE)) {;}
+	while((SPI2->SR & SPI_SR_BSY)) {;}
+	rx_data = SPI2->DR;
+#endif
+
+	return rx_data;
+}
 

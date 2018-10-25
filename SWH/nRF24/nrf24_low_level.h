@@ -56,7 +56,9 @@
 void nRF24_GPIO_Init(void);
 void Init_SPI1_Master(void);
 void Init_SPI2_Master(void);
-uint8_t nRF24_LL_RW(uint8_t data);
+
+void ToggleLedInd(void);
+uint8_t spi_transfer(uint8_t data);
 
 #endif	/* __NRF24_LOW_LEVEL_H */
 
