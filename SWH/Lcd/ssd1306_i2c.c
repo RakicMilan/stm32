@@ -28,7 +28,6 @@ void ssd1306_i2c_init() {
 	I2C_InitTypeDef I2C_InitStruct;
 
 	// Initialize GPIO as open drain alternate function
-	RCC_APB2PeriphClockCmd(SSD1306_I2C_GPIO_RCC, ENABLE);
 	GPIO_InitStruct.GPIO_Pin = SSD1306_I2C_PIN_SCL | SSD1306_I2C_PIN_SDA;
 	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_OD;
 	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;

@@ -35,6 +35,13 @@ void DefineTasks(void) {
 	AddTaskTime(&nRF24_Transmit, TIME(1), true);
 }
 
+void InitPeriphClock(void) {
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+}
+
 void Init(void) {
 	DefineTasks();
 
@@ -42,18 +49,19 @@ void Init(void) {
 	InitDebugUsart(921600);
 	ShowBoardInfo();
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 	DS1820_Init();
 
 	nRF24_Initialize();
 }
 
 int main(void) {
+
+	InitPeriphClock();
+
 	/*
 	 * PB3 (used for buzzer-TIM2_CH2) is something from JTAG,
 	 * so we must disable it first using remap function...
 	 */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
 
 	Init();

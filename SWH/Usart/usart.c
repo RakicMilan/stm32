@@ -40,9 +40,6 @@ void init_USART1(uint32_t baudrate) {
 	USART_InitTypeDef USART_InitStruct; // this is for the USART3 initialization
 	NVIC_InitTypeDef NVIC_InitStructure; // this is used to configure the NVIC (nested vector interrupt controller)
 
-	/* GPIOA clock enable */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_AFIO, ENABLE);
-
 	/* enable APB2 peripheral clock for USART1
 	 * note that only USART1 and USART6 are connected to APB2
 	 * the other USARTs are connected to APB1
@@ -93,54 +90,6 @@ void init_USART1(uint32_t baudrate) {
 	USART_Cmd(USART1, ENABLE);
 }
 
-/*----------------------------------------------------------------------------
- USART1_IRQHandler
- Handles USART1 global interrupt request.
- *----------------------------------------------------------------------------*/
-void USART1_IRQHandler(void) {
-	char c;
-	if (USART1->SR & USART_FLAG_RXNE) { // read interrupt
-		c = (USART1->DR & 0x1FF);
-		DebugRxBuff.LastChar = c;
-		m_DebugMsgReceived = true;
-//		rbuf.buf[rbuf.in] = (USART1->DR & 0x1FF);
-//		if (!m_MsgReceived) {
-//			if (c == '\b' && rbuf.in) { /* Back space? */
-//				rbuf.in--;
-//				SendChar(c);
-//			} else if (c == '\r') {
-//				SendChar(c);
-//				SendChar('\n');
-//				rbuf.buf[rbuf.in] = 0; //null termination
-//				memcpy(m_RxBuffer, rbuf.buf, rbuf.in); //rbuf.in + 1
-//
-//				//memset(rbuf.buf, 0, RBUF_SIZE - 1); //clear rec buffer
-//				rbuf.in = 0;
-//
-//				m_MsgReceived = true;
-//			} else if (rbuf.in < (RBUF_SIZE - 1)) {
-//				rbuf.buf[rbuf.in] = c;
-//				SendChar(c);
-//				rbuf.in++;
-//			}
-//		}
-		USART1->SR &= ~USART_FLAG_RXNE; // clear interrupt
-	}
-
-	if (USART1->SR & USART_FLAG_TXE) {
-
-		if (DebugTxBuff.in != DebugTxBuff.out) {
-			USART1->DR = (DebugTxBuff.buf[DebugTxBuff.out & (TBUF_SIZE - 1)]);
-			DebugTxBuff.buf[DebugTxBuff.out & (TBUF_SIZE - 1)] = 0x00;
-			DebugTxBuff.out++;
-		} else {
-			USART1->CR1 &= ~USART_FLAG_TXE; // disable TX interrupt if nothing to send
-			DebugTxBuff.Empty = true;
-		}
-		USART1->SR &= ~USART_FLAG_TXE; // clear interrupt
-	}
-}
-
 /* This funcion initializes the USART2 peripheral
  *
  * Arguments: baudrate --> the baudrate at which the USART is
@@ -161,9 +110,6 @@ void init_USART2(uint32_t baudrate) {
 	GPIO_InitTypeDef GPIO_InitStructure; // this is for the GPIO pins used as TX and RX
 	USART_InitTypeDef USART_InitStruct; // this is for the USART3 initialization
 	NVIC_InitTypeDef NVIC_InitStructure; // this is used to configure the NVIC (nested vector interrupt controller)
-
-	/* GPIOA clock enable */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_AFIO, ENABLE);
 
 	/* enable APB1 peripheral clock for USART2
 	 * note that USART2 is connected to APB1
@@ -212,6 +158,54 @@ void init_USART2(uint32_t baudrate) {
 
 	// finally this enables the complete USART1 peripheral
 	USART_Cmd(USART2, ENABLE);
+}
+
+/*----------------------------------------------------------------------------
+ USART1_IRQHandler
+ Handles USART1 global interrupt request.
+ *----------------------------------------------------------------------------*/
+void USART1_IRQHandler(void) {
+	char c;
+	if (USART1->SR & USART_FLAG_RXNE) { // read interrupt
+		c = (USART1->DR & 0x1FF);
+		DebugRxBuff.LastChar = c;
+		m_DebugMsgReceived = true;
+//		rbuf.buf[rbuf.in] = (USART1->DR & 0x1FF);
+//		if (!m_MsgReceived) {
+//			if (c == '\b' && rbuf.in) { /* Back space? */
+//				rbuf.in--;
+//				SendChar(c);
+//			} else if (c == '\r') {
+//				SendChar(c);
+//				SendChar('\n');
+//				rbuf.buf[rbuf.in] = 0; //null termination
+//				memcpy(m_RxBuffer, rbuf.buf, rbuf.in); //rbuf.in + 1
+//
+//				//memset(rbuf.buf, 0, RBUF_SIZE - 1); //clear rec buffer
+//				rbuf.in = 0;
+//
+//				m_MsgReceived = true;
+//			} else if (rbuf.in < (RBUF_SIZE - 1)) {
+//				rbuf.buf[rbuf.in] = c;
+//				SendChar(c);
+//				rbuf.in++;
+//			}
+//		}
+		USART1->SR &= ~USART_FLAG_RXNE; // clear interrupt
+	}
+
+	if (USART1->SR & USART_FLAG_TXE) {
+
+		if (DebugTxBuff.in != DebugTxBuff.out) {
+			USART1->DR = (DebugTxBuff.buf[DebugTxBuff.out & (TBUF_SIZE - 1)]);
+			DebugTxBuff.buf[DebugTxBuff.out & (TBUF_SIZE - 1)] = 0x00;
+			DebugTxBuff.out++;
+		} else {
+			USART1->CR1 &= ~USART_FLAG_TXE; // disable TX interrupt if nothing to send
+			DebugTxBuff.Empty = true;
+		}
+		USART1->SR &= ~USART_FLAG_TXE; // clear interrupt
+	}
 }
 
 /*----------------------------------------------------------------------------

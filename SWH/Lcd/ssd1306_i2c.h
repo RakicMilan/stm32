@@ -18,7 +18,6 @@ extern "C" {
 
 /** Defines ----------------------------------------------------------------- */
 #define SSD1306_I2Cx_RCC		RCC_APB1Periph_I2C1
-#define SSD1306_I2C_GPIO_RCC	RCC_APB2Periph_GPIOB
 #define SSD1306_I2Cx			I2C1
 #define SSD1306_I2C_GPIO		GPIOB
 #define SSD1306_I2C_PIN_SCL		GPIO_Pin_6

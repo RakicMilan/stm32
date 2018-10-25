@@ -64,8 +64,7 @@ void Init_SPI1_Master(void) {
 	SPI_StructInit(&SPI);
 
 	// initialize clocks
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1 | RCC_APB2Periph_AFIO | RCC_APB2Periph_GPIOA,
-			ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
 
 	// Configure SPI pins (SPI1)
 	PORT.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7;
@@ -110,11 +109,6 @@ void Init_SPI2_Master(void) {
 
 	// Enable SPI2 peripheral
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);
-
-	// Enable SPI2 GPIO peripheral (PORTB)
-//	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-	// initialize clocks
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO | RCC_APB2Periph_GPIOB, ENABLE);
 
 	// Configure SPI pins (SPI2)
 	PORT.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_15;
@@ -162,15 +156,27 @@ uint8_t spi_transfer(uint8_t tx) {
 
 #ifdef USE_SPI1
 	SPI1->DR = tx;
-	while (!(SPI1->SR & SPI_SR_TXE)) {;}
-	while (!(SPI1->SR & SPI_SR_RXNE)) {;}
-	while ((SPI1->SR & SPI_SR_BSY)) {;}
+	while (!(SPI1->SR & SPI_SR_TXE)) {
+		;
+	}
+	while (!(SPI1->SR & SPI_SR_RXNE)) {
+		;
+	}
+	while ((SPI1->SR & SPI_SR_BSY)) {
+		;
+	}
 	rx_data = SPI1->DR;
 #else
 	SPI2->DR = tx;
-	while(!(SPI2->SR & SPI_SR_TXE)) {;}
-	while(!(SPI2->SR & SPI_SR_RXNE)) {;}
-	while((SPI2->SR & SPI_SR_BSY)) {;}
+	while (!(SPI2->SR & SPI_SR_TXE)) {
+		;
+	}
+	while (!(SPI2->SR & SPI_SR_RXNE)) {
+		;
+	}
+	while ((SPI2->SR & SPI_SR_BSY)) {
+		;
+	}
 	rx_data = SPI2->DR;
 #endif
 

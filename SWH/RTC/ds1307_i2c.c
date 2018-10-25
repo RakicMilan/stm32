@@ -26,7 +26,13 @@ void ds1307_i2c_init() {
 	I2C_InitTypeDef I2C_InitStruct;
 	GPIO_InitTypeDef GPIO_InitStruct;
 
-	// Step 1: Initialize I2C
+	// Initialize GPIO as open drain alternate function
+	GPIO_InitStruct.GPIO_Pin = DS1307_I2C_PIN_SCL | DS1307_I2C_PIN_SDA;
+	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_OD;
+	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(DS1307_I2C_GPIO, &GPIO_InitStruct);
+
+	// Initialize I2C
 	RCC_APB1PeriphClockCmd(DS1307_I2Cx_RCC, ENABLE);
 	I2C_InitStruct.I2C_ClockSpeed = 100000;
 	I2C_InitStruct.I2C_Mode = I2C_Mode_I2C;
@@ -36,13 +42,6 @@ void ds1307_i2c_init() {
 	I2C_InitStruct.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
 	I2C_Init(DS1307_I2Cx, &I2C_InitStruct);
 	I2C_Cmd(DS1307_I2Cx, ENABLE);
-
-	// Step 2: Initialize GPIO as open drain alternate function
-	RCC_APB2PeriphClockCmd(DS1307_I2C_GPIO_RCC, ENABLE);
-	GPIO_InitStruct.GPIO_Pin = DS1307_I2C_PIN_SCL | DS1307_I2C_PIN_SDA;
-	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_OD;
-	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(DS1307_I2C_GPIO, &GPIO_InitStruct);
 }
 
 /**
