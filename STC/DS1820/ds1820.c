@@ -134,7 +134,7 @@ void MeasureTemperatures(void) {
 	MeasureTemperature(T_COLLECTOR);
 }
 
-unsigned char *GetCurrentTemperature(TempSensor_t tempSensor) {
+uint8_t *GetCurrentTemperature(TempSensor_t tempSensor) {
 	return m_temperature[tempSensor].b;
 }
 
@@ -142,6 +142,5 @@ void Debug_PrintTemperatures(void) {
 	DebugChangeColorToWHITE();
 	debug.printf("Kolektor: %d\r\n", m_temperature[T_COLLECTOR].i);
 	DebugChangeColorToGREEN();
-	DebugMoveCursorUp(1);
 }
 

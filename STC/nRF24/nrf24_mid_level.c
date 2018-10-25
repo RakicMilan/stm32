@@ -62,9 +62,11 @@ void nRF24_Initialize(void) {
 void nRF24_Transmit(void) {
 	/* Prepare data for sending */
 	memset(NRF24Ctx.TXData, 0, sizeof(NRF24Ctx.TXData));
-	for (uint8_t i = 0; i < NRF24Ctx.PayloadSize; i++) {
-		NRF24Ctx.TXData[i] = i;
-	}
+	uint8_t *temp = GetCurrentTemperature(T_COLLECTOR);
+	memcpy(NRF24Ctx.TXData, temp, NRF24Ctx.PayloadSize);
+
+	Debug_PrintTemperatures();
+
 	/* Automatically goes to TX mode */
 	NRF24Send(&NRF24Ctx);
 

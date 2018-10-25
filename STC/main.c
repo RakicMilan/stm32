@@ -27,7 +27,6 @@ void DefineTasks(void) {
 	AddTaskSignal(&CheckConsoleRx, &m_DebugMsgReceived, true);
 
 	AddTaskTime(&MeasureTemperatures, TIME(0.5), true);
-	AddTaskTime(&Debug_PrintTemperatures, TIME(1), true);
 
 	AddTaskTime(&PrintTasks, TIME(1), false);
 	AddTaskTime(&TaskManager, TIME(1), false);
