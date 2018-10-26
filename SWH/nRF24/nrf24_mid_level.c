@@ -17,7 +17,6 @@
 #include "nrf24.h"
 #include "ds1820.h"
 #include "debugUsart.h"
-#include "systemTicks.h"
 
 /* Private variables ---------------------------------------------------------*/
 nrf24_t NRF24Ctx = {
@@ -28,16 +27,6 @@ nrf24_t NRF24Ctx = {
 };
 
 u_twoBytes m_tCollector;
-
-/* init the hardware pins */
-nrf24_error_t nRF24_Init(void) {
-	nRF24_CE_H();
-	_DelayMS(500);
-	nRF24_CE_L();
-	nRF24_CSN_H();
-
-	return NRF_SUCCESS;
-}
 
 void nRF24_Initialize(void) {
 	nRF24_GPIO_Init();

@@ -2,7 +2,11 @@
 #define __NRF24_H
 
 // Low level functions (hardware depended)
+#include "stm32f10x_gpio.h"
 #include "nrf24_low_level.h"
+
+#define LOW 		Bit_RESET
+#define HIGH 		Bit_SET
 
 #define NRF24_ADDR_LEN 5
 #define NRF24_CONFIG ((1<<EN_CRC)|(0<<CRCO))
@@ -132,6 +136,7 @@ typedef struct {
 #define nRF24_TEST_ADDR            "nRF24"
 
 // Function prototypes
+nrf24_error_t nRF24_Init(void);
 void nRF24_Config(nrf24_t* ctxNRF24);
 uint8_t nRF24_Check(void);
 void NRF24SetRxAddress(nrf24_t* ctxNRF24);
@@ -156,7 +161,5 @@ void NRF24ReadRegister(uint8_t Address, uint8_t* Data, uint8_t Len);
 void NRF24WriteRegister(uint8_t Address, uint8_t* Data, uint8_t Len);
 void nRF24_DumpConfig(void);
 
-#define nRF24_RX_ON()   nRF24_CE_H();
-#define nRF24_RX_OFF()  nRF24_CE_L();
-
 #endif // __NRF24_H
+

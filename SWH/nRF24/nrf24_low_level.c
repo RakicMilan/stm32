@@ -24,6 +24,10 @@
 void nRF24_GPIO_Init(void) {
 	GPIO_InitTypeDef PORT;
 
+	GPIO_ResetBits(nRF24_CE_PORT, nRF24_CE_PIN);
+	GPIO_ResetBits(nRF24_CSN_PORT, nRF24_CSN_PIN);
+	GPIO_SetBits(GPIOC, GPIO_Pin_13);
+
 	// Configure nRF24 IRQ pin
 	PORT.GPIO_Pin = nRF24_IRQ_PIN;
 	PORT.GPIO_Mode = GPIO_Mode_IPU;
@@ -35,14 +39,12 @@ void nRF24_GPIO_Init(void) {
 	PORT.GPIO_Mode = GPIO_Mode_Out_PP;
 	PORT.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(nRF24_CSN_PORT, &PORT);
-	nRF24_CSN_H();
 
 	// Configure CE pin
 	PORT.GPIO_Pin = nRF24_CE_PIN;
 	PORT.GPIO_Mode = GPIO_Mode_Out_PP;
 	PORT.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(nRF24_CE_PORT, &PORT);
-	nRF24_CE_L();
 
 	/*Configure GPIO pin : LED */
 	PORT.GPIO_Pin = GPIO_Pin_13;

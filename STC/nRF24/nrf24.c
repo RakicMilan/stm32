@@ -3,8 +3,27 @@
 #include "nrf24.h"
 #include "defines.h"
 #include "debugUsart.h"
+#include "systemTicks.h"
 
 uint8_t NRF24PayloadSize;
+
+void NRF24ChipEnable(BitAction bitVal) {
+	GPIO_WriteBit(nRF24_CE_PORT, nRF24_CE_PIN, bitVal);
+}
+/* ------------------------------------------------------------------------- */
+void NRF24ChipSelect(BitAction bitVal) {
+	GPIO_WriteBit(nRF24_CSN_PORT, nRF24_CSN_PIN, bitVal);
+}
+
+/* init the hardware pins */
+nrf24_error_t nRF24_Init(void) {
+	NRF24ChipEnable(HIGH);
+	_DelayMS(500);
+	NRF24ChipEnable(LOW);
+	NRF24ChipSelect(HIGH);
+
+	return NRF_SUCCESS;
+}
 
 /* configure the module */
 void nRF24_Config(nrf24_t* ctxNRF24) {
@@ -74,9 +93,9 @@ uint8_t nRF24_Check(void) {
 
 /* Set the RX address */
 void NRF24SetRxAddress(nrf24_t* ctxNRF24) {
-	nRF24_CE_L();
+	NRF24ChipEnable(LOW);
 	NRF24WriteRegister(RX_ADDR_P1, ctxNRF24->RXAddress, NRF24_ADDR_LEN);
-	nRF24_CE_H();
+	NRF24ChipEnable(HIGH);
 }
 
 /* Returns the payload length */
@@ -118,17 +137,17 @@ uint8_t NRF24RxFifoEmpty(void) {
 /* Returns the length of data waiting in the RX fifo */
 uint8_t NRF24RxPayloadLength(void) {
 	uint8_t status;
-	nRF24_CSN_L();
+	NRF24ChipSelect(LOW);
 	spi_transfer(R_RX_PL_WID);
 	status = spi_transfer(0x00);
-	nRF24_CSN_H();
+	NRF24ChipSelect(HIGH);
 	return status;
 }
 
 /* Reads payload bytes into data array */
 void NRF24GetData(nrf24_t* ctxNRF24) {
 	/* Pull down chip select */
-	nRF24_CSN_L();
+	NRF24ChipSelect(LOW);
 
 	/* Send cmd to read rx payload */
 	spi_transfer(R_RX_PAYLOAD);
@@ -137,7 +156,7 @@ void NRF24GetData(nrf24_t* ctxNRF24) {
 	NRF24ReceiveBuffer(ctxNRF24->RXData, ctxNRF24->PayloadSize);
 
 	/* Pull up chip select */
-	nRF24_CSN_H();
+	NRF24ChipSelect(HIGH);
 
 	/* Reset status register */
 	NRF24ConfigRegister(STATUS, (1 << RX_DR));
@@ -155,7 +174,7 @@ uint8_t NRF24RetransmissionCount(void) {
 // amount of bytes as configured as payload on the receiver.
 void NRF24Send(nrf24_t* ctxNRF24) {
 	/* Go to Standby-I first */
-	nRF24_CE_L();
+	NRF24ChipEnable(LOW);
 
 	/* Set to transmitter mode , Power up if needed */
 	NRF24PowerUpTx();
@@ -163,17 +182,17 @@ void NRF24Send(nrf24_t* ctxNRF24) {
 	/* Do we really need to flush TX fifo each time ? */
 #if 1
 	/* Pull down chip select */
-	nRF24_CSN_L();
+	NRF24ChipSelect(LOW);
 
 	/* Write cmd to flush transmit FIFO */
 	spi_transfer(FLUSH_TX);
 
 	/* Pull up chip select */
-	nRF24_CSN_H();
+	NRF24ChipSelect(HIGH);
 #endif
 
 	/* Pull down chip select */
-	nRF24_CSN_L();
+	NRF24ChipSelect(LOW);
 
 	/* Write cmd to write payload */
 	spi_transfer(W_TX_PAYLOAD);
@@ -182,10 +201,10 @@ void NRF24Send(nrf24_t* ctxNRF24) {
 	NRF24TransmitBuffer(ctxNRF24->TXData, ctxNRF24->PayloadSize);
 
 	/* Pull up chip select */
-	nRF24_CSN_H();
+	NRF24ChipSelect(HIGH);
 
 	/* Start the transmission */
-	nRF24_CE_H();
+	NRF24ChipEnable(HIGH);
 }
 
 uint8_t NRF24IsSending(void) {
@@ -204,9 +223,9 @@ uint8_t NRF24IsSending(void) {
 
 uint8_t NRF24GetStatus(void) {
 	uint8_t rv;
-	nRF24_CSN_L();
+	NRF24ChipSelect(LOW);
 	rv = spi_transfer(NOP);
-	nRF24_CSN_H();
+	NRF24ChipSelect(HIGH);
 	return rv;
 }
 
@@ -231,15 +250,15 @@ uint8_t NRF24LastMessageStatus(void) {
 }
 
 void NRF24PowerUpRx(void) {
-	nRF24_CSN_L();
+	NRF24ChipSelect(LOW);
 	spi_transfer(FLUSH_RX);
-	nRF24_CSN_H();
+	NRF24ChipSelect(HIGH);
 
 	NRF24ConfigRegister(STATUS, (1 << RX_DR) | (1 << TX_DS) | (1 << MAX_RT));
 
-	nRF24_CE_L();
+	NRF24ChipEnable(LOW);
 	NRF24ConfigRegister(CONFIG, NRF24_CONFIG | ((1 << PWR_UP) | (1 << PRIM_RX)));
-	nRF24_CE_H();
+	NRF24ChipEnable(HIGH);
 }
 
 void NRF24PowerUpTx(void) {
@@ -248,7 +267,7 @@ void NRF24PowerUpTx(void) {
 }
 
 void NRF24PowerDown(void) {
-	nRF24_CE_L();
+	NRF24ChipEnable(LOW);
 	NRF24ConfigRegister(CONFIG, NRF24_CONFIG);
 }
 
@@ -272,26 +291,26 @@ void NRF24TransmitBuffer(uint8_t* Data, uint8_t Len) {
 
 /* Clocks only one byte into the given NRF24 register */
 void NRF24ConfigRegister(uint8_t Address, uint8_t Value) {
-	nRF24_CSN_L();
+	NRF24ChipSelect(LOW);
 	spi_transfer(W_REGISTER | (REGISTER_MASK & Address));
 	spi_transfer(Value);
-	nRF24_CSN_H();
+	NRF24ChipSelect(HIGH);
 }
 
 /* Read single register from NRF24 */
 void NRF24ReadRegister(uint8_t Address, uint8_t* Data, uint8_t Len) {
-	nRF24_CSN_L();
+	NRF24ChipSelect(LOW);
 	spi_transfer(R_REGISTER | (REGISTER_MASK & Address));
 	NRF24ReceiveBuffer(Data, Len);
-	nRF24_CSN_H();
+	NRF24ChipSelect(HIGH);
 }
 
 /* Write to a single register of nrf24 */
 void NRF24WriteRegister(uint8_t Address, uint8_t* Data, uint8_t Len) {
-	nRF24_CSN_L();
+	NRF24ChipSelect(LOW);
 	spi_transfer(W_REGISTER | (REGISTER_MASK & Address));
 	NRF24TransmitBuffer(Data, Len);
-	nRF24_CSN_H();
+	NRF24ChipSelect(HIGH);
 }
 
 // Print nRF24L01+ current configuration (for debug purposes)
