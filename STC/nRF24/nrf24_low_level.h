@@ -24,7 +24,6 @@
 #include <stm32f10x_spi.h>
 
 #define USE_SPI1
-//#define USE_SPI2
 
 #ifdef USE_SPI1
 #define nRF24_SPI_PORT             SPI1
