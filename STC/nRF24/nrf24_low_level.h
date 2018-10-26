@@ -28,12 +28,10 @@
 
 #ifdef USE_SPI1
 #define nRF24_SPI_PORT             SPI1
-#define nRF24_GPIO_PERIPHERALS     (RCC_APB2ENR_IOPAEN)
 #define nRF24_CSN_PORT             GPIOA
 #define nRF24_CSN_PIN              GPIO_Pin_4
 #else
 #define nRF24_SPI_PORT             SPI2
-#define nRF24_GPIO_PERIPHERALS     (RCC_APB2ENR_IOPBEN)
 #define nRF24_CSN_PORT             GPIOB
 #define nRF24_CSN_PIN              GPIO_Pin_12
 #endif

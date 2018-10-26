@@ -24,9 +24,6 @@
 void nRF24_GPIO_Init(void) {
 	GPIO_InitTypeDef PORT;
 
-	// Enable the nRF24L01 GPIO peripherals
-	RCC->APB2ENR |= nRF24_GPIO_PERIPHERALS;
-
 	// Configure nRF24 IRQ pin
 	PORT.GPIO_Pin = nRF24_IRQ_PIN;
 	PORT.GPIO_Mode = GPIO_Mode_IPU;
@@ -34,19 +31,23 @@ void nRF24_GPIO_Init(void) {
 	GPIO_Init(nRF24_IRQ_PORT, &PORT);
 
 	// Configure CSN pin
+	PORT.GPIO_Pin = nRF24_CSN_PIN;
 	PORT.GPIO_Mode = GPIO_Mode_Out_PP;
 	PORT.GPIO_Speed = GPIO_Speed_50MHz;
-	PORT.GPIO_Pin = nRF24_CSN_PIN;
 	GPIO_Init(nRF24_CSN_PORT, &PORT);
 	nRF24_CSN_H();
 
 	// Configure CE pin
 	PORT.GPIO_Pin = nRF24_CE_PIN;
+	PORT.GPIO_Mode = GPIO_Mode_Out_PP;
+	PORT.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(nRF24_CE_PORT, &PORT);
 	nRF24_CE_L();
 
 	/*Configure GPIO pin : LED */
 	PORT.GPIO_Pin = GPIO_Pin_13;
+	PORT.GPIO_Mode = GPIO_Mode_Out_PP;
+	PORT.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOC, &PORT);
 }
 
@@ -59,27 +60,23 @@ void Init_SPI1_Master(void) {
 	GPIO_InitTypeDef PORT;
 	SPI_InitTypeDef SPI;
 
-	// initialize init structs
-	GPIO_StructInit(&PORT);
-	SPI_StructInit(&SPI);
-
 	// initialize clocks
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
 
 	// Configure SPI pins (SPI1)
-	PORT.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7;
+	PORT.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
 	PORT.GPIO_Mode = GPIO_Mode_AF_PP;
 	PORT.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &PORT);
 
-	// initialize A6/MISO input pull-up (50MHz)
-	PORT.GPIO_Pin = GPIO_Pin_6;
-	PORT.GPIO_Mode = GPIO_Mode_IPU;
-	PORT.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOA, &PORT);
+//	// initialize A6/MISO input pull-up (50MHz)
+//	PORT.GPIO_Pin = GPIO_Pin_6;
+//	PORT.GPIO_Mode = GPIO_Mode_IPU;
+//	PORT.GPIO_Speed = GPIO_Speed_50MHz;
+//	GPIO_Init(GPIOA, &PORT);
 
-	// initialize SPI master
-	// for slave, no need to define SPI_BaudRatePrescaler
+// initialize SPI master
+// for slave, no need to define SPI_BaudRatePrescaler
 	SPI.SPI_Mode = SPI_Mode_Master;
 	SPI.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_32;
 	SPI.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
@@ -103,24 +100,20 @@ void Init_SPI2_Master(void) {
 	GPIO_InitTypeDef PORT;
 	SPI_InitTypeDef SPI;
 
-	// initialize init structs
-	GPIO_StructInit(&PORT);
-	SPI_StructInit(&SPI);
-
 	// Enable SPI2 peripheral
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE);
 
 	// Configure SPI pins (SPI2)
-	PORT.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_15;
+	PORT.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;
 	PORT.GPIO_Mode = GPIO_Mode_AF_PP;
 	PORT.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB, &PORT);
 
-	// initialize B14/MISO input pull-up (50 MHz)
-	PORT.GPIO_Pin = GPIO_Pin_14;
-	PORT.GPIO_Mode = GPIO_Mode_IPU;
-	PORT.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOB, &PORT);
+//	// initialize B14/MISO input pull-up (50 MHz)
+//	PORT.GPIO_Pin = GPIO_Pin_14;
+//	PORT.GPIO_Mode = GPIO_Mode_IPU;
+//	PORT.GPIO_Speed = GPIO_Speed_50MHz;
+//	GPIO_Init(GPIOB, &PORT);
 
 	// Initialize SPI2
 	SPI.SPI_Mode = SPI_Mode_Master;
