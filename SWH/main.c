@@ -24,6 +24,8 @@
 #include "ssd1306.h"
 #include "ssd1306_tests.h"
 #include "ds1307.h"
+#include "eeprom.h"
+#include "ssd1306_i2c.h"
 
 void DefineTasks(void) {
 	InitTasks();
@@ -59,8 +61,17 @@ void Init(void) {
 	nRF24_Initialize();
 
 //	ds1307_init();
-	ssd1306_Init();
+//	ssd1306_Init();
+
+	ssd1306_i2c_init();
 	_DelayMS(1000);
+
+	uint16_t tmpIndex;
+	for (tmpIndex = 0; tmpIndex < MAX_NUMBER_OF_PAYLOAD_BYTES; tmpIndex++) {
+		m_EEPROM_Array.Payload.Byte[tmpIndex] = tmpIndex;
+		debug.printf("D[%d]=%d ", tmpIndex, m_EEPROM_Array.Payload.Byte[tmpIndex]);
+	}
+	EEPROMPut();
 }
 
 int main(void) {
