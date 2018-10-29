@@ -68,6 +68,14 @@ void Init(void) {
 	EnableTimerInterrupt();
 }
 
+void EnterToSleepMode(void) {
+	/* Request Wait For Interrupt */
+	__WFI();
+
+	/* Set Sleep on exit bit of Cortex System Control Register */
+	SCB->SCR |= SCB_SCR_SLEEPONEXIT;
+}
+
 int main(void) {
 
 	InitPeriphClock();
@@ -80,10 +88,10 @@ int main(void) {
 
 	Init();
 
-	/* Request Wait For Interrupt */
-	__WFI();
+	EnterToSleepMode();
 
 	while (1) {
+		debug.printf("main loop");
 	}
 }
 
