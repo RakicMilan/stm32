@@ -69,11 +69,14 @@ void Init(void) {
 }
 
 void EnterToSleepMode(void) {
-	/* Request Wait For Interrupt */
-	__WFI();
+	// Clear Wake-up flag
+	PWR->CR |= PWR_CR_CWUF;
 
-	/* Set Sleep on exit bit of Cortex System Control Register */
+	// Set Sleep on exit bit of Cortex System Control Register
 	SCB->SCR |= SCB_SCR_SLEEPONEXIT;
+
+	// Request Wait For Interrupt
+	__WFI();
 }
 
 int main(void) {
@@ -99,7 +102,6 @@ void TIM4_IRQHandler() {
 	if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET) {
 		TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
 
-//		ToggleLedInd();
 		MeasureTemperatures();
 		nRF24_Transmit();
 	}
