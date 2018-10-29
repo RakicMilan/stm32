@@ -27,23 +27,29 @@
 
 #ifdef USE_SPI1
 #define nRF24_SPI_PORT             SPI1
+
 // CSN (chip select negative)
 #define nRF24_CSN_PORT             GPIOA
 #define nRF24_CSN_PIN              GPIO_Pin_4
-#else
-#define nRF24_SPI_PORT             SPI2
-// CSN (chip select negative)
-#define nRF24_CSN_PORT             GPIOB
-#define nRF24_CSN_PIN              GPIO_Pin_12
-#endif
-
-// CE (chip enable)
-#define nRF24_CE_PORT              GPIOB
-#define nRF24_CE_PIN               GPIO_Pin_1
-
 // IRQ pin
 #define nRF24_IRQ_PORT             GPIOB
 #define nRF24_IRQ_PIN              GPIO_Pin_0
+// CE (chip enable)
+#define nRF24_CE_PORT              GPIOB
+#define nRF24_CE_PIN               GPIO_Pin_1
+#else
+#define nRF24_SPI_PORT             SPI2
+
+// CSN (chip select negative)
+#define nRF24_CSN_PORT             GPIOB
+#define nRF24_CSN_PIN              GPIO_Pin_12
+// IRQ pin
+#define nRF24_IRQ_PORT             GPIOA
+#define nRF24_IRQ_PIN              GPIO_Pin_8
+// CE (chip enable)
+#define nRF24_CE_PORT              GPIOA
+#define nRF24_CE_PIN               GPIO_Pin_9
+#endif
 
 //function prototypes
 void nRF24_GPIO_Init(void);

@@ -13,37 +13,49 @@
 
 #include <stm32f10x_gpio.h>
 #include <stm32f10x_rcc.h>
+#include <stm32f10x_pwr.h>
+#include <stm32f10x_tim.h>
 
 #include "systemTicks.h"
 #include "debugUsart.h"
 #include "ds1820.h"
-#include "task.h"
 #include "debugMsg.h"
 #include "nrf24_mid_level.h"
-
-void DefineTasks(void) {
-	InitTasks();
-
-	AddTaskSignal(&CheckConsoleRx, &m_DebugMsgReceived, true);
-
-	AddTaskTime(&MeasureTemperatures, TIME(0.5), true);
-
-	AddTaskTime(&PrintTasks, TIME(1), false);
-	AddTaskTime(&TaskManager, TIME(1), false);
-
-	AddTaskTime(&nRF24_Transmit, TIME(1), true);
-}
 
 void InitPeriphClock(void) {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+
+	/* Enable PWR clock */
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
+}
+
+void InitializeTimer(void) {
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
+
+	TIM_TimeBaseInitTypeDef timerInitStructure;
+	timerInitStructure.TIM_Prescaler = 36000;
+	timerInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
+	timerInitStructure.TIM_Period = 5000;
+	timerInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+	timerInitStructure.TIM_RepetitionCounter = 0;
+	TIM_TimeBaseInit(TIM4, &timerInitStructure);
+	TIM_ITConfig(TIM4, TIM_IT_Update, ENABLE);
+	TIM_Cmd(TIM4, ENABLE);
+}
+
+void EnableTimerInterrupt() {
+	NVIC_InitTypeDef nvicStructure;
+	nvicStructure.NVIC_IRQChannel = TIM4_IRQn;
+	nvicStructure.NVIC_IRQChannelPreemptionPriority = 0;
+	nvicStructure.NVIC_IRQChannelSubPriority = 1;
+	nvicStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&nvicStructure);
 }
 
 void Init(void) {
-	DefineTasks();
-
 	InitSystemTicks();
 	InitDebugUsart(115200);
 	ShowBoardInfo();
@@ -51,6 +63,9 @@ void Init(void) {
 	DS1820_Init();
 
 	nRF24_Initialize();
+
+	InitializeTimer();
+	EnableTimerInterrupt();
 }
 
 int main(void) {
@@ -65,6 +80,20 @@ int main(void) {
 
 	Init();
 
-	TasksScheduler();
+	/* Request Wait For Interrupt */
+	__WFI();
+
+	while (1) {
+	}
+}
+
+void TIM4_IRQHandler() {
+	if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET) {
+		TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
+
+//		ToggleLedInd();
+		MeasureTemperatures();
+		nRF24_Transmit();
+	}
 }
 
