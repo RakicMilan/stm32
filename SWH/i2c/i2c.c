@@ -7,10 +7,72 @@
  */
 
 /** Includes ---------------------------------------------------------------- */
-#include "stm32f10x.h"
+#include "stm32f10x_gpio.h"
+#include "stm32f10x_rcc.h"
 #include "stm32f10x_i2c.h"
+#include "i2c.h"
 
 /** Public functions ------------------------------------------------------- */
+/**
+ ******************************************************************************
+ *	@brief	Initialize I2C1 in master mode
+ * @param	None
+ * @retval	None
+ ******************************************************************************
+ */
+void init_i2c1_master(void) {
+	// Initialization struct
+	GPIO_InitTypeDef GPIO_InitStruct;
+	I2C_InitTypeDef I2C_InitStruct;
+
+	// Initialize GPIO as open drain alternate function
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
+	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_OD;
+	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+	/* I2C1 clock enable */
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
+	I2C_InitStruct.I2C_Mode = I2C_Mode_I2C;
+	I2C_InitStruct.I2C_DutyCycle = I2C_DutyCycle_2;
+	I2C_InitStruct.I2C_OwnAddress1 = 0x00;
+	I2C_InitStruct.I2C_Ack = I2C_Ack_Enable;
+	I2C_InitStruct.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+	I2C_InitStruct.I2C_ClockSpeed = 100000 * 4;
+	I2C_Init(I2C1, &I2C_InitStruct);
+	I2C_Cmd(I2C1, ENABLE);
+}
+
+/**
+ ******************************************************************************
+ *	@brief	Initialize I2C2 in master mode
+ * @param	None
+ * @retval	None
+ ******************************************************************************
+ */
+void init_i2c2_master(void) {
+	// Initialization struct
+	I2C_InitTypeDef I2C_InitStruct;
+	GPIO_InitTypeDef GPIO_InitStruct;
+
+	// Initialize GPIO as open drain alternate function
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
+	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_OD;
+	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+	// Initialize I2C
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);
+	I2C_InitStruct.I2C_Mode = I2C_Mode_I2C;
+	I2C_InitStruct.I2C_DutyCycle = I2C_DutyCycle_2;
+	I2C_InitStruct.I2C_OwnAddress1 = 0x00;
+	I2C_InitStruct.I2C_Ack = I2C_Ack_Disable;
+	I2C_InitStruct.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+	I2C_InitStruct.I2C_ClockSpeed = 100000;
+	I2C_Init(I2C2, &I2C_InitStruct);
+	I2C_Cmd(I2C2, ENABLE);
+}
+
 /**
  ******************************************************************************
  *	@brief	Generate I2C start condition

@@ -30,9 +30,6 @@ static SSD1306_t SSD1306;
  ******************************************************************************
  */
 void ssd1306_Init() {
-	// Initialize I2C
-	ssd1306_i2c_init();
-
 	// Reset OLED
 	ssd1306_Reset();
 

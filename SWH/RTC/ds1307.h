@@ -52,7 +52,6 @@ extern "C" {
 #define DS1307_SATURDAY				7
 
 /** Public function prototypes ---------------------------------------------- */
-void ds1307_init(void);
 uint8_t ds1307_get_seconds(void);
 void ds1307_set_seconds(uint8_t seconds);
 uint8_t ds1307_get_minutes(void);

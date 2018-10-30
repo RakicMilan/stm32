@@ -17,18 +17,6 @@ uint8_t check_min_max(uint8_t val, uint8_t min, uint8_t max);
 /** Public functions -------------------------------------------------------- */
 /**
  ******************************************************************************
- *	@brief	Initialize I2C in master mode then connect to DS1307 chip
- * @param	None
- * @retval	None
- ******************************************************************************
- */
-void ds1307_init() {
-	// Initialize I2C
-	ds1307_i2c_init();
-}
-
-/**
- ******************************************************************************
  *	@brief	Get current seconds value from the register
  * @param	None
  * @retval	Current seconds value in decimal format

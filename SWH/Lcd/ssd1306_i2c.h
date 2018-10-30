@@ -13,22 +13,13 @@
 extern "C" {
 #endif
 
-/** Includes ---------------------------------------------------------------- */
-#include "stm32f10x_rcc.h"
-
 /** Defines ----------------------------------------------------------------- */
-#define SSD1306_I2Cx_RCC		RCC_APB1Periph_I2C1
 #define SSD1306_I2Cx			I2C1
-#define SSD1306_I2C_GPIO		GPIOB
-#define SSD1306_I2C_PIN_SCL		GPIO_Pin_6
-#define SSD1306_I2C_PIN_SDA		GPIO_Pin_7
-
 #ifndef SSD1306_I2C_ADDR
 #define SSD1306_I2C_ADDR        (0x3C << 1)
 #endif
 
 /** Public function prototypes ---------------------------------------------- */
-void ssd1306_i2c_init(void);
 void ssd1306_Reset(void);
 void ssd1306_WriteCommand(uint8_t byte);
 void ssd1306_WriteData(uint8_t* buffer, uint16_t buff_size);

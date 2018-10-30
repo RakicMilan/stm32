@@ -21,11 +21,12 @@
 #include "task.h"
 #include "debugMsg.h"
 #include "nrf24_mid_level.h"
+#include "i2c.h"
+#include "sw_i2c.h"
 #include "ssd1306.h"
 #include "ssd1306_tests.h"
 #include "ds1307.h"
 #include "eeprom.h"
-#include "ssd1306_i2c.h"
 
 void DefineTasks(void) {
 	InitTasks();
@@ -60,18 +61,17 @@ void Init(void) {
 
 	nRF24_Initialize();
 
-//	ds1307_init();
+	init_i2c2_master();
+	init_sw_i2c();
+//	uint16_t tmpIndex;
+//	for (tmpIndex = 0; tmpIndex < MAX_NUMBER_OF_PAYLOAD_BYTES; tmpIndex++) {
+//		m_EEPROM_Array.Payload.Byte[tmpIndex] = tmpIndex;
+//	}
+//	EEPROMPut();
+	EEPROMGet();
+
 //	ssd1306_Init();
-
-	ssd1306_i2c_init();
-	_DelayMS(1000);
-
-	uint16_t tmpIndex;
-	for (tmpIndex = 0; tmpIndex < MAX_NUMBER_OF_PAYLOAD_BYTES; tmpIndex++) {
-		m_EEPROM_Array.Payload.Byte[tmpIndex] = tmpIndex;
-		debug.printf("D[%d]=%d ", tmpIndex, m_EEPROM_Array.Payload.Byte[tmpIndex]);
-	}
-	EEPROMPut();
+//	_DelayMS(500);
 }
 
 int main(void) {

@@ -16,9 +16,6 @@
 
 #include "stm32f10x.h"
 
-// The 24c04 can be treated as two 256 byte eeproms on addresses 50 and 51
-#define  EEPROM_ADDRESS             0x50
-
 #define MAX_NUMBER_OF_PAYLOAD_BYTES		(const int)(12)
 
 typedef union {
@@ -42,9 +39,8 @@ typedef struct {
 
 extern EEPROM_Array_t m_EEPROM_Array;
 
-extern unsigned char EEPROMGet(void);
-extern void EEPROMPut(void);
-extern void DebugPrintData(void);
+uint8_t EEPROMGet(void);
+uint8_t EEPROMPut(void);
 
 #endif	/* EEPROM_H */
 

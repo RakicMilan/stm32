@@ -16,36 +16,6 @@
 /** Public functions -------------------------------------------------------- */
 /**
  ******************************************************************************
- *	@brief	Initialize I2C in master mode
- * @param	None
- * @retval	None
- ******************************************************************************
- */
-void ds1307_i2c_init() {
-	// Initialization struct
-	I2C_InitTypeDef I2C_InitStruct;
-	GPIO_InitTypeDef GPIO_InitStruct;
-
-	// Initialize GPIO as open drain alternate function
-	GPIO_InitStruct.GPIO_Pin = DS1307_I2C_PIN_SCL | DS1307_I2C_PIN_SDA;
-	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_OD;
-	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(DS1307_I2C_GPIO, &GPIO_InitStruct);
-
-	// Initialize I2C
-	RCC_APB1PeriphClockCmd(DS1307_I2Cx_RCC, ENABLE);
-	I2C_InitStruct.I2C_ClockSpeed = 100000;
-	I2C_InitStruct.I2C_Mode = I2C_Mode_I2C;
-	I2C_InitStruct.I2C_DutyCycle = I2C_DutyCycle_2;
-	I2C_InitStruct.I2C_OwnAddress1 = 0x00;
-	I2C_InitStruct.I2C_Ack = I2C_Ack_Disable;
-	I2C_InitStruct.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
-	I2C_Init(DS1307_I2Cx, &I2C_InitStruct);
-	I2C_Cmd(DS1307_I2Cx, ENABLE);
-}
-
-/**
- ******************************************************************************
  *	@brief	Write byte to slave without specify register address
  * @param   I2Cx: where x can be 1 or 2 to select the I2C peripheral.
  * @param	Slave device address (7-bit right aligned)

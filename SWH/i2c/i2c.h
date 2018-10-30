@@ -17,6 +17,9 @@ extern "C" {
 #include "stm32f10x.h"
 
 /** Public function prototypes ---------------------------------------------- */
+void init_i2c1_master(void);
+void init_i2c2_master(void);
+
 void i2c_start(I2C_TypeDef* I2Cx);
 void i2c_stop(I2C_TypeDef* I2Cx);
 void i2c_address_direction(I2C_TypeDef* I2Cx, uint8_t address, uint8_t direction);

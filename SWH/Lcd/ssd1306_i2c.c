@@ -15,38 +15,6 @@
 #include "i2c.h"
 
 /** Public functions -------------------------------------------------------- */
-/**
- ******************************************************************************
- *	@brief	Initialize I2C in master mode
- * @param	None
- * @retval	None
- ******************************************************************************
- */
-void ssd1306_i2c_init() {
-	// Initialization struct
-	GPIO_InitTypeDef GPIO_InitStruct;
-	I2C_InitTypeDef I2C_InitStruct;
-
-	// Initialize GPIO as open drain alternate function
-	GPIO_InitStruct.GPIO_Pin = SSD1306_I2C_PIN_SCL | SSD1306_I2C_PIN_SDA;
-	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_OD;
-	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(SSD1306_I2C_GPIO, &GPIO_InitStruct);
-
-	/* I2C1 clock enable */
-	RCC_APB1PeriphClockCmd(SSD1306_I2Cx_RCC, ENABLE);
-	I2C_InitStruct.I2C_Mode = I2C_Mode_I2C;
-	I2C_InitStruct.I2C_DutyCycle = I2C_DutyCycle_2;
-	I2C_InitStruct.I2C_OwnAddress1 = 0x00;
-//	I2C_InitStruct.I2C_DutyCycle = I2C_DutyCycle_16_9;
-//	I2C_InitStruct.I2C_OwnAddress1 = 1;
-	I2C_InitStruct.I2C_Ack = I2C_Ack_Enable;
-	I2C_InitStruct.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
-	I2C_InitStruct.I2C_ClockSpeed = 100000 * 4;
-	I2C_Init(SSD1306_I2Cx, &I2C_InitStruct);
-	I2C_Cmd(SSD1306_I2Cx, ENABLE);
-}
-
 void ssd1306_Reset(void) {
 	/* for I2C - do nothing */
 }
