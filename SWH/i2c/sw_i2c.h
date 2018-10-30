@@ -63,7 +63,6 @@ void bstart(void);
 void bstop(void);
 unsigned char byte_out(unsigned char data);
 unsigned char byte_in(unsigned char ack);
-void ACK_Poll(unsigned char argControl);
 
 #ifdef __cplusplus
 }
