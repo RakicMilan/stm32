@@ -155,13 +155,13 @@ void GetTemperatureString(int16_t temperature, char *tempString) {
 		temperature *= -1;
 	} else {
 		if (temperature / 100)
-			tempString[0] = (uint16_t) temperature / 100 + 48;
+			tempString[0] = (uint16_t) temperature / 100 + '0';
 		else
 			tempString[0] = '+';
 	}
 
-	tempString[1] = ((uint16_t) temperature / 10) % 10 + 48; // Extract tens digit
-	tempString[2] = (uint16_t) temperature % 10 + 48; // Extract ones digit
+	tempString[1] = ((uint16_t) temperature / 10) % 10 + '0'; // Extract tens digit
+	tempString[2] = (uint16_t) temperature % 10 + '0'; // Extract ones digit
 }
 
 void DisplayTemperatures(void) {

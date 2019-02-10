@@ -210,7 +210,21 @@ void ssd1306_SetCursor(uint8_t x, uint8_t y) {
 	SSD1306.CurrentY = y;
 }
 
-// Print temperature on LCD
+// Print time on LCD
+void ssd1306_PrintDateAndTime(char *date, char *time) {
+	ssd1306_Fill(Black);
+
+	ssd1306_SetCursor(18, 0);
+	ssd1306_WriteString("DATUM I VREME", Font_7x10, White);
+	ssd1306_SetCursor(18, 16);
+	ssd1306_WriteString(date, Font_11x18, White);
+	ssd1306_SetCursor(18, 38);
+	ssd1306_WriteString(time, Font_11x18, White);
+
+	ssd1306_UpdateScreen();
+}
+
+// Print temperatures on LCD
 void ssd1306_PrintTemperatures(char *tBoiler, char *tWaterHeater, char *tCollector) {
 	ssd1306_Fill(Black);
 
