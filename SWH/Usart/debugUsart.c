@@ -5,6 +5,7 @@
 #include "defines.h"
 #include "usart.h"
 #include "debugUsart.h"
+#include "ds1307_mid_level.h"
 
 #define DEBUG_USART		USART2
 
@@ -95,6 +96,12 @@ void UART_SendBufHex(char *buf, uint16_t bufsize) {
 void PrintAvailableCommands(void) {
 	DebugChangeColorToGREEN();
 	debug.printf("\r\n? - Print available commands\r\n\r\n");
+
+	debug.printf("s - set time\r\n");
+	debug.printf("n - next step\r\n");
+	debug.printf("b - back step\r\n");
+	debug.printf(", - decrement time\r\n");
+	debug.printf(". - increment time\r\n\r\n");
 }
 
 /**
@@ -106,6 +113,22 @@ void CheckConsoleRx(void) {
 	//analog values print outs
 	case '?':
 		PrintAvailableCommands();
+		break;
+
+	case 's':
+		InitSetTime();
+		break;
+	case 'n':
+		SetTimeNextStep();
+		break;
+	case 'b':
+		SetTimePreviousStep();
+		break;
+	case ',':
+		DecreaseTime();
+		break;
+	case '.':
+		IncreaseTime();
 		break;
 	default:
 		debug.printf("[%03d]Wrong Key\r\n", DebugRxBuff.LastChar);

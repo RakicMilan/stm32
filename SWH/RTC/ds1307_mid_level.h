@@ -13,10 +13,35 @@
 extern "C" {
 #endif
 
-/** Includes ---------------------------------------------------------------- */
+typedef enum {
+	TIME_SET_NONE = 0,
+	TIME_SET_YEAR,
+	TIME_SET_MONTH,
+	TIME_SET_DATE,
+	TIME_SET_HOURS,
+	TIME_SET_MINUTES,
+	TIME_SET_SECONDS
+} SetTimeState_t;
 
-/** Public function prototypes ---------------------------------------------- */
+typedef struct {
+	SetTimeState_t currentState;
+	uint8_t year;
+	uint8_t month;
+	uint8_t date;
+	uint8_t hours_24;
+	uint8_t minutes;
+	uint8_t seconds;
+} SetTimeFsm_t;
+
+extern SetTimeFsm_t SetTime;
+
 void DisplayTime(void);
+
+void InitSetTime(void);
+void SetTimeNextStep(void);
+void SetTimePreviousStep(void);
+void IncreaseTime(void);
+void DecreaseTime(void);
 
 #ifdef __cplusplus
 }

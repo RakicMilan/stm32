@@ -86,13 +86,6 @@ void Init(void) {
 //	EEPROMPut();
 //	EEPROMGet();
 
-//	ds1307_set_date(10);
-//	ds1307_set_month(2);
-//	ds1307_set_year(19);
-//	ds1307_set_hours_24(17);
-//	ds1307_set_minutes(38);
-//	ds1307_set_seconds(00);
-
 	ssd1306_Init();
 	_DelayMS(500);
 }

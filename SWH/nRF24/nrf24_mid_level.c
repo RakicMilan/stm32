@@ -17,14 +17,11 @@
 #include "nrf24.h"
 #include "ds1820.h"
 #include "debugUsart.h"
+#include "ds1307_mid_level.h"
 
 /* Private variables ---------------------------------------------------------*/
-nrf24_t NRF24Ctx = {
-		.RXAddress = { 0xD7, 0xD7, 0xD7, 0xD7, 0xD7 },
-		.TXAddress = { 0xE7, 0xE7, 0xE7, 0xE7, 0xE7 },
-		.PayloadSize = 2,
-		.Channel = 2
-};
+nrf24_t NRF24Ctx = { .RXAddress = { 0xD7, 0xD7, 0xD7, 0xD7, 0xD7 }, .TXAddress =
+		{ 0xE7, 0xE7, 0xE7, 0xE7, 0xE7 }, .PayloadSize = 2, .Channel = 2 };
 
 u_twoBytes m_tCollector;
 
@@ -60,10 +57,13 @@ void nRF24_Receive(void) {
 		m_tCollector.b[0] = NRF24Ctx.RXData[0];
 		m_tCollector.b[1] = NRF24Ctx.RXData[1];
 
-		for (uint8_t i = 0; i < NRF24Ctx.PayloadSize; i++) {
-			debug.printf("%2X ", NRF24Ctx.RXData[i]);
+		if (SetTime.currentState == TIME_SET_NONE) {
+			for (uint8_t i = 0; i < NRF24Ctx.PayloadSize; i++) {
+				debug.printf("%2X ", NRF24Ctx.RXData[i]);
+			}
+			debug.printf("\r\n");
+			DebugMoveCursorUp(1);
 		}
-		debug.printf("\r\n");
 	}
 }
 
