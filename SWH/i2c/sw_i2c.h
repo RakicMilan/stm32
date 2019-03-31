@@ -16,10 +16,6 @@ extern "C" {
 #include "stm32f10x.h"
 #include "stm32f10x_gpio.h"
 
-// The 24c04 can be treated as two 256 byte eeproms on addresses 50 and 51
-#define EEPROM_ADDRESS		0xA0
-#define ACKBIT				0x00            // ACK bit
-#define NAKBIT				0x80            // NAK bit
 
 #define SCL					GPIO_Pin_6
 #define SDA					GPIO_Pin_7

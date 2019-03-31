@@ -16,17 +16,14 @@
 
 #include "systemTicks.h"
 #include "debugUsart.h"
-//#include "ds2432.h"
 #include "ds1820.h"
 #include "task.h"
 #include "debugMsg.h"
 #include "nrf24_mid_level.h"
 #include "i2c.h"
-//#include "sw_i2c.h"
+#include "eeprom.h"
 #include "ssd1306.h"
-//#include "ssd1306_tests.h"
 #include "ds1307.h"
-//#include "eeprom.h"
 #include "ds1307_mid_level.h"
 
 uint8_t m_displayCounter;
@@ -70,24 +67,16 @@ void Init(void) {
 	InitDebugUsart(115200);
 	ShowBoardInfo();
 
-//	DS2432_Init();
 	DS1820_Init();
 
 	nRF24_Initialize();
 
 	init_i2c1_master();
 	init_i2c2_master();
-//	init_sw_i2c();
 
-//	uint16_t tmpIndex;
-//	for (tmpIndex = 0; tmpIndex < MAX_NUMBER_OF_PAYLOAD_BYTES; tmpIndex++) {
-//		m_EEPROM_Array.Payload.Byte[tmpIndex] = tmpIndex;
-//	}
-//	EEPROMPut();
-//	EEPROMGet();
-
+	at24c_test();
 	ssd1306_Init();
-	_DelayMS(500);
+	_DelayMS(100);
 }
 
 int main(void) {

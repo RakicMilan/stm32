@@ -39,8 +39,9 @@ typedef struct {
 
 extern EEPROM_Array_t m_EEPROM_Array;
 
-uint8_t EEPROMGet(void);
-uint8_t EEPROMPut(void);
+uint8_t at24c_read(void);
+uint8_t at24c_write(void);
+void at24c_test(void);
 
 #endif	/* EEPROM_H */
 
