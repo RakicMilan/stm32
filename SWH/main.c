@@ -25,11 +25,12 @@
 #include "ssd1306.h"
 #include "ds1307.h"
 #include "ds1307_mid_level.h"
+#include "mainController.h"
 
 uint8_t m_displayCounter;
 
 void UpdateDisplay(void) {
-	if (m_displayCounter < 3) {
+	if (/*m_displayCounter < 3*/false) {
 		DisplayTime();
 	} else {
 		DisplayTemperatures();
@@ -51,6 +52,8 @@ void DefineTasks(void) {
 	AddTaskTime(&TaskManager, TIME(1), false);
 
 	AddTaskTime(&nRF24_Receive, TIME(0.001), true);
+
+	AddTaskTime(&WaterPumpController, TIME(1), true);
 }
 
 void InitPeriphClock(void) {

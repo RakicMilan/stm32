@@ -29,6 +29,8 @@ typedef enum {
 	T_BOILER
 } TempSensor_t;
 
+extern int16_t m_temperature[2];
+
 void DS1820_Init(void);
 int16_t OW_ReadTemperature(TempSensor_t tempSensor);
 uint8_t OW_ReadPower(TempSensor_t tempSensor);

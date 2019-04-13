@@ -7,6 +7,7 @@
  */
 
 /** Includes ---------------------------------------------------------------- */
+#include <math.h>
 #include "stm32f10x.h"
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_i2c.h"
@@ -14,6 +15,7 @@
 #include "ssd1306.h"
 #include "ssd1306_i2c.h"
 #include "systemTicks.h"
+#include "mainController.h"
 
 // Screenbuffer
 static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8];
@@ -224,14 +226,44 @@ void ssd1306_PrintDateAndTime(char *date, char *time) {
 	ssd1306_UpdateScreen();
 }
 
+void ssd1306_DrawCircle(int16_t x0, int16_t y0, int16_t radius) {
+	for (int16_t x = 0; x <= 2 * radius; x++) {
+		for (int16_t y = 0; y <= 2 * radius; y++) {
+			double distance = sqrt(
+					(double) (x - radius) * (x - radius)
+							+ (y - radius) * (y - radius));
+			if (distance > radius - 0.5 && distance < radius + 0.5) {
+				ssd1306_DrawPixel(x0 + x - radius, y0 + y - radius, White);
+			}
+		}
+	}
+}
+
+void ssd1306_FillCircle(int16_t x0, int16_t y0, int16_t radius) {
+	for (int16_t y = -radius; y <= radius; y++) {
+		for (int16_t x = -radius; x <= radius; x++) {
+			if (x * x + y * y <= radius * radius) {
+				ssd1306_DrawPixel(x0 + x, y0 + y, White);
+			}
+		}
+	}
+}
+
 // Print temperatures on LCD
-void ssd1306_PrintTemperatures(char *tBoiler, char *tWaterHeater, char *tCollector) {
+void ssd1306_PrintTemperatures(char *tBoiler, char *tWaterHeater,
+		char *tCollector) {
 	ssd1306_Fill(Black);
 
 	ssd1306_SetCursor(2, 0);
 	ssd1306_WriteString("KOTAO", Font_7x10, White);
 	ssd1306_SetCursor(2, 16);
 	ssd1306_WriteString(tBoiler, Font_11x18, White);
+
+	if (m_boilerPump) {
+		ssd1306_FillCircle(16, 48, 10);
+	} else {
+		ssd1306_DrawCircle(16, 48, 10);
+	}
 
 	ssd1306_SetCursor(44, 0);
 	ssd1306_WriteString("BOJLER", Font_7x10, White);
@@ -242,6 +274,12 @@ void ssd1306_PrintTemperatures(char *tBoiler, char *tWaterHeater, char *tCollect
 	ssd1306_WriteString("KOLEK", Font_7x10, White);
 	ssd1306_SetCursor(92, 16);
 	ssd1306_WriteString(tCollector, Font_11x18, White);
+
+	if (m_collectorPump) {
+		ssd1306_FillCircle(108, 48, 10);
+	} else {
+		ssd1306_DrawCircle(108, 48, 10);
+	}
 
 	ssd1306_UpdateScreen();
 }

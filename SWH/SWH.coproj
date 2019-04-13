@@ -91,100 +91,102 @@
   </Components>
   <Files>
     <File name="i2c/i2c.h" path="i2c/i2c.h" type="1"/>
-    <File name="stm_lib/inc/stm32f10x_tim.h" path="stm_lib/inc/stm32f10x_tim.h" type="1"/>
-    <File name="cmsis_boot" path="" type="2"/>
     <File name="i2c" path="" type="2"/>
     <File name="Usart" path="" type="2"/>
-    <File name="stm_lib/src/stm32f10x_tim.c" path="stm_lib/src/stm32f10x_tim.c" type="1"/>
     <File name="stm_lib/inc/stm32f10x_pwr.h" path="stm_lib/inc/stm32f10x_pwr.h" type="1"/>
-    <File name="cmsis_boot/startup" path="" type="2"/>
     <File name="cmsis/core_cmFunc.h" path="cmsis/core_cmFunc.h" type="1"/>
-    <File name="nRF24/nrf24_low_level.c" path="nRF24/nrf24_low_level.c" type="1"/>
     <File name="nRF24/nrf24.c" path="nRF24/nrf24.c" type="1"/>
     <File name="stm_lib/src/misc.c" path="stm_lib/src/misc.c" type="1"/>
-    <File name="stm_lib/src/stm32f10x_spi.c" path="stm_lib/src/stm32f10x_spi.c" type="1"/>
     <File name="cmsis_boot/stm32f10x.h" path="cmsis_boot/stm32f10x.h" type="1"/>
     <File name="nRF24" path="" type="2"/>
-    <File name="Usart/debugUsart.h" path="Usart/debugUsart.h" type="1"/>
     <File name="cmsis_boot/stm32f10x_conf.h" path="cmsis_boot/stm32f10x_conf.h" type="1"/>
     <File name="RTC/ds1307_i2c.c" path="RTC/ds1307_i2c.c" type="1"/>
     <File name="Lcd/ssd1306.h" path="Lcd/ssd1306.h" type="1"/>
-    <File name="syscalls/syscalls.c" path="syscalls/syscalls.c" type="1"/>
     <File name="i2c/i2c.c" path="i2c/i2c.c" type="1"/>
+    <File name="syscalls/syscalls.c" path="syscalls/syscalls.c" type="1"/>
     <File name="nRF24/nrf24_mid_level.h" path="nRF24/nrf24_mid_level.h" type="1"/>
     <File name="stm_lib/inc/stm32f10x_spi.h" path="stm_lib/inc/stm32f10x_spi.h" type="1"/>
-    <File name="Usart/debugUsart.c" path="Usart/debugUsart.c" type="1"/>
     <File name="stm_lib/src/stm32f10x_adc.c" path="stm_lib/src/stm32f10x_adc.c" type="1"/>
     <File name="stm_lib/inc/stm32f10x_dma.h" path="stm_lib/inc/stm32f10x_dma.h" type="1"/>
-    <File name="Lcd/ssd1306_i2c.h" path="Lcd/ssd1306_i2c.h" type="1"/>
     <File name="DS1820/ds1820.c" path="DS1820/ds1820.c" type="1"/>
-    <File name="EEPROM/at24c32.h" path="EEPROM/at24c32.h" type="1"/>
     <File name="EEPROM/eeprom.c" path="EEPROM/eeprom.c" type="1"/>
-    <File name="stm_lib/src/stm32f10x_usart.c" path="stm_lib/src/stm32f10x_usart.c" type="1"/>
-    <File name="task/task.h" path="task/task.h" type="1"/>
-    <File name="stm_lib/inc/stm32f10x_rtc.h" path="stm_lib/inc/stm32f10x_rtc.h" type="1"/>
-    <File name="nRF24/nrf24_low_level.h" path="nRF24/nrf24_low_level.h" type="1"/>
     <File name="stdio/printf.c" path="stdio/printf.c" type="1"/>
     <File name="stm_lib/src/stm32f10x_bkp.c" path="stm_lib/src/stm32f10x_bkp.c" type="1"/>
-    <File name="stm_lib/src/stm32f10x_pwr.c" path="stm_lib/src/stm32f10x_pwr.c" type="1"/>
+    <File name="mainController.h" path="mainController.h" type="1"/>
     <File name="cmsis_boot/startup/startup_stm32f10x_md.c" path="cmsis_boot/startup/startup_stm32f10x_md.c" type="1"/>
     <File name="stm_lib/src/stm32f10x_gpio.c" path="stm_lib/src/stm32f10x_gpio.c" type="1"/>
     <File name="stm_id" path="" type="2"/>
-    <File name="stm_lib/inc/stm32f10x_gpio.h" path="stm_lib/inc/stm32f10x_gpio.h" type="1"/>
     <File name="stm_lib/inc/stm32f10x_usart.h" path="stm_lib/inc/stm32f10x_usart.h" type="1"/>
-    <File name="Usart/usart.c" path="Usart/usart.c" type="1"/>
     <File name="cmsis_boot/system_stm32f10x.c" path="cmsis_boot/system_stm32f10x.c" type="1"/>
     <File name="stm_lib/inc/misc.h" path="stm_lib/inc/misc.h" type="1"/>
     <File name="stdio" path="" type="2"/>
     <File name="DS1820/ds1820.h" path="DS1820/ds1820.h" type="1"/>
-    <File name="Lcd/ssd1306_i2c.c" path="Lcd/ssd1306_i2c.c" type="1"/>
     <File name="cmsis/core_cmInstr.h" path="cmsis/core_cmInstr.h" type="1"/>
     <File name="task/task.c" path="task/task.c" type="1"/>
-    <File name="RTC/ds1307_mid_level.c" path="RTC/ds1307_mid_level.c" type="1"/>
-    <File name="cmsis/core_cm3.h" path="cmsis/core_cm3.h" type="1"/>
     <File name="nRF24/nrf24_mid_level.c" path="nRF24/nrf24_mid_level.c" type="1"/>
     <File name="RTC" path="" type="2"/>
-    <File name="stm_lib/src/stm32f10x_exti.c" path="stm_lib/src/stm32f10x_exti.c" type="1"/>
-    <File name="DebugMsg/debugMsg.h" path="DebugMsg/debugMsg.h" type="1"/>
     <File name="stm_lib/src/stm32f10x_rcc.c" path="stm_lib/src/stm32f10x_rcc.c" type="1"/>
     <File name="OneWire" path="" type="2"/>
     <File name="DebugMsg" path="" type="2"/>
-    <File name="systemTicks.c" path="systemTicks.c" type="1"/>
     <File name="RTC/ds1307.c" path="RTC/ds1307.c" type="1"/>
-    <File name="OneWire/oneWire.h" path="OneWire/oneWire.h" type="1"/>
-    <File name="task" path="" type="2"/>
     <File name="Lcd/ssd1306_fonts.c" path="Lcd/ssd1306_fonts.c" type="1"/>
     <File name="stm_lib/inc/stm32f10x_bkp.h" path="stm_lib/inc/stm32f10x_bkp.h" type="1"/>
-    <File name="EEPROM/eeprom.h" path="EEPROM/eeprom.h" type="1"/>
     <File name="stm_id/stm32f103_id.h" path="stm_id/stm32f103_id.h" type="1"/>
     <File name="Lcd" path="" type="2"/>
     <File name="stm_lib/src/stm32f10x_dma.c" path="stm_lib/src/stm32f10x_dma.c" type="1"/>
     <File name="stm_lib/src" path="" type="2"/>
-    <File name="EEPROM" path="" type="2"/>
     <File name="cmsis" path="" type="2"/>
     <File name="stm_lib" path="" type="2"/>
     <File name="stm_lib/inc/stm32f10x_exti.h" path="stm_lib/inc/stm32f10x_exti.h" type="1"/>
-    <File name="DebugMsg/debugMsg.c" path="DebugMsg/debugMsg.c" type="1"/>
     <File name="stm_lib/inc/stm32f10x_adc.h" path="stm_lib/inc/stm32f10x_adc.h" type="1"/>
     <File name="cmsis_boot/system_stm32f10x.h" path="cmsis_boot/system_stm32f10x.h" type="1"/>
-    <File name="systemTicks.h" path="systemTicks.h" type="1"/>
-    <File name="stm_lib/inc/stm32f10x_rcc.h" path="stm_lib/inc/stm32f10x_rcc.h" type="1"/>
     <File name="RTC/ds1307.h" path="RTC/ds1307.h" type="1"/>
-    <File name="stm_lib/inc/stm32f10x_i2c.h" path="stm_lib/inc/stm32f10x_i2c.h" type="1"/>
-    <File name="syscalls" path="" type="2"/>
     <File name="Usart/usart.h" path="Usart/usart.h" type="1"/>
     <File name="RTC/ds1307_i2c.h" path="RTC/ds1307_i2c.h" type="1"/>
-    <File name="RTC/ds1307_mid_level.h" path="RTC/ds1307_mid_level.h" type="1"/>
-    <File name="Lcd/ssd1306.c" path="Lcd/ssd1306.c" type="1"/>
     <File name="stm_lib/src/stm32f10x_i2c.c" path="stm_lib/src/stm32f10x_i2c.c" type="1"/>
     <File name="nRF24/nrf24.h" path="nRF24/nrf24.h" type="1"/>
-    <File name="OneWire/oneWire.c" path="OneWire/oneWire.c" type="1"/>
     <File name="EEPROM/at24c32.c" path="EEPROM/at24c32.c" type="1"/>
-    <File name="stm_lib/inc" path="" type="2"/>
     <File name="stm_lib/src/stm32f10x_rtc.c" path="stm_lib/src/stm32f10x_rtc.c" type="1"/>
     <File name="defines.h" path="defines.h" type="1"/>
     <File name="main.c" path="main.c" type="1"/>
     <File name="Lcd/ssd1306_fonts.h" path="Lcd/ssd1306_fonts.h" type="1"/>
     <File name="DS1820" path="" type="2"/>
+    <File name="stm_lib/inc/stm32f10x_tim.h" path="stm_lib/inc/stm32f10x_tim.h" type="1"/>
+    <File name="cmsis_boot" path="" type="2"/>
+    <File name="stm_lib/src/stm32f10x_tim.c" path="stm_lib/src/stm32f10x_tim.c" type="1"/>
+    <File name="cmsis_boot/startup" path="" type="2"/>
+    <File name="nRF24/nrf24_low_level.c" path="nRF24/nrf24_low_level.c" type="1"/>
+    <File name="stm_lib/src/stm32f10x_spi.c" path="stm_lib/src/stm32f10x_spi.c" type="1"/>
+    <File name="Usart/debugUsart.h" path="Usart/debugUsart.h" type="1"/>
+    <File name="Usart/debugUsart.c" path="Usart/debugUsart.c" type="1"/>
+    <File name="Lcd/ssd1306_i2c.h" path="Lcd/ssd1306_i2c.h" type="1"/>
+    <File name="EEPROM/at24c32.h" path="EEPROM/at24c32.h" type="1"/>
+    <File name="stm_lib/src/stm32f10x_usart.c" path="stm_lib/src/stm32f10x_usart.c" type="1"/>
+    <File name="task/task.h" path="task/task.h" type="1"/>
+    <File name="stm_lib/inc/stm32f10x_rtc.h" path="stm_lib/inc/stm32f10x_rtc.h" type="1"/>
+    <File name="nRF24/nrf24_low_level.h" path="nRF24/nrf24_low_level.h" type="1"/>
+    <File name="stm_lib/src/stm32f10x_pwr.c" path="stm_lib/src/stm32f10x_pwr.c" type="1"/>
+    <File name="stm_lib/inc/stm32f10x_gpio.h" path="stm_lib/inc/stm32f10x_gpio.h" type="1"/>
+    <File name="Usart/usart.c" path="Usart/usart.c" type="1"/>
+    <File name="Lcd/ssd1306_i2c.c" path="Lcd/ssd1306_i2c.c" type="1"/>
+    <File name="RTC/ds1307_mid_level.c" path="RTC/ds1307_mid_level.c" type="1"/>
+    <File name="cmsis/core_cm3.h" path="cmsis/core_cm3.h" type="1"/>
+    <File name="stm_lib/src/stm32f10x_exti.c" path="stm_lib/src/stm32f10x_exti.c" type="1"/>
+    <File name="DebugMsg/debugMsg.h" path="DebugMsg/debugMsg.h" type="1"/>
+    <File name="systemTicks.c" path="systemTicks.c" type="1"/>
+    <File name="OneWire/oneWire.h" path="OneWire/oneWire.h" type="1"/>
+    <File name="task" path="" type="2"/>
+    <File name="EEPROM/eeprom.h" path="EEPROM/eeprom.h" type="1"/>
+    <File name="EEPROM" path="" type="2"/>
+    <File name="DebugMsg/debugMsg.c" path="DebugMsg/debugMsg.c" type="1"/>
+    <File name="systemTicks.h" path="systemTicks.h" type="1"/>
+    <File name="stm_lib/inc/stm32f10x_rcc.h" path="stm_lib/inc/stm32f10x_rcc.h" type="1"/>
+    <File name="stm_lib/inc/stm32f10x_i2c.h" path="stm_lib/inc/stm32f10x_i2c.h" type="1"/>
+    <File name="syscalls" path="" type="2"/>
+    <File name="RTC/ds1307_mid_level.h" path="RTC/ds1307_mid_level.h" type="1"/>
+    <File name="Lcd/ssd1306.c" path="Lcd/ssd1306.c" type="1"/>
+    <File name="OneWire/oneWire.c" path="OneWire/oneWire.c" type="1"/>
+    <File name="stm_lib/inc" path="" type="2"/>
+    <File name="mainController.c" path="mainController.c" type="1"/>
   </Files>
 </Project>
