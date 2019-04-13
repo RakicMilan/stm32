@@ -77,6 +77,8 @@ void Init(void) {
 	init_i2c1_master();
 	init_i2c2_master();
 
+	InitWaterPump();
+
 	at24c_test();
 	ssd1306_Init();
 	_DelayMS(100);

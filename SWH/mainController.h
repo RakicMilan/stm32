@@ -17,6 +17,7 @@
 extern uint8_t m_boilerPump;
 extern uint8_t m_collectorPump;
 
+void InitWaterPump(void);
 void WaterPumpController(void);
 
 #endif	/* __MAINCONTROLLER_H */
