@@ -15,18 +15,25 @@
 #define	EEPROM_H
 
 #include "stm32f10x.h"
+#include "ds1307_mid_level.h"
 
-#define MAX_NUMBER_OF_PAYLOAD_BYTES		(const int)(12)
+#define MAX_NUMBER_OF_PAYLOAD_BYTES		(const int)(5 * 14 + 1)
+
+typedef struct {
+	TimeStruct_t time;
+	uint8_t boilerPump;
+	uint8_t collectorPump;
+
+	uint16_t tempBoiler;
+	uint16_t tempWaterHeater;
+	uint16_t tempCollector;
+
+	uint8_t index;
+} eepromData_t;
 
 typedef union {
-
 	struct {
-		uint16_t data1;
-		uint16_t data2;
-		uint16_t data3;
-		uint16_t data4;
-		uint16_t data5;
-		uint16_t data6;
+		eepromData_t data[5];
 	} Item;
 	unsigned char Byte[MAX_NUMBER_OF_PAYLOAD_BYTES];
 } Payload_t;

@@ -57,7 +57,7 @@ void nRF24_Receive(void) {
 		m_tCollector.b[0] = NRF24Ctx.RXData[0];
 		m_tCollector.b[1] = NRF24Ctx.RXData[1];
 
-		if (SetTime.currentState == TIME_SET_NONE) {
+		if (m_setTimeState == TIME_SET_NONE) {
 			for (uint8_t i = 0; i < NRF24Ctx.PayloadSize; i++) {
 				debug.printf("%2X ", NRF24Ctx.RXData[i]);
 			}

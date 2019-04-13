@@ -40,7 +40,7 @@ uint8_t at24c_read(void) {
 	tmpIndex = 0;
 	while (tmpIndex < MAX_NUMBER_OF_PAYLOAD_BYTES) {
 		at24c_readByte(tmpAddress, &m_EEPROM_Array.Payload.Byte[tmpIndex]); //read 1 byte
-		debug.printf("B[%02d]: %02X\r\n", tmpIndex,
+		debug.printf("%02d:%02X\r\n", tmpIndex,
 				m_EEPROM_Array.Payload.Byte[tmpIndex]);
 		tmpCRC ^= m_EEPROM_Array.Payload.Byte[tmpIndex];
 		tmpIndex++;
@@ -80,15 +80,21 @@ uint8_t at24c_write(void) {
 	}
 	debug.printf("Header:%02X\r\n", m_EEPROM_Array.Header);
 	tmpAddress++;
+
+//	at24c_writeAcrossPages(tmpAddress, m_EEPROM_Array.Payload.Byte,
+//			MAX_NUMBER_OF_PAYLOAD_BYTES);
+//	tmpAddress += MAX_NUMBER_OF_PAYLOAD_BYTES;
+
 	tmpIndex = 0x00;
 	while (tmpIndex < MAX_NUMBER_OF_PAYLOAD_BYTES) {
 		at24c_writeByte(tmpAddress, m_EEPROM_Array.Payload.Byte[tmpIndex]); //write 1 byte
-		debug.printf("B[%02d]: %02X\r\n", tmpIndex,
+		debug.printf("%02d:%02X\r\n", tmpIndex,
 				m_EEPROM_Array.Payload.Byte[tmpIndex]);
 		m_EEPROM_Array._CRC ^= m_EEPROM_Array.Payload.Byte[tmpIndex];
 		tmpIndex++;
 		tmpAddress++;
 	}
+
 	at24c_writeByte(tmpAddress, m_EEPROM_Array._CRC); //write CRC byte
 	debug.printf("CRC:   %d\r\n", m_EEPROM_Array._CRC);
 	return true;

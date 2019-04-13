@@ -13,7 +13,7 @@
 #include "ssd1306.h"
 #include "debugUsart.h"
 
-SetTimeFsm_t SetTime;
+TimeStruct_t SetTime;
 
 /** Public functions -------------------------------------------------------- */
 void DisplayTime(void) {
@@ -37,7 +37,7 @@ void PrintTime(void) {
 }
 
 void InitSetTime(void) {
-	SetTime.currentState = TIME_SET_YEAR;
+	m_setTimeState = TIME_SET_YEAR;
 	SetTime.year = ds1307_get_year();
 	SetTime.month = ds1307_get_month();
 	SetTime.date = ds1307_get_date();
@@ -49,21 +49,21 @@ void InitSetTime(void) {
 }
 
 void SetTimeNextStep(void) {
-	switch (SetTime.currentState) {
+	switch (m_setTimeState) {
 	case TIME_SET_YEAR:
-		SetTime.currentState = TIME_SET_MONTH;
+		m_setTimeState = TIME_SET_MONTH;
 		break;
 	case TIME_SET_MONTH:
-		SetTime.currentState = TIME_SET_DATE;
+		m_setTimeState = TIME_SET_DATE;
 		break;
 	case TIME_SET_DATE:
-		SetTime.currentState = TIME_SET_HOURS;
+		m_setTimeState = TIME_SET_HOURS;
 		break;
 	case TIME_SET_HOURS:
-		SetTime.currentState = TIME_SET_MINUTES;
+		m_setTimeState = TIME_SET_MINUTES;
 		break;
 	case TIME_SET_MINUTES:
-		SetTime.currentState = TIME_SET_SECONDS;
+		m_setTimeState = TIME_SET_SECONDS;
 		break;
 	case TIME_SET_SECONDS:
 		ds1307_set_year(SetTime.year);
@@ -72,7 +72,7 @@ void SetTimeNextStep(void) {
 		ds1307_set_hours_24(SetTime.hours_24);
 		ds1307_set_minutes(SetTime.minutes);
 		ds1307_set_seconds(SetTime.seconds);
-		SetTime.currentState = TIME_SET_NONE;
+		m_setTimeState = TIME_SET_NONE;
 
 		debug.printf("%d.%02d.%02d. %02d:%02d:%02d               \r\n",
 				SetTime.year + 2000, SetTime.month, SetTime.date,
@@ -85,21 +85,21 @@ void SetTimeNextStep(void) {
 }
 
 void SetTimePreviousStep(void) {
-	switch (SetTime.currentState) {
+	switch (m_setTimeState) {
 	case TIME_SET_MONTH:
-		SetTime.currentState = TIME_SET_YEAR;
+		m_setTimeState = TIME_SET_YEAR;
 		break;
 	case TIME_SET_DATE:
-		SetTime.currentState = TIME_SET_MONTH;
+		m_setTimeState = TIME_SET_MONTH;
 		break;
 	case TIME_SET_HOURS:
-		SetTime.currentState = TIME_SET_DATE;
+		m_setTimeState = TIME_SET_DATE;
 		break;
 	case TIME_SET_MINUTES:
-		SetTime.currentState = TIME_SET_HOURS;
+		m_setTimeState = TIME_SET_HOURS;
 		break;
 	case TIME_SET_SECONDS:
-		SetTime.currentState = TIME_SET_MINUTES;
+		m_setTimeState = TIME_SET_MINUTES;
 		break;
 	default:
 		break;
@@ -107,7 +107,7 @@ void SetTimePreviousStep(void) {
 }
 
 void IncreaseTime(void) {
-	switch (SetTime.currentState) {
+	switch (m_setTimeState) {
 	case TIME_SET_YEAR:
 		if (SetTime.year < 99)
 			SetTime.year++;
@@ -170,7 +170,7 @@ void IncreaseTime(void) {
 }
 
 void DecreaseTime(void) {
-	switch (SetTime.currentState) {
+	switch (m_setTimeState) {
 	case TIME_SET_YEAR:
 		if (SetTime.year > 0)
 			SetTime.year--;

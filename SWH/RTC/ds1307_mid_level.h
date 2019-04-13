@@ -24,16 +24,16 @@ typedef enum {
 } SetTimeState_t;
 
 typedef struct {
-	SetTimeState_t currentState;
 	uint8_t year;
 	uint8_t month;
 	uint8_t date;
 	uint8_t hours_24;
 	uint8_t minutes;
 	uint8_t seconds;
-} SetTimeFsm_t;
+} TimeStruct_t;
 
-extern SetTimeFsm_t SetTime;
+SetTimeState_t m_setTimeState;
+extern TimeStruct_t SetTime;
 
 void DisplayTime(void);
 
