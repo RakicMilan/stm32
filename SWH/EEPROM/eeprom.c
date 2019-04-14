@@ -27,14 +27,14 @@ uint8_t at24c_read(void) {
 
 	memset(m_EEPROM_Array.Payload.Byte, 0x00, MAX_NUMBER_OF_PAYLOAD_BYTES);
 
-	debug.printf("EEPROMGet: Reading Data...\r\n");
+//	debug.printf("EEPROMGet: Reading Data...\r\n");
 	if (!at24c_readByte(tmpAddress, &m_EEPROM_Array.Header)) { //read header byte
 		DebugChangeColorToRED();
 		debug.printf("EEPROMGet: Error I2C\r\n");
 		DebugChangeColorToGREEN();
 		return false;
 	}
-	debug.printf("Header:%02X\r\n", m_EEPROM_Array.Header);
+//	debug.printf("Header:%02X\r\n", m_EEPROM_Array.Header);
 	tmpCRC = m_EEPROM_Array.Header;
 	tmpAddress++;
 	tmpIndex = 0;
@@ -48,7 +48,7 @@ uint8_t at24c_read(void) {
 	}
 	//read crc
 	at24c_readByte(tmpAddress, &m_EEPROM_Array._CRC); //read 1 byte
-	debug.printf("CRC:   %d\r\n", m_EEPROM_Array._CRC);
+//	debug.printf("CRC:   %d\r\n", m_EEPROM_Array._CRC);
 
 	tmpCRC = tmpCRC ^ m_EEPROM_Array._CRC;
 
@@ -71,14 +71,14 @@ uint8_t at24c_write(void) {
 	m_EEPROM_Array.Header = 0x5A;
 	m_EEPROM_Array._CRC = 0x5A;
 
-	debug.printf("EEPROMPut: Writing Data..\r\n");
+//	debug.printf("EEPROMPut: Writing Data..\r\n");
 	if (!at24c_writeAcrossPages(tmpAddress, &m_EEPROM_Array.Header, 1, true)) { //write header byte
 		DebugChangeColorToRED();
 		debug.printf("EEPROMPut: Error I2C\r\n");
 		DebugChangeColorToGREEN();
 		return false;
 	}
-	debug.printf("Header:%02X\r\n", m_EEPROM_Array.Header);
+//	debug.printf("Header:%02X\r\n", m_EEPROM_Array.Header);
 	tmpAddress++;
 
 	// Calc CRC
@@ -95,7 +95,7 @@ uint8_t at24c_write(void) {
 	tmpAddress += MAX_NUMBER_OF_PAYLOAD_BYTES;
 
 	at24c_writeAcrossPages(tmpAddress, &m_EEPROM_Array._CRC, 1, true); //write CRC byte
-	debug.printf("CRC:   %d\r\n", m_EEPROM_Array._CRC);
+//	debug.printf("CRC:   %d\r\n", m_EEPROM_Array._CRC);
 	return true;
 }
 

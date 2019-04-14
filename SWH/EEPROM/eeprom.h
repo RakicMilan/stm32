@@ -18,7 +18,7 @@
 #include "ds1307_mid_level.h"
 
 #define MAX_NUMBER_OF_HISTORIES			10
-#define MAX_NUMBER_OF_PAYLOAD_BYTES		(const int)(MAX_NUMBER_OF_HISTORIES * 14 + 1)
+#define MAX_NUMBER_OF_PAYLOAD_BYTES		(const int)(MAX_NUMBER_OF_HISTORIES * 14 + 3)
 
 typedef struct {
 	TimeStruct_t time;

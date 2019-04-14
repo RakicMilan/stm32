@@ -52,18 +52,18 @@ void nRF24_Receive(void) {
 	if (NRF24DataReady()) {
 		ToggleLedInd();
 		NRF24GetData(&NRF24Ctx);
-		debug.printf("Received data:\r\n");
+//		debug.printf("Received data:\r\n");
 
 		m_tCollector.b[0] = NRF24Ctx.RXData[0];
 		m_tCollector.b[1] = NRF24Ctx.RXData[1];
 
-		if (m_setTimeState == TIME_SET_NONE) {
-			for (uint8_t i = 0; i < NRF24Ctx.PayloadSize; i++) {
-				debug.printf("%2X ", NRF24Ctx.RXData[i]);
-			}
-			debug.printf("\r\n");
-			DebugMoveCursorUp(1);
-		}
+//		if (m_setTimeState == TIME_SET_NONE) {
+//			for (uint8_t i = 0; i < NRF24Ctx.PayloadSize; i++) {
+//				debug.printf("%2X ", NRF24Ctx.RXData[i]);
+//			}
+//			debug.printf("\r\n");
+//			DebugMoveCursorUp(1);
+//		}
 	}
 }
 
