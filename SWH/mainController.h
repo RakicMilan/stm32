@@ -21,5 +21,10 @@ void InitWaterPump(void);
 void WaterPumpController(void);
 void LoadParameters(void);
 
+void IncreaseDeltaPlus(void);
+void DecreaseDeltaPlus(void);
+void IncreaseDeltaMinus(void);
+void DecreaseDeltaMinus(void);
+
 #endif	/* __MAINCONTROLLER_H */
 

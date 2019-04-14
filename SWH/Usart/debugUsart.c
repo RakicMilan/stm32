@@ -6,6 +6,7 @@
 #include "usart.h"
 #include "debugUsart.h"
 #include "ds1307_mid_level.h"
+#include "mainController.h"
 
 #define DEBUG_USART		USART2
 
@@ -102,6 +103,11 @@ void PrintAvailableCommands(void) {
 	debug.printf("b - back step\r\n");
 	debug.printf(", - decrement time\r\n");
 	debug.printf(". - increment time\r\n\r\n");
+
+	debug.printf("g - decrease DELTA +\r\n");
+	debug.printf("h - increase DELTA +\r\n");
+	debug.printf("j - decrease DELTA -\r\n");
+	debug.printf("k - increase DELTA -\r\n\r\n");
 }
 
 /**
@@ -129,6 +135,18 @@ void CheckConsoleRx(void) {
 		break;
 	case '.':
 		IncreaseTime();
+		break;
+	case 'g':
+		DecreaseDeltaPlus();
+		break;
+	case 'h':
+		IncreaseDeltaPlus();
+		break;
+	case 'j':
+		DecreaseDeltaMinus();
+		break;
+	case 'k':
+		IncreaseDeltaMinus();
 		break;
 	default:
 		debug.printf("[%03d]Wrong Key\r\n", DebugRxBuff.LastChar);

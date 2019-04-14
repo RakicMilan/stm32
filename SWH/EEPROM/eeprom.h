@@ -34,6 +34,7 @@ typedef union {
 	struct {
 		historyData_t data[MAX_NUMBER_OF_HISTORIES];
 		uint8_t currentIndex;
+
 		uint8_t deltaPlus;
 		uint8_t deltaMinus;
 	} Item;
