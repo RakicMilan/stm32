@@ -21,6 +21,20 @@
 #include "ds1820.h"
 #include "debugMsg.h"
 #include "nrf24_mid_level.h"
+#include "task.h"
+
+void DefineTasks(void) {
+	InitTasks();
+
+	AddTaskSignal(&CheckConsoleRx, &m_DebugMsgReceived, true);
+
+	AddTaskTime(&MeasureTemperatures, TIME(0.5), true);
+
+	AddTaskTime(&PrintTasks, TIME(1), false);
+	AddTaskTime(&TaskManager, TIME(1), false);
+
+	AddTaskTime(&nRF24_Transmit, TIME(1), true);
+}
 
 void InitPeriphClock(void) {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
@@ -56,16 +70,18 @@ void EnableTimerInterrupt() {
 }
 
 void Init(void) {
+	DefineTasks();
+
 	InitSystemTicks();
-	InitDebugUsart(115200);
+	InitDebugUsart(921600);
 	ShowBoardInfo();
 
 	DS1820_Init();
 
 	nRF24_Initialize();
 
-	InitializeTimer();
-	EnableTimerInterrupt();
+//	InitializeTimer();
+//	EnableTimerInterrupt();
 }
 
 void EnterToSleepMode(void) {
@@ -91,11 +107,13 @@ int main(void) {
 
 	Init();
 
-	EnterToSleepMode();
+	TasksScheduler();
 
-	while (1) {
-		debug.printf("main loop");
-	}
+//	EnterToSleepMode();
+//
+//	while (1) {
+//		debug.printf("main loop");
+//	}
 }
 
 void TIM4_IRQHandler() {
