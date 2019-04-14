@@ -17,7 +17,7 @@
 #include "stm32f10x.h"
 #include "ds1307_mid_level.h"
 
-#define MAX_NUMBER_OF_PAYLOAD_BYTES		(const int)(4 * 14 + 1)
+#define MAX_NUMBER_OF_PAYLOAD_BYTES		(const int)(10 * 14 + 1)
 
 typedef struct {
 	TimeStruct_t time;
@@ -33,7 +33,7 @@ typedef struct {
 
 typedef union {
 	struct {
-		eepromData_t data[4];
+		eepromData_t data[10];
 	} Item;
 	unsigned char Byte[MAX_NUMBER_OF_PAYLOAD_BYTES];
 } Payload_t;

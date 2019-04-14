@@ -23,8 +23,10 @@
 #define AT24C_ADDR 0x57
 #define AT24C_PAGESIZE 0x20
 
-uint8_t at24c_writeByte(uint16_t addr, uint8_t data);
 uint8_t at24c_readByte(uint16_t addr, uint8_t *data);
+//uint8_t at24c_readBytes(uint16_t addr, uint8_t *data, uint16_t len);
+uint8_t at24c_writeAcrossPages(uint16_t addr, uint8_t* data, uint16_t len,
+		uint8_t wait);
 
 #endif
 

@@ -30,7 +30,7 @@
 uint8_t m_displayCounter;
 
 void UpdateDisplay(void) {
-	if (/*m_displayCounter < 3*/false) {
+	if (m_displayCounter < 3) {
 		DisplayTime();
 	} else {
 		DisplayTemperatures();
