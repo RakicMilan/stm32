@@ -67,7 +67,7 @@ void Init(void) {
 	DefineTasks();
 
 	InitSystemTicks();
-	InitDebugUsart(115200);
+	InitDebugUsart(921600/*115200*/);
 	ShowBoardInfo();
 
 	DS1820_Init();
@@ -79,9 +79,10 @@ void Init(void) {
 
 	InitWaterPump();
 
-	at24c_test();
 	ssd1306_Init();
 	_DelayMS(100);
+
+	LoadParameters();
 }
 
 int main(void) {

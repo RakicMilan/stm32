@@ -36,6 +36,7 @@ SetTimeState_t m_setTimeState;
 extern TimeStruct_t SetTime;
 
 void DisplayTime(void);
+void PrintTime(TimeStruct_t *time);
 
 void InitSetTime(void);
 void SetTimeNextStep(void);

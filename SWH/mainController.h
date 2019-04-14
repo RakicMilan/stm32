@@ -19,6 +19,7 @@ extern uint8_t m_collectorPump;
 
 void InitWaterPump(void);
 void WaterPumpController(void);
+void LoadParameters(void);
 
 #endif	/* __MAINCONTROLLER_H */
 

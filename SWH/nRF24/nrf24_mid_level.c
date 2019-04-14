@@ -23,7 +23,7 @@
 nrf24_t NRF24Ctx = { .RXAddress = { 0xD7, 0xD7, 0xD7, 0xD7, 0xD7 }, .TXAddress =
 		{ 0xE7, 0xE7, 0xE7, 0xE7, 0xE7 }, .PayloadSize = 2, .Channel = 2 };
 
-u_twoBytes m_tCollector;
+twoBytes m_tCollector;
 
 void nRF24_Initialize(void) {
 	nRF24_GPIO_Init();

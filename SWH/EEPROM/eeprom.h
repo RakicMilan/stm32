@@ -17,23 +17,25 @@
 #include "stm32f10x.h"
 #include "ds1307_mid_level.h"
 
-#define MAX_NUMBER_OF_PAYLOAD_BYTES		(const int)(10 * 14 + 1)
+#define MAX_NUMBER_OF_HISTORIES			10
+#define MAX_NUMBER_OF_PAYLOAD_BYTES		(const int)(MAX_NUMBER_OF_HISTORIES * 14 + 1)
 
 typedef struct {
 	TimeStruct_t time;
 	uint8_t boilerPump;
 	uint8_t collectorPump;
 
-	uint16_t tempBoiler;
-	uint16_t tempWaterHeater;
-	uint16_t tempCollector;
-
-	uint8_t index;
-} eepromData_t;
+	int16_t tempBoiler;
+	int16_t tempWaterHeater;
+	int16_t tempCollector;
+} historyData_t;
 
 typedef union {
 	struct {
-		eepromData_t data[10];
+		historyData_t data[MAX_NUMBER_OF_HISTORIES];
+		uint8_t currentIndex;
+		uint8_t deltaPlus;
+		uint8_t deltaMinus;
 	} Item;
 	unsigned char Byte[MAX_NUMBER_OF_PAYLOAD_BYTES];
 } Payload_t;

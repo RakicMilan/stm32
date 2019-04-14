@@ -16,8 +16,10 @@
 
 #include "mainController.h"
 #include "ds1820.h"
+#include "ds1307_mid_level.h"
 #include "nrf24_mid_level.h"
 #include "debugUsart.h"
+#include "eeprom.h"
 
 #define BOILER_PORT			GPIOA
 #define BOILER_GPIO			GPIO_Pin_9
@@ -27,6 +29,10 @@
 
 uint8_t m_boilerPump;
 uint8_t m_collectorPump;
+
+uint8_t m_currentIndex;
+uint8_t m_deltaPlus;
+uint8_t m_deltaMinus;
 
 void Set_Boiler_Pump(uint8_t aEnabled) {
 	if (aEnabled) {
@@ -42,6 +48,30 @@ void Set_Collector_Pump(uint8_t aEnabled) {
 	} else {
 		GPIO_SetBits(COLLECTOR_PORT, COLLECTOR_GPIO);
 	}
+}
+
+void TurnOnBoilerPump() {
+	m_boilerPump = true;
+	Set_Boiler_Pump(true);
+	debug.printf("Pumpa na kotlu ukljucena\r\n");
+}
+
+void TurnOffBoilerPump() {
+	m_boilerPump = false;
+	Set_Boiler_Pump(false);
+	debug.printf("Pumpa na kotlu iskljucena\r\n");
+}
+
+void TurnOnCollectorPump() {
+	m_collectorPump = true;
+	Set_Collector_Pump(true);
+	debug.printf("Pumpa na kolektorima ukljucena\r\n");
+}
+
+void TurnOffCollectorPump() {
+	m_collectorPump = false;
+	Set_Collector_Pump(false);
+	debug.printf("Pumpa na kolektorima iskljucena\r\n");
 }
 
 void InitWaterPump(void) {
@@ -65,36 +95,53 @@ void InitWaterPump(void) {
 }
 
 void WaterPumpController(void) {
-	if (m_temperature[T_BOILER] >= (m_temperature[T_WATER_HEATER] + 3)
+	if (m_temperature[T_BOILER] >= (m_temperature[T_WATER_HEATER] + m_deltaPlus)
 			&& !m_boilerPump) {
-
-		m_boilerPump = true; // Pumpa na kotlu ukljucena
-		Set_Boiler_Pump(true);
-		debug.printf("Pumpa na kotlu ukljucena\r\n");
-
-	} else if (m_temperature[T_BOILER] <= (m_temperature[T_WATER_HEATER] + 1)
-			&& m_boilerPump) {
-
-		m_boilerPump = false; // Pumpa na kotlu iskljucena
-		Set_Boiler_Pump(false);
-		debug.printf("Pumpa na kotlu iskljucena\r\n");
-
+		TurnOnBoilerPump();
+	} else if (m_temperature[T_BOILER]
+			<= (m_temperature[T_WATER_HEATER] + m_deltaMinus) && m_boilerPump) {
+		TurnOffBoilerPump();
 	}
 
-	if (m_tCollector.i >= (m_temperature[T_WATER_HEATER] + 3)
+	if (m_tCollector.i >= (m_temperature[T_WATER_HEATER] + m_deltaPlus)
 			&& !m_collectorPump) {
-
-		m_collectorPump = true; // Pumpa na kolektorima ukljucena
-		Set_Collector_Pump(true);
-		debug.printf("Pumpa na kolektorima ukljucena\r\n");
-
-	} else if (m_tCollector.i <= (m_temperature[T_WATER_HEATER] + 1)
+		TurnOnCollectorPump();
+	} else if (m_tCollector.i <= (m_temperature[T_WATER_HEATER] + m_deltaMinus)
 			&& m_collectorPump) {
-
-		m_collectorPump = false; // Pumpa na kolektorima iskljucena
-		Set_Collector_Pump(false);
-		debug.printf("Pumpa na kolektorima iskljucena\r\n");
-
+		TurnOffCollectorPump();
 	}
+}
+
+void PrintHistoryData(historyData_t data) {
+	PrintTime(&data.time);
+	debug.printf(" p_kot:%d, p_kol:%d", data.boilerPump, data.collectorPump);
+	debug.printf(" t_kot:%dC, t_boj:%dC, t_kol:%dC", data.tempBoiler,
+			data.tempWaterHeater, data.tempCollector);
+	debug.printf("\r\n");
+}
+
+void PrintHistory(void) {
+	uint8_t i;
+	for (i = m_currentIndex; i < MAX_NUMBER_OF_HISTORIES; i++) {
+		debug.printf("%d. ", i);
+		PrintHistoryData(m_EEPROM_Array.Payload.Item.data[i]);
+	}
+	for (uint8_t i = 0; i < m_currentIndex; i++) {
+		debug.printf("%d. ", i);
+		PrintHistoryData(m_EEPROM_Array.Payload.Item.data[i]);
+	}
+}
+
+void LoadParameters(void) {
+	if (at24c_read()) {
+		m_currentIndex = m_EEPROM_Array.Payload.Item.currentIndex;
+		m_deltaPlus = m_EEPROM_Array.Payload.Item.deltaPlus;
+		m_deltaMinus = m_EEPROM_Array.Payload.Item.deltaMinus;
+	} else {
+		m_currentIndex = 0;
+		m_deltaPlus = 3;
+		m_deltaMinus = 1;
+	}
+	PrintHistory();
 }
 

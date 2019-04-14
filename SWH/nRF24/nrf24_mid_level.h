@@ -16,7 +16,7 @@
 
 #include "defines.h"
 
-extern u_twoBytes m_tCollector;
+extern twoBytes m_tCollector;
 
 void nRF24_Initialize(void);
 void nRF24_Receive(void);

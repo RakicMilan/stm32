@@ -28,11 +28,16 @@ void DisplayTime(void) {
 	ssd1306_PrintDateAndTime(date, time);
 }
 
-void PrintTime(void) {
-	debug.printf("%d.%02d.%02d. %02d:%02d:%02d               \r\n",
-			SetTime.year + 2000, SetTime.month, SetTime.date, SetTime.hours_24,
-			SetTime.minutes, SetTime.seconds);
-	debug.printf("Press n to proceed to the next step.               \r\n");
+void PrintTime(TimeStruct_t *time) {
+	debug.printf("%d.%02d.%02d. %02d:%02d:%02d",
+			time->year + 2000, time->month, time->date, time->hours_24,
+			time->minutes, time->seconds);
+}
+
+void PrintSetTime(TimeStruct_t *time) {
+	PrintTime(time);
+	debug.printf(
+			"               \r\nPress n to proceed to the next step.               \r\n");
 	DebugMoveCursorUp(2);
 }
 
@@ -45,7 +50,7 @@ void InitSetTime(void) {
 	SetTime.minutes = ds1307_get_minutes();
 	SetTime.seconds = ds1307_get_seconds();
 
-	PrintTime();
+	PrintSetTime(&SetTime);
 }
 
 void SetTimeNextStep(void) {
@@ -166,7 +171,7 @@ void IncreaseTime(void) {
 	default:
 		break;
 	}
-	PrintTime();
+	PrintSetTime(&SetTime);
 }
 
 void DecreaseTime(void) {
@@ -224,6 +229,6 @@ void DecreaseTime(void) {
 	default:
 		break;
 	}
-	PrintTime();
+	PrintSetTime(&SetTime);
 }
 

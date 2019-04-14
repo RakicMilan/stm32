@@ -7,17 +7,22 @@
 #define true !false
 
 typedef union {
-    unsigned char b[2];
-    unsigned int i;
+	uint8_t b[2];
+	int16_t i;
+} twoBytes;
+
+typedef union {
+	uint8_t b[2];
+	uint16_t i;
 } u_twoBytes;
 
 typedef union{
+	uint8_t b[4];
 	uint32_t i;
-	unsigned char b[4];
 } u_fourBytes;
 
 typedef union {
-    unsigned char b[4];
+	uint8_t b[4];
     float f;
 } u_float;
 
