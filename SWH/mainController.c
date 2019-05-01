@@ -62,9 +62,8 @@ void Set_Collector_Pump(uint8_t aEnabled) {
 void PrintHistoryData(historyData_t data) {
 	PrintTime(&data.time);
 	debug.printf(" p_kot: %d, p_kol: %d", data.boilerPump, data.collectorPump);
-	debug.printf(" t_kot: %02dC, t_boj: %02dC, t_kol: %02dC", data.tempBoiler,
+	debug.printf(" t_kot: %02dC, t_boj: %02dC, t_kol: %02dC\r\n", data.tempBoiler,
 			data.tempWaterHeater, data.tempCollector);
-	debug.printf("\r\n");
 }
 
 void PrintDelta(void) {
@@ -72,6 +71,11 @@ void PrintDelta(void) {
 }
 
 void SetAndWriteCurrentData(void) {
+	if (m_currentIndex < (MAX_NUMBER_OF_HISTORIES - 1)) {
+		++m_currentIndex;
+	} else {
+		m_currentIndex = 0;
+	}
 	m_EEPROM_Array.Payload.Item.data[m_currentIndex].time.date =
 			ds1307_get_date();
 	m_EEPROM_Array.Payload.Item.data[m_currentIndex].time.month =
@@ -100,12 +104,6 @@ void SetAndWriteCurrentData(void) {
 
 	at24c_write();
 	PrintHistoryData(m_EEPROM_Array.Payload.Item.data[m_currentIndex]);
-
-	if (m_currentIndex < (MAX_NUMBER_OF_HISTORIES - 1)) {
-		++m_currentIndex;
-	} else {
-		m_currentIndex = 0;
-	}
 }
 
 void SetAndWriteDelta(void) {
@@ -190,11 +188,11 @@ void WaterPumpController(void) {
 void PrintHistory(void) {
 	uint8_t i;
 	for (i = 0; i < MAX_NUMBER_OF_HISTORIES; i++) {
-		if (i == m_currentIndex) {
-			debug.printf("\r\n");
-		}
 		debug.printf("%d. ", i);
 		PrintHistoryData(m_EEPROM_Array.Payload.Item.data[i]);
+		if (i == m_currentIndex) {
+			debug.printf("-----------------------------------------------------------------------------\r\n");
+		}
 	}
 }
 
