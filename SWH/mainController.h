@@ -19,6 +19,7 @@ extern uint8_t m_collectorPump;
 
 void InitWaterPump(void);
 void WaterPumpController(void);
+void PrintHistory(void);
 void LoadParameters(void);
 
 void IncreaseDeltaPlus(void);

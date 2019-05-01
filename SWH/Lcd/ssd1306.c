@@ -14,8 +14,10 @@
 
 #include "ssd1306.h"
 #include "ssd1306_i2c.h"
+#include "defines.h"
 #include "systemTicks.h"
 #include "mainController.h"
+#include "nrf24_mid_level.h"
 
 // Screenbuffer
 static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8];
@@ -254,31 +256,39 @@ void ssd1306_PrintTemperatures(char *tBoiler, char *tWaterHeater,
 		char *tCollector) {
 	ssd1306_Fill(Black);
 
-	ssd1306_SetCursor(2, 0);
+	// Kotao
+	ssd1306_SetCursor(92, 0);
 	ssd1306_WriteString("KOTAO", Font_7x10, White);
-	ssd1306_SetCursor(2, 16);
+	ssd1306_SetCursor(92, 16);
 	ssd1306_WriteString(tBoiler, Font_11x18, White);
-
 	if (m_boilerPump) {
-		ssd1306_FillCircle(16, 48, 10);
+		ssd1306_FillCircle(108, 48, 10);
 	} else {
-		ssd1306_DrawCircle(16, 48, 10);
+		ssd1306_DrawCircle(108, 48, 10);
 	}
 
+	// Bojler
 	ssd1306_SetCursor(44, 0);
 	ssd1306_WriteString("BOJLER", Font_7x10, White);
 	ssd1306_SetCursor(40, 24);
 	ssd1306_WriteString(tWaterHeater, Font_16x26, White);
 
-	ssd1306_SetCursor(92, 0);
+	// Kolektor
+	ssd1306_SetCursor(2, 0);
 	ssd1306_WriteString("KOLEK", Font_7x10, White);
-	ssd1306_SetCursor(92, 16);
-	ssd1306_WriteString(tCollector, Font_11x18, White);
-
-	if (m_collectorPump) {
-		ssd1306_FillCircle(108, 48, 10);
+	ssd1306_SetCursor(2, 16);
+	if (nrf24Data.connected) {
+		ssd1306_WriteString(tCollector, Font_11x18, White);
+		if (TIMEOUT(nrf24Data.timeout, NRF24_TIMEOUT)) {
+			nrf24Data.connected = false;
+		}
 	} else {
-		ssd1306_DrawCircle(108, 48, 10);
+		ssd1306_WriteString(" --", Font_11x18, White);
+	}
+	if (m_collectorPump) {
+		ssd1306_FillCircle(16, 48, 10);
+	} else {
+		ssd1306_DrawCircle(16, 48, 10);
 	}
 
 	ssd1306_UpdateScreen();

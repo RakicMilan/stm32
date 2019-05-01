@@ -98,12 +98,17 @@ void PrintAvailableCommands(void) {
 	DebugChangeColorToGREEN();
 	debug.printf("\r\n? - Print available commands\r\n\r\n");
 
+	// History
+	debug.printf("r - print history\r\n\r\n");
+
+	// Time
 	debug.printf("s - set time\r\n");
 	debug.printf("n - next step\r\n");
 	debug.printf("b - back step\r\n");
 	debug.printf(", - decrement time\r\n");
 	debug.printf(". - increment time\r\n\r\n");
 
+	// Delta
 	debug.printf("g - decrease DELTA +\r\n");
 	debug.printf("h - increase DELTA +\r\n");
 	debug.printf("j - decrease DELTA -\r\n");
@@ -148,6 +153,10 @@ void CheckConsoleRx(void) {
 	case 'k':
 		IncreaseDeltaMinus();
 		break;
+	case 'r':
+		PrintHistory();
+		break;
+
 	default:
 		debug.printf("[%03d]Wrong Key\r\n", DebugRxBuff.LastChar);
 		break;

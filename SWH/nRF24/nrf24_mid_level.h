@@ -16,6 +16,14 @@
 
 #include "defines.h"
 
+#define NRF24_TIMEOUT		10000000
+
+typedef struct {
+	uint8_t connected;
+	uint32_t timeout;
+} nrf24Data_t;
+
+extern nrf24Data_t nrf24Data;
 extern twoBytes m_tCollector;
 
 void nRF24_Initialize(void);

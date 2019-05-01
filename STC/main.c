@@ -27,13 +27,11 @@ void DefineTasks(void) {
 	InitTasks();
 
 	AddTaskSignal(&CheckConsoleRx, &m_DebugMsgReceived, true);
-
 	AddTaskTime(&MeasureTemperatures, TIME(0.5), true);
+	AddTaskTime(&nRF24_Transmit, TIME(2), true);
 
 	AddTaskTime(&PrintTasks, TIME(1), false);
 	AddTaskTime(&TaskManager, TIME(1), false);
-
-	AddTaskTime(&nRF24_Transmit, TIME(1), true);
 }
 
 void InitPeriphClock(void) {

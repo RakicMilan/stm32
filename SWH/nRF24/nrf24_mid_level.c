@@ -18,12 +18,14 @@
 #include "ds1820.h"
 #include "debugUsart.h"
 #include "ds1307_mid_level.h"
+#include "systemTicks.h"
 
 /* Private variables ---------------------------------------------------------*/
 nrf24_t NRF24Ctx = { .RXAddress = { 0xD7, 0xD7, 0xD7, 0xD7, 0xD7 }, .TXAddress =
 		{ 0xE7, 0xE7, 0xE7, 0xE7, 0xE7 }, .PayloadSize = 2, .Channel = 2 };
 
 twoBytes m_tCollector;
+nrf24Data_t nrf24Data;
 
 void nRF24_Initialize(void) {
 	nRF24_GPIO_Init();
@@ -46,6 +48,8 @@ void nRF24_Initialize(void) {
 
 	NRF24SetRxAddress(&NRF24Ctx);
 	NRF24SetTxAddress(&NRF24Ctx);
+
+	nrf24Data.connected = false;
 }
 
 void nRF24_Receive(void) {
@@ -64,6 +68,9 @@ void nRF24_Receive(void) {
 //			debug.printf("\r\n");
 //			DebugMoveCursorUp(1);
 //		}
+
+		nrf24Data.connected = true;
+		nrf24Data.timeout = micros;
 	}
 }
 

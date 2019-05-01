@@ -100,7 +100,12 @@ void SetAndWriteCurrentData(void) {
 
 	at24c_write();
 	PrintHistoryData(m_EEPROM_Array.Payload.Item.data[m_currentIndex]);
-	++m_currentIndex;
+
+	if (m_currentIndex < (MAX_NUMBER_OF_HISTORIES - 1)) {
+		++m_currentIndex;
+	} else {
+		m_currentIndex = 0;
+	}
 }
 
 void SetAndWriteDelta(void) {
@@ -169,7 +174,7 @@ void WaterPumpController(void) {
 			}
 		}
 
-		if (TemperatureIsValid(m_tCollector.i)) {
+		if (TemperatureIsValid(m_tCollector.i) && nrf24Data.connected) {
 			if (m_tCollector.i >= (m_temperature[T_WATER_HEATER] + m_deltaPlus)
 					&& !m_collectorPump) {
 				TurnOnCollectorPump();
