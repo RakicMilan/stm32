@@ -21,8 +21,12 @@
 #include "systemTicks.h"
 
 /* Private variables ---------------------------------------------------------*/
-nrf24_t NRF24Ctx = { .RXAddress = { 0xD7, 0xD7, 0xD7, 0xD7, 0xD7 }, .TXAddress =
-		{ 0xE7, 0xE7, 0xE7, 0xE7, 0xE7 }, .PayloadSize = 2, .Channel = 2 };
+nrf24_t NRF24Ctx = {
+		.RXAddress = { 0xD7, 0xD7, 0xD7, 0xD7, 0xD7 },
+		.TXAddress = { 0xE7, 0xE7, 0xE7, 0xE7, 0xE7 },
+		.PayloadSize = 2,
+		.Channel = 88
+};
 
 twoBytes m_tCollector;
 nrf24Data_t nrf24Data;

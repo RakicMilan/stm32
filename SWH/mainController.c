@@ -62,8 +62,8 @@ void Set_Collector_Pump(uint8_t aEnabled) {
 void PrintHistoryData(historyData_t data) {
 	PrintTime(&data.time);
 	debug.printf(" p_kot: %d, p_kol: %d", data.boilerPump, data.collectorPump);
-	debug.printf(" t_kot: %02dC, t_boj: %02dC, t_kol: %02dC\r\n", data.tempBoiler,
-			data.tempWaterHeater, data.tempCollector);
+	debug.printf(" t_kot: %02dC, t_boj: %02dC, t_kol: %02dC\r\n",
+			data.tempBoiler, data.tempWaterHeater, data.tempCollector);
 }
 
 void PrintDelta(void) {
@@ -133,8 +133,8 @@ void TurnOnCollectorPump() {
 }
 
 void TurnOffCollectorPump() {
-	m_collectorPump = false;
 	Set_Collector_Pump(false);
+	m_collectorPump = false;
 	SetAndWriteCurrentData();
 }
 
@@ -172,13 +172,20 @@ void WaterPumpController(void) {
 			}
 		}
 
-		if (TemperatureIsValid(m_tCollector.i) && nrf24Data.connected) {
-			if (m_tCollector.i >= (m_temperature[T_WATER_HEATER] + m_deltaPlus)
-					&& !m_collectorPump) {
-				TurnOnCollectorPump();
-			} else if (m_tCollector.i
-					<= (m_temperature[T_WATER_HEATER] + m_deltaMinus)
-					&& m_collectorPump) {
+		if (nrf24Data.connected) {
+			if (TemperatureIsValid(m_tCollector.i)) {
+				if (m_tCollector.i
+						>= (m_temperature[T_WATER_HEATER] + m_deltaPlus)
+						&& !m_collectorPump) {
+					TurnOnCollectorPump();
+				} else if (m_tCollector.i
+						<= (m_temperature[T_WATER_HEATER] + m_deltaMinus)
+						&& m_collectorPump) {
+					TurnOffCollectorPump();
+				}
+			}
+		} else {
+			if (m_collectorPump) {
 				TurnOffCollectorPump();
 			}
 		}
@@ -191,7 +198,8 @@ void PrintHistory(void) {
 		debug.printf("%d. ", i);
 		PrintHistoryData(m_EEPROM_Array.Payload.Item.data[i]);
 		if (i == m_currentIndex) {
-			debug.printf("-----------------------------------------------------------------------------\r\n");
+			debug.printf(
+					"-----------------------------------------------------------------------------\r\n");
 		}
 	}
 }

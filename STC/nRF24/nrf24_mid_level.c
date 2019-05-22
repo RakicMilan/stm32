@@ -23,7 +23,7 @@ nrf24_t NRF24Ctx = {
 		.RXAddress = { 0xE7, 0xE7, 0xE7, 0xE7, 0xE7 },
 		.TXAddress = { 0xD7, 0xD7, 0xD7, 0xD7, 0xD7 },
 		.PayloadSize = 2,
-		.Channel = 2
+		.Channel = 88
 };
 
 void nRF24_Initialize(void) {
