@@ -20,10 +20,20 @@
 #define MAX_NUMBER_OF_HISTORIES			10
 #define MAX_NUMBER_OF_PAYLOAD_BYTES		(const int)(MAX_NUMBER_OF_HISTORIES * 14 + 3)
 
+typedef union {
+	struct {
+		unsigned char boilerPump :1;
+		unsigned char collectorPump :1;
+		unsigned char nRFComm :1;
+		unsigned char reserved :5;
+	} bits;
+	unsigned char B;
+} StatusByte_t;
+
 typedef struct {
 	TimeStruct_t time;
-	uint8_t boilerPump;
-	uint8_t collectorPump;
+	StatusByte_t status;
+	uint8_t reserved;
 
 	int16_t tempBoiler;
 	int16_t tempWaterHeater;

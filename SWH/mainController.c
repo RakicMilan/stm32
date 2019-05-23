@@ -61,9 +61,10 @@ void Set_Collector_Pump(uint8_t aEnabled) {
 
 void PrintHistoryData(historyData_t data) {
 	PrintTime(&data.time);
-	debug.printf(" p_kot: %d, p_kol: %d", data.boilerPump, data.collectorPump);
-	debug.printf(" t_kot: %02dC, t_boj: %02dC, t_kol: %02dC\r\n",
-			data.tempBoiler, data.tempWaterHeater, data.tempCollector);
+	debug.printf(" %02dC, %02dC, %02dC", data.tempCollector,
+			data.tempWaterHeater, data.tempBoiler);
+	debug.printf(" %d, %d, %s\r\n", data.status.bits.collectorPump,
+			data.status.bits.boilerPump, data.status.bits.nRFComm ? "+" : "-");
 }
 
 void PrintDelta(void) {
@@ -89,9 +90,12 @@ void SetAndWriteCurrentData(void) {
 	m_EEPROM_Array.Payload.Item.data[m_currentIndex].time.seconds =
 			ds1307_get_seconds();
 
-	m_EEPROM_Array.Payload.Item.data[m_currentIndex].boilerPump = m_boilerPump;
-	m_EEPROM_Array.Payload.Item.data[m_currentIndex].collectorPump =
+	m_EEPROM_Array.Payload.Item.data[m_currentIndex].status.bits.boilerPump =
+			m_boilerPump;
+	m_EEPROM_Array.Payload.Item.data[m_currentIndex].status.bits.collectorPump =
 			m_collectorPump;
+	m_EEPROM_Array.Payload.Item.data[m_currentIndex].status.bits.nRFComm =
+			nrf24Data.connected;
 
 	m_EEPROM_Array.Payload.Item.data[m_currentIndex].tempBoiler =
 			m_temperature[T_BOILER];
@@ -198,8 +202,7 @@ void PrintHistory(void) {
 		debug.printf("%d. ", i);
 		PrintHistoryData(m_EEPROM_Array.Payload.Item.data[i]);
 		if (i == m_currentIndex) {
-			debug.printf(
-					"-----------------------------------------------------------------------------\r\n");
+			debug.printf("--------------------------------------------\r\n");
 		}
 	}
 }

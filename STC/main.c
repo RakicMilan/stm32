@@ -71,7 +71,7 @@ void Init(void) {
 	DefineTasks();
 
 	InitSystemTicks();
-	InitDebugUsart(921600);
+	InitDebugUsart(115200);
 	ShowBoardInfo();
 
 	DS1820_Init();
